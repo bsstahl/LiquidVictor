@@ -28,8 +28,9 @@ namespace LV.Publication.Management
         {
             _logger.LogInformation("Begin Process");
 
+            _logger.LogInformation("Fetching Configuration");
             var config = _configRepo.GetConfig();
-
+            _logger.LogInformation("Configuration retrieved");
 
             _logger.LogInformation("End Process");
         }
