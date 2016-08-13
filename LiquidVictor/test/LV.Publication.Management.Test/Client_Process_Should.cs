@@ -18,5 +18,17 @@ namespace LV.Publication.Management.Test
             Assert.True(configRepo.GetConfigCalled);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(17)]
+        public static void CallSourceProcessorFactoryOnceForEveryConfiguredSource(int sourceCount)
+        {
+            var configRepo = new Mocks.MockConfigRepository();
+            var factory = new Mocks.MockSourceProcessorFactory();
+            var target = (null as Client).Create(configRepo, factory);
+            target.Process();
+            Assert.Equal(sourceCount, factory.TimesCreateCalled);
+        }
     }
 }

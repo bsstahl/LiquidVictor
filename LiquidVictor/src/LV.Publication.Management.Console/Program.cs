@@ -16,8 +16,9 @@ namespace LV.Publication.Management.Console
             var loggerFactory = new LoggerFactory().AddDebug();
             var logger = loggerFactory.CreateLogger(_logCategory);
             IConfigRepository configRepo = null;
+            ISourceProcessorFactory sourceProcessorFactory = null;
 
-            var client = new Client(logger, configRepo);
+            var client = new Client(logger, configRepo, sourceProcessorFactory);
             client.Process();
         }
     }

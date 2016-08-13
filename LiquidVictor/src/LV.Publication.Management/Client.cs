@@ -12,7 +12,7 @@ namespace LV.Publication.Management
         ILogger _logger;
         IConfigRepository _configRepo;
 
-        public Client(ILogger logger, IConfigRepository configRepo)
+        public Client(ILogger logger, IConfigRepository configRepo, ISourceProcessorFactory sourceProcessorFactory)
         {
             if (configRepo == null)
                 throw new ArgumentNullException(nameof(configRepo));
