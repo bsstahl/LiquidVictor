@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +14,16 @@ namespace LV.Publication.Management.Test
         }
 
         [Fact]
-        public static void ExecuteSuccessfully()
+        public static void ExecutesSuccessfullyWithNullLogger()
         {
-            var target = new Client();
+            var target = new Client(null);
+            target.Process();
+        }
+
+        [Fact]
+        public static void ExecutesSuccessfullyWithLogger()
+        {
+            var target = new Client("TestLogs".CreateLogger());
             target.Process();
         }
     }
