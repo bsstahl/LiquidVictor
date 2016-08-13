@@ -37,9 +37,11 @@ namespace LV.Publication.Management
             var config = _configRepo.GetConfig();
             _logger.LogInformation("Configuration retrieved");
 
+            _logger.LogInformation("Creating source processors");
             var sourceProcessors = new List<ISourceProcessor>();
             foreach (var source in config.Sources)
                 sourceProcessors.Add(_sourceProcessorFactory.GetSource());
+            _logger.LogInformation("Created {0} source processors", config.Sources.Count());
 
             _logger.LogInformation("End Process");
         }
