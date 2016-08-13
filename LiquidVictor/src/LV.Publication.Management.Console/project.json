@@ -5,6 +5,7 @@
   },
 
   "dependencies": {
+    "LV.Publication": "1.0.0-*",
     "LV.Publication.Management": "1.0.0-*",
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
