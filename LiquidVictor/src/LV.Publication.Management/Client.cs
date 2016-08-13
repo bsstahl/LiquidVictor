@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using LV.Publication.Interfaces;
 
 namespace LV.Publication.Management
 {
@@ -10,7 +11,7 @@ namespace LV.Publication.Management
     {
         ILogger _logger;
 
-        public Client(ILogger logger)
+        public Client(ILogger logger, IConfigRepository configRepo)
         {
             if (logger == null)
                 logger = new NullLogger();

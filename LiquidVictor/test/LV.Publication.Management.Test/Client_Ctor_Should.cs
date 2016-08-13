@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LV.Publication.Interfaces;
+using LV.Publication.Management.Test.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,24 @@ namespace LV.Publication.Management.Test
         [Fact]
         public static void ExecutesSuccessfullyWithNullLogger()
         {
-            var target = new Client(null);
+            ILogger logger = null;
+            var target = (null as Client).Create(logger);
             target.Process();
         }
 
         [Fact]
         public static void ExecutesSuccessfullyWithLogger()
         {
-            var target = new Client("TestLogs".CreateLogger());
+            var target = (null as Client).Create();
             target.Process();
         }
+
+        [Fact]
+        public static void ThrowsArgumentNullExceptionIfConfigRepoNotProvided()
+        {
+            IConfigRepository configRepo = null;
+            Assert.Throws(typeof(ArgumentNullException), () => (null as Client).Create(configRepo));
+        }
+
     }
 }

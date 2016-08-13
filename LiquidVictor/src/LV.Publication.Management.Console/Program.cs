@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LV.Publication.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace LV.Publication.Management.Console
         {
             var loggerFactory = new LoggerFactory().AddDebug();
             var logger = loggerFactory.CreateLogger(_logCategory);
-            var client = new LV.Publication.Management.Client(logger);
+            IConfigRepository configRepo = null;
+
+            var client = new Client(logger, configRepo);
             client.Process();
         }
     }
