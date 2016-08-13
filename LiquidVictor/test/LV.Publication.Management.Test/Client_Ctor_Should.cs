@@ -37,5 +37,12 @@ namespace LV.Publication.Management.Test
             Assert.Throws(typeof(ArgumentNullException), () => (null as Client).Create(configRepo));
         }
 
+        [Fact]
+        public static void ThrowsArgumentNullExceptionIfSourceProcessorFactoryNotProvided()
+        {
+            IConfigRepository configRepo = new Mocks.MockConfigRepository();
+            ISourceProcessorFactory factory = null;
+            Assert.Throws(typeof(ArgumentNullException), () => (null as Client).Create(configRepo, factory));
+        }
     }
 }
