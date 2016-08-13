@@ -10,19 +10,25 @@ namespace LV.Publication.Management
     public class Client
     {
         ILogger _logger;
+        IConfigRepository _configRepo;
 
         public Client(ILogger logger, IConfigRepository configRepo)
         {
+            if (configRepo == null)
+                throw new ArgumentNullException(nameof(configRepo));
+
             if (logger == null)
                 logger = new NullLogger();
+
             _logger = logger;
+            _configRepo = configRepo;
         }
 
         public void Process()
         {
             _logger.LogInformation("Begin Process");
 
-
+            var config = _configRepo.GetConfig();
 
 
             _logger.LogInformation("End Process");
