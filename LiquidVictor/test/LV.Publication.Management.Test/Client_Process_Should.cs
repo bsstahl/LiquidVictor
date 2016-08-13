@@ -24,7 +24,7 @@ namespace LV.Publication.Management.Test
         [InlineData(17)]
         public static void CallSourceProcessorFactoryOnceForEveryConfiguredSource(int sourceCount)
         {
-            var configRepo = new Mocks.MockConfigRepository();
+            var configRepo = new Mocks.MockConfigRepository(sourceCount);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
             target.Process();

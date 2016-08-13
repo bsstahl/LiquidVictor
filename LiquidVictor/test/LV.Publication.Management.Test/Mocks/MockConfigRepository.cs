@@ -9,6 +9,18 @@ namespace LV.Publication.Management.Test.Mocks
 {
     public class MockConfigRepository : IConfigRepository
     {
+        #region Constructors
+
+        public MockConfigRepository()
+        { }
+
+        public MockConfigRepository(int sourceCount)
+        {
+            CreateSources(sourceCount);
+        }
+
+        #endregion
+
         #region Mock Information Methods
 
         Configuration _config = new Configuration();
@@ -30,7 +42,7 @@ namespace LV.Publication.Management.Test.Mocks
         public Configuration GetConfig()
         {
             this.GetConfigCalled = true;
-            return new Configuration();
+            return _config;
         }
 
         #endregion

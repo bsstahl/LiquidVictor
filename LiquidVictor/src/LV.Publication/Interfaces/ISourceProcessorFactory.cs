@@ -7,5 +7,6 @@ namespace LV.Publication.Interfaces
 {
     public interface ISourceProcessorFactory
     {
+        ISourceProcessor GetSource();
     }
 }
