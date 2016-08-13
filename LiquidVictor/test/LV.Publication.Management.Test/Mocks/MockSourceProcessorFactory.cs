@@ -12,6 +12,12 @@ namespace LV.Publication.Management.Test.Mocks
 
         public int TimesCreateCalled { get; private set; }
 
+        private List<ISourceProcessor> _sourceProcessors = new List<ISourceProcessor>();
+        public IEnumerable<ISourceProcessor> SourceProcessorsCreated
+        {
+            get { return _sourceProcessors; }
+        }
+
         #endregion
 
         #region ISourceProcessorFactory Methods
@@ -19,7 +25,9 @@ namespace LV.Publication.Management.Test.Mocks
         public ISourceProcessor GetSource()
         {
             this.TimesCreateCalled++;
-            return new MockSourceProcessor();
+            var processor = new MockSourceProcessor();
+            _sourceProcessors.Add(processor);
+            return processor;
         }
 
         #endregion

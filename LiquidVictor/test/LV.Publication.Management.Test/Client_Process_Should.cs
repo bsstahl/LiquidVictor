@@ -30,5 +30,16 @@ namespace LV.Publication.Management.Test
             target.Process();
             Assert.Equal(sourceCount, factory.TimesCreateCalled);
         }
+
+        [Fact]
+        public static void StartEachOfTheSourceProcessors()
+        {
+            var configRepo = new Mocks.MockConfigRepository(3);
+            var factory = new Mocks.MockSourceProcessorFactory();
+            var target = (null as Client).Create(configRepo, factory);
+            target.Process();
+            var sourceProcessors = factory.SourceProcessorsCreated.Select(s => (Mocks.MockSourceProcessor)s);
+            Assert.False(sourceProcessors.Any(p => !p.StartCalled));
+        }
     }
 }
