@@ -23,5 +23,11 @@ namespace LV.Publication.Management
             foreach (var source in sources)
                 this.Add(_sourceProcessorFactory.GetSource());
         }
+
+        internal void Start()
+        {
+            foreach (var source in this)
+                source.Start();
+        }
     }
 }

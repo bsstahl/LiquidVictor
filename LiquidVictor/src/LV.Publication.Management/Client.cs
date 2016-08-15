@@ -40,6 +40,9 @@ namespace LV.Publication.Management
             _logger.LogInformation("Creating source processors");
             var sourceProcessors = new SourceProcessorCollection(_sourceProcessorFactory, config.Sources);
             _logger.LogInformation("Created {0} source processors", config.Sources.Count());
+            sourceProcessors.Start();
+            _logger.LogInformation("Source processors started");
+
 
             _logger.LogInformation("End Process");
         }
