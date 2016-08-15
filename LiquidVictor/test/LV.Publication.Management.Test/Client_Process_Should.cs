@@ -41,5 +41,34 @@ namespace LV.Publication.Management.Test
             var sourceProcessors = factory.SourceProcessorsCreated.Select(s => (Mocks.MockSourceProcessor)s);
             Assert.False(sourceProcessors.Any(p => !p.StartCalled));
         }
+
+        [Fact]
+        public static void ContinueWhileStopNotCalled()
+        {
+            var configRepo = new Mocks.MockConfigRepository(3);
+            var factory = new Mocks.MockSourceProcessorFactory();
+            var target = (null as Client).Create(configRepo, factory);
+
+            var timeoutTask = Task.Delay(250);
+            var testTask = Task.Factory.StartNew(() => target.Process());
+
+            Task.WaitAny(testTask, timeoutTask);
+            Assert.False(testTask.IsCompleted);
+        }
+
+        [Fact]
+        public static void ExitOnceStopIsCalled()
+        {
+            var configRepo = new Mocks.MockConfigRepository(3);
+            var factory = new Mocks.MockSourceProcessorFactory();
+            var target = (null as Client).Create(configRepo, factory);
+
+            var testTask = Task.Factory.StartNew(() => target.Process());
+            var timeoutTask = Task.Delay(250);
+            target.Stop();
+
+            Task.WaitAny(testTask, timeoutTask);
+            Assert.True(testTask.IsCompleted);
+        }
     }
 }

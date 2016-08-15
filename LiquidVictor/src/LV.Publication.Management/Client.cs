@@ -43,8 +43,12 @@ namespace LV.Publication.Management
             sourceProcessors.Start();
             _logger.LogInformation("Source processors started");
 
-
             _logger.LogInformation("End Process");
+        }
+
+        public void Stop()
+        {
+            throw new NotImplementedException();
         }
 
     }
