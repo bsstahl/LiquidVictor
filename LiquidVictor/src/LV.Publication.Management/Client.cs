@@ -13,6 +13,8 @@ namespace LV.Publication.Management
         IConfigRepository _configRepo;
         ISourceProcessorFactory _sourceProcessorFactory;
 
+        bool _stopCalled = false;
+
         public Client(ILogger logger, IConfigRepository configRepo, ISourceProcessorFactory sourceProcessorFactory)
         {
             if (configRepo == null)
@@ -29,7 +31,7 @@ namespace LV.Publication.Management
             _sourceProcessorFactory = sourceProcessorFactory;
         }
 
-        public void Process()
+        public async Task ProcessAsync()
         {
             _logger.LogInformation("Begin Process");
 
@@ -43,13 +45,20 @@ namespace LV.Publication.Management
             sourceProcessors.Start();
             _logger.LogInformation("Source processors started");
 
+            await Task.Factory.StartNew(() => Monitor());
+
             _logger.LogInformation("End Process");
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            _stopCalled = true;
         }
 
+        private void Monitor()
+        {
+            while (!_stopCalled)
+            { }
+        }
     }
 }

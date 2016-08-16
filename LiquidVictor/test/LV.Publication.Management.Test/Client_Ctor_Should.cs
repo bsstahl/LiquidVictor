@@ -11,23 +11,19 @@ namespace LV.Publication.Management.Test
 {
     public class Client_Ctor_Should
     {
-        public Client_Ctor_Should()
-        {
-        }
+        public Client_Ctor_Should() { }
 
         [Fact]
         public static void ExecutesSuccessfullyWithNullLogger()
         {
             ILogger logger = null;
             var target = (null as Client).Create(logger);
-            target.Process();
         }
 
         [Fact]
         public static void ExecutesSuccessfullyWithLogger()
         {
             var target = (null as Client).Create();
-            target.Process();
         }
 
         [Fact]

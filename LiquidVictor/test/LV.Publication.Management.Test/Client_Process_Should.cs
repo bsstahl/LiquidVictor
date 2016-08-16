@@ -14,7 +14,7 @@ namespace LV.Publication.Management.Test
         {
             var configRepo = new Mocks.MockConfigRepository();
             var target = (null as Client).Create(configRepo);
-            target.Process();
+            target.ExecuteToCompletion();
             Assert.True(configRepo.GetConfigCalled);
         }
 
@@ -27,7 +27,8 @@ namespace LV.Publication.Management.Test
             var configRepo = new Mocks.MockConfigRepository(sourceCount);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
-            target.Process();
+            target.ExecuteToCompletion();
+            target.Stop();
             Assert.Equal(sourceCount, factory.TimesCreateCalled);
         }
 
@@ -37,7 +38,7 @@ namespace LV.Publication.Management.Test
             var configRepo = new Mocks.MockConfigRepository(3);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
-            target.Process();
+            target.ExecuteToCompletion();
             var sourceProcessors = factory.SourceProcessorsCreated.Select(s => (Mocks.MockSourceProcessor)s);
             Assert.False(sourceProcessors.Any(p => !p.StartCalled));
         }
@@ -49,11 +50,14 @@ namespace LV.Publication.Management.Test
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
 
-            var timeoutTask = Task.Delay(250);
-            var testTask = Task.Factory.StartNew(() => target.Process());
+            var timeoutTask = Task.Delay(100);
+            var testTask = target.ProcessAsync();
 
             Task.WaitAny(testTask, timeoutTask);
             Assert.False(testTask.IsCompleted);
+
+            target.Stop();
+            Task.WaitAll(testTask);
         }
 
         [Fact]
@@ -63,7 +67,7 @@ namespace LV.Publication.Management.Test
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
 
-            var testTask = Task.Factory.StartNew(() => target.Process());
+            var testTask = target.ProcessAsync();
             var timeoutTask = Task.Delay(250);
             target.Stop();
 

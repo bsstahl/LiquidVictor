@@ -51,5 +51,12 @@ namespace LV.Publication.Management.Test.Extensions
             return new Client(logger, configRepo, sourceProcessorFactory);
         }
 
+        public static void ExecuteToCompletion(this Client client)
+        {
+            var executionTask = client.ProcessAsync();
+            client.Stop();
+            Task.WaitAll(executionTask);
+        }
+
     }
 }
