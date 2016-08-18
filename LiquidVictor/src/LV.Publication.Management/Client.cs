@@ -31,7 +31,7 @@ namespace LV.Publication.Management
             _sourceProcessorFactory = sourceProcessorFactory;
         }
 
-        public async Task ProcessAsync()
+        public async Task StartAsync()
         {
             _logger.LogInformation("Begin Process");
 

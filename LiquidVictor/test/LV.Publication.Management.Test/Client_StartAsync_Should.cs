@@ -7,7 +7,7 @@ using Xunit;
 
 namespace LV.Publication.Management.Test
 {
-    public class Client_Process_Should
+    public class Client_StartAsync_Should
     {
         [Fact]
         public static void RetrieveItsConfigurationFromTheConfigStore()
@@ -51,7 +51,7 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             var timeoutTask = Task.Delay(100);
-            var testTask = target.ProcessAsync();
+            var testTask = target.StartAsync();
 
             Task.WaitAny(testTask, timeoutTask);
             Assert.False(testTask.IsCompleted);
@@ -67,12 +67,13 @@ namespace LV.Publication.Management.Test
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
 
-            var testTask = target.ProcessAsync();
+            var testTask = target.StartAsync();
             var timeoutTask = Task.Delay(250);
             target.Stop();
 
             Task.WaitAny(testTask, timeoutTask);
             Assert.True(testTask.IsCompleted);
         }
+
     }
 }
