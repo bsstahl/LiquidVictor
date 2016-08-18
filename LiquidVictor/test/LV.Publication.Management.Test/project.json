@@ -1,7 +1,6 @@
 {
   "version": "1.0.0-*",
   "testRunner": "xunit",
-
   "dependencies": {
     "LV.Publication.Management": {
       "target": "project"
@@ -10,9 +9,8 @@
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
-    "LV.Publication": "1.0.0-*"  },
-
-
+    "LV.Publication": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0"  },
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
@@ -21,7 +19,9 @@
           "version": "1.0.0"
         }
       }
-
     }
+  },
+  "buildOptions": {
+    "define": [ "TRACE" ]
   }
 }

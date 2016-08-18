@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LV.Publication.Entities;
 
 namespace LV.Publication.Management.Test.Mocks
 {
@@ -17,6 +18,7 @@ namespace LV.Publication.Management.Test.Mocks
             this.Id = Guid.NewGuid();
             this.LastAttempt = DateTime.Now;
             this.AttemptTimeoutMs = 30000;
+            this.IsActive = false;
         }
 
         #endregion  
@@ -29,10 +31,16 @@ namespace LV.Publication.Management.Test.Mocks
 
         public long AttemptTimeoutMs { get; set; }
 
+        public bool IsActive { get; private set; }
+
+        public Source Config { get; private set; }
+
+
         public void Start()
         {
             this.StartCalled = true;
             this.StopRequested = false;
+            this.IsActive = true;
             Task.Factory.StartNew(() => Process());
         }
 
@@ -45,6 +53,7 @@ namespace LV.Publication.Management.Test.Mocks
         public void Stop()
         {
             this.StopRequested = true;
+            this.IsActive = false;
         }
 
         #endregion

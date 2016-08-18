@@ -38,9 +38,16 @@ namespace LV.Publication.Management.Test
             var configRepo = new Mocks.MockConfigRepository(3);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
-            target.ExecuteToCompletion();
-            var sourceProcessors = factory.SourceProcessors.Select(s => (Mocks.MockSourceProcessor)s);
-            Assert.False(sourceProcessors.Any(p => !p.StartCalled));
+            target.Start();
+            var unstartedProcessors = factory.GetUnstartedProcessors();
+            try
+            {
+                Assert.False(unstartedProcessors.Any());
+            }
+            finally
+            {
+                target.Stop();
+            }            
         }
 
         [Fact]
@@ -87,18 +94,20 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             target.Start();
-            var originalProcessor = factory.SourceProcessors.First();
+            var originalProcessor = factory.GetActiveProcessors().Single();
             originalProcessor.AttemptTimeoutMs = timeoutMs;
+            var originalProcessorId = originalProcessor.Id;
+
             Task.WaitAll(Task.Delay(timeoutMs));
-            var finalProcessor = factory.SourceProcessors.First();
+            var finalProcessorId = factory.GetActiveProcessors().Single().Id;
 
             target.Stop();
 
-            Assert.NotEqual(originalProcessor.Id, finalProcessor.Id);
+            Assert.NotEqual(originalProcessorId, finalProcessorId);
         }
 
         [Fact]
-        public static void RestartAProcessorPastItsTimeout()
+        public static void StopAProcessorPastItsTimeout()
         {
             int timeoutMs = 30;
             var configRepo = new Mocks.MockConfigRepository(3);
@@ -106,14 +115,19 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             target.Start();
-            var originalProcessor = factory.SourceProcessors.Skip(1).Take(1).SingleOrDefault();
+            var originalProcessor = factory.GetSecondProcessor();
             originalProcessor.AttemptTimeoutMs = timeoutMs;
             Task.WaitAll(Task.Delay(timeoutMs));
             var processorWithOriginalId = factory.GetProcessorById(originalProcessor.Id);
 
-            target.Stop();
-
-            Assert.Null(processorWithOriginalId);
+            try
+            {
+                Assert.False(processorWithOriginalId.IsActive);
+            }
+            finally
+            {
+                target.Stop();
+            }
         }
 
         [Fact]
@@ -126,16 +140,14 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             target.Start();
-            foreach (var processor in factory.SourceProcessors)
-            {
-                if (processor.Id.IsEven())
-                    processor.AttemptTimeoutMs = timeoutMs;
-            }
+            factory.ChangeRandomProcessorTimeouts(timeoutMs);
 
             Task.WaitAll(Task.Delay(timeoutMs));
+            var actualProcessorCount = target.ActiveProcessorCount;
+
             target.Stop();
 
-            Assert.Equal(processorCount, factory.SourceProcessors.Count());
+            Assert.Equal(processorCount, actualProcessorCount);
         }
 
     }

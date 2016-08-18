@@ -10,6 +10,9 @@ namespace LV.Publication.Interfaces
         Guid Id { get; }
         DateTime LastAttempt { get; }
         Int64 AttemptTimeoutMs { get; set; }
+        Entities.Source Config { get; }
+
+        bool IsActive { get; }
 
         void Start();
         void Stop();

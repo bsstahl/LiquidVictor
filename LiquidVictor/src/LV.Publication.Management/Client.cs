@@ -47,7 +47,7 @@ namespace LV.Publication.Management
             _logger.LogInformation("Configuration retrieved");
 
             _logger.LogInformation("Creating source processors");
-            _processors = new SourceProcessorCollection(_sourceProcessorFactory, config.Sources);
+            _processors = new SourceProcessorCollection(_logger, _sourceProcessorFactory, config.Sources);
             _logger.LogInformation("Created {0} source processors", config.Sources.Count());
             _processors.Start();
             _logger.LogInformation("Source processors started");
@@ -64,7 +64,9 @@ namespace LV.Publication.Management
         private void Monitor()
         {
             while (!_stopCalled)
-            { }
+            {
+                _processors.KillProcessorsPastTimeout();
+            }
 
             _logger.LogInformation("End Process");
         }

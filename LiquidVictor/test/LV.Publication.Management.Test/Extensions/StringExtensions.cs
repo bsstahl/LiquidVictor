@@ -10,7 +10,7 @@ namespace LV.Publication.Management.Test.Extensions
     {
         public static ILogger CreateLogger(this string logCategory)
         {
-            var loggerFactory = new LoggerFactory().AddConsole();
+            var loggerFactory = new LoggerFactory().AddDebug();
             return loggerFactory.CreateLogger(logCategory);
         }
     }

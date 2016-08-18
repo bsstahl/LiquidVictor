@@ -4,43 +4,86 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LV.Publication.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace LV.Publication.Management
 {
     public class SourceProcessorCollection : List<ISourceProcessor>
     {
+        object _threadMonitor = new object();
         ISourceProcessorFactory _sourceProcessorFactory;
+        ILogger _logger;
 
         public int ActiveProcessorCount { get; private set; }
 
 
-        public SourceProcessorCollection(ISourceProcessorFactory sourceProcessorFactory, IEnumerable<Source> sources)
+        public SourceProcessorCollection(ILogger logger, ISourceProcessorFactory sourceProcessorFactory, IEnumerable<Source> sources)
         {
+            _logger = logger;
             _sourceProcessorFactory = sourceProcessorFactory;
             Load(sources);
         }
 
         private void Load(IEnumerable<Source> sources)
         {
-            foreach (var source in sources)
-                this.Add(_sourceProcessorFactory.GetSource());
+            lock (_threadMonitor)
+            {
+                foreach (var source in sources)
+                    this.Add(_sourceProcessorFactory.GetSource(source));
+            }
         }
 
         internal void Start()
         {
-            foreach (var source in this)
+            lock (_threadMonitor)
             {
-                source.Start();
-                this.ActiveProcessorCount++;
+                foreach (var source in this)
+                {
+                    source.Start();
+                    this.ActiveProcessorCount++;
+                }
             }
         }
 
         internal void Stop()
         {
-            foreach (var source in this)
+            lock (_threadMonitor)
             {
-                source.Stop();
-                this.ActiveProcessorCount--;
+                foreach (var source in this)
+                {
+                    source.Stop();
+                    this.ActiveProcessorCount--;
+                }
+            }
+        }
+
+        internal void KillProcessorsPastTimeout()
+        {
+            var trouble = new List<ISourceProcessor>();
+
+            _logger.LogInformation("Checking process timeouts");
+            lock (_threadMonitor)
+            {
+                foreach (var processor in this)
+                {
+                    if (processor.IsActive && processor.LastAttempt.AddMilliseconds(processor.AttemptTimeoutMs) < DateTime.Now)
+                    {
+                        processor.Stop();
+                        trouble.Add(processor);
+                    }
+                }
+
+                foreach (var processor in trouble)
+                {
+                    _logger.LogWarning("Killing processor {0} due to no activity since {1}", processor.Id, processor.LastAttempt);
+                    this.Remove(processor);
+                    var source = _sourceProcessorFactory.GetSource(processor.Config);
+                    this.Add(source);
+                    source.Start();
+                    _logger.LogInformation("Processor {0} started", source.Id);
+                }
+
+                _logger.LogInformation("Process timeout check completed");
             }
         }
     }
