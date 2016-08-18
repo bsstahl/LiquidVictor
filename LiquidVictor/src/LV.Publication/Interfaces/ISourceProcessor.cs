@@ -7,6 +7,10 @@ namespace LV.Publication.Interfaces
 {
     public interface ISourceProcessor
     {
+        Guid Id { get; }
+        DateTime LastAttempt { get; }
+        Int64 AttemptTimeoutMs { get; set; }
+
         void Start();
         void Stop();
     }

@@ -34,7 +34,6 @@ namespace LV.Publication.Management.Test.Mocks
                 _config.AddSource(new Source());
             }
         }
-
         #endregion
 
         #region IConfigRepository Methods

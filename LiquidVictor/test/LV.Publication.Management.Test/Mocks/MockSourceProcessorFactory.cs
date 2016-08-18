@@ -13,9 +13,15 @@ namespace LV.Publication.Management.Test.Mocks
         public int TimesCreateCalled { get; private set; }
 
         private List<ISourceProcessor> _sourceProcessors = new List<ISourceProcessor>();
-        public IEnumerable<ISourceProcessor> SourceProcessorsCreated
+        public IEnumerable<ISourceProcessor> SourceProcessors
         {
             get { return _sourceProcessors; }
+        }
+
+
+        public ISourceProcessor GetProcessorById(Guid id)
+        {
+            return _sourceProcessors.Where(p => p.Id == id).SingleOrDefault();
         }
 
         #endregion

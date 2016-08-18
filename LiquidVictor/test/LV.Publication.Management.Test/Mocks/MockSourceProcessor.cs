@@ -10,7 +10,24 @@ namespace LV.Publication.Management.Test.Mocks
     {
         private bool StopRequested { get; set; }
 
+        #region Constructors
+
+        public MockSourceProcessor()
+        {
+            this.Id = Guid.NewGuid();
+            this.LastAttempt = DateTime.Now;
+            this.AttemptTimeoutMs = 30000;
+        }
+
+        #endregion  
+
         #region ISourceProcessor Methods
+
+        public Guid Id { get; private set; }
+
+        public DateTime LastAttempt { get; private set; }
+
+        public long AttemptTimeoutMs { get; set; }
 
         public void Start()
         {
