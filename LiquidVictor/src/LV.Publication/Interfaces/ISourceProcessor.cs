@@ -8,5 +8,7 @@ namespace LV.Publication.Interfaces
     public interface ISourceProcessor
     {
         void Start();
+        void Stop();
     }
+
 }

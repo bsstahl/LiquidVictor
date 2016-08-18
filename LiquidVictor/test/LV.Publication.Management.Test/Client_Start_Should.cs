@@ -7,7 +7,7 @@ using Xunit;
 
 namespace LV.Publication.Management.Test
 {
-    public class Client_StartAsync_Should
+    public class Client_Start_Should
     {
         [Fact]
         public static void RetrieveItsConfigurationFromTheConfigStore()
@@ -46,33 +46,36 @@ namespace LV.Publication.Management.Test
         [Fact]
         public static void ContinueWhileStopNotCalled()
         {
-            var configRepo = new Mocks.MockConfigRepository(3);
+            int processorCount = 3;
+            var configRepo = new Mocks.MockConfigRepository(processorCount);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
 
             var timeoutTask = Task.Delay(100);
-            var testTask = target.StartAsync();
+            target.Start();
+            Task.WaitAll(timeoutTask);
 
-            Task.WaitAny(testTask, timeoutTask);
-            Assert.False(testTask.IsCompleted);
-
-            target.Stop();
-            Task.WaitAll(testTask);
+            try
+            {
+                Assert.Equal(processorCount, target.ActiveProcessorCount);
+            }
+            finally
+            {
+                target.Stop();
+            }
         }
 
         [Fact]
-        public static void ExitOnceStopIsCalled()
+        public static void ShutdownAllProcessorsOnceStopIsCalled()
         {
             var configRepo = new Mocks.MockConfigRepository(3);
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
 
-            var testTask = target.StartAsync();
-            var timeoutTask = Task.Delay(250);
+            target.Start();
             target.Stop();
 
-            Task.WaitAny(testTask, timeoutTask);
-            Assert.True(testTask.IsCompleted);
+            Assert.Equal(0, target.ActiveProcessorCount);
         }
 
     }

@@ -53,9 +53,8 @@ namespace LV.Publication.Management.Test.Extensions
 
         public static void ExecuteToCompletion(this Client client)
         {
-            var executionTask = client.StartAsync();
+            client.Start();
             client.Stop();
-            Task.WaitAll(executionTask);
         }
 
     }

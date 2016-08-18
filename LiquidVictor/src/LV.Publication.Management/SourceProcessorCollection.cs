@@ -11,6 +11,8 @@ namespace LV.Publication.Management
     {
         ISourceProcessorFactory _sourceProcessorFactory;
 
+        public int ActiveProcessorCount { get; private set; }
+
 
         public SourceProcessorCollection(ISourceProcessorFactory sourceProcessorFactory, IEnumerable<Source> sources)
         {
@@ -27,7 +29,19 @@ namespace LV.Publication.Management
         internal void Start()
         {
             foreach (var source in this)
+            {
                 source.Start();
+                this.ActiveProcessorCount++;
+            }
+        }
+
+        internal void Stop()
+        {
+            foreach (var source in this)
+            {
+                source.Stop();
+                this.ActiveProcessorCount--;
+            }
         }
     }
 }

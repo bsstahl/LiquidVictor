@@ -13,7 +13,14 @@ namespace LV.Publication.Management
         IConfigRepository _configRepo;
         ISourceProcessorFactory _sourceProcessorFactory;
 
+        SourceProcessorCollection _processors;
+
         bool _stopCalled = false;
+
+        public int ActiveProcessorCount
+        {
+            get { return _processors.ActiveProcessorCount; }
+        }
 
         public Client(ILogger logger, IConfigRepository configRepo, ISourceProcessorFactory sourceProcessorFactory)
         {
@@ -31,7 +38,7 @@ namespace LV.Publication.Management
             _sourceProcessorFactory = sourceProcessorFactory;
         }
 
-        public async Task StartAsync()
+        public void Start()
         {
             _logger.LogInformation("Begin Process");
 
@@ -40,25 +47,26 @@ namespace LV.Publication.Management
             _logger.LogInformation("Configuration retrieved");
 
             _logger.LogInformation("Creating source processors");
-            var sourceProcessors = new SourceProcessorCollection(_sourceProcessorFactory, config.Sources);
+            _processors = new SourceProcessorCollection(_sourceProcessorFactory, config.Sources);
             _logger.LogInformation("Created {0} source processors", config.Sources.Count());
-            sourceProcessors.Start();
+            _processors.Start();
             _logger.LogInformation("Source processors started");
 
-            await Task.Factory.StartNew(() => Monitor());
-
-            _logger.LogInformation("End Process");
+            Task.Factory.StartNew(() => Monitor());
         }
 
         public void Stop()
         {
             _stopCalled = true;
+            _processors.Stop();
         }
 
         private void Monitor()
         {
             while (!_stopCalled)
             { }
+
+            _logger.LogInformation("End Process");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace LV.Publication.Management.Console
             ISourceProcessorFactory sourceProcessorFactory = null;
 
             var client = new Client(logger, configRepo, sourceProcessorFactory);
-            client.StartAsync();
+            client.Start();
         }
     }
 }
