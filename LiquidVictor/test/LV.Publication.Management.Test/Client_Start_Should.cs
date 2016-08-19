@@ -100,7 +100,7 @@ namespace LV.Publication.Management.Test
             var originalProcessor = factory.GetActiveProcessors().Single();
             var originalProcessorId = originalProcessor.Id;
 
-            Task.WaitAll(Task.Delay(timeoutMs));
+            Task.WaitAll(Task.Delay(timeoutMs + 5));
             var finalProcessorId = factory.GetActiveProcessors().Single().Id;
 
             target.Stop();
