@@ -61,6 +61,11 @@ namespace LV.Publication.Management
             _processors.Stop();
         }
 
+        public void Pause(Guid processorId)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Monitor()
         {
             while (!_stopCalled)

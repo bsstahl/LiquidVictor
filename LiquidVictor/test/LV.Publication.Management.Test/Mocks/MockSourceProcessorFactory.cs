@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LV.Publication.Management.Test.Extensions;
+using TestHelperExtensions;
 
 namespace LV.Publication.Management.Test.Mocks
 {
@@ -38,6 +39,20 @@ namespace LV.Publication.Management.Test.Mocks
             lock (_threadMonitor)
             {
                 return _sourceProcessors.Where(p => p.IsActive).ToList();
+            }
+        }
+
+        public ISourceProcessor GetRandomProcessor()
+        {
+            ISourceProcessor processor;
+            lock (_threadMonitor)
+            {
+                var count = _sourceProcessors.Count();
+                if (count < 2)
+                    processor = _sourceProcessors.FirstOrDefault();
+                else
+                    processor = _sourceProcessors.Skip(count.GetRandom()).First();
+                return processor;
             }
         }
 
