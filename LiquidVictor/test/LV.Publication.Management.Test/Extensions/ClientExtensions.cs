@@ -17,7 +17,7 @@ namespace LV.Publication.Management.Test.Extensions
 
         public static Client Create(this Client ignore, ILogger logger)
         {
-            var configRepo = new Mocks.MockConfigRepository();
+            var configRepo = new Mocks.MockConfigRepository(0);
             return ignore.Create(logger, configRepo);
         }
 
@@ -30,7 +30,7 @@ namespace LV.Publication.Management.Test.Extensions
         public static Client Create(this Client ignore, ISourceProcessorFactory sourceProcessorFactory)
         {
             var logger = "TestLogs".CreateLogger();
-            var configRepo = new Mocks.MockConfigRepository();
+            var configRepo = new Mocks.MockConfigRepository(3);
             return ignore.Create(logger, configRepo, sourceProcessorFactory);
         }
 

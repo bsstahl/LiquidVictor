@@ -9,14 +9,23 @@ namespace LV.Publication.Management.Test.Mocks
 {
     public class MockConfigRepository : IConfigRepository
     {
-        #region Constructors
 
-        public MockConfigRepository()
-        { }
+        #region Constants
+
+        const long _defaultTimeout = 30000;
+
+        #endregion
+
+        #region Constructors
 
         public MockConfigRepository(int sourceCount)
         {
-            CreateSources(sourceCount);
+            CreateSources(BuildTimeouts(sourceCount));
+        }
+
+        public MockConfigRepository(IEnumerable<long> timeouts)
+        {
+            CreateSources(timeouts);
         }
 
         #endregion
@@ -27,13 +36,14 @@ namespace LV.Publication.Management.Test.Mocks
 
         public bool GetConfigCalled { get; private set; }
 
-        public void CreateSources(int sourceCount)
+        private void CreateSources(IEnumerable<long> timeouts)
         {
-            for (int i = 0; i < sourceCount; i++)
+            foreach (var timeout in timeouts)
             {
-                _config.AddSource(new Source());
+                _config.AddSource(new Source(timeout));
             }
         }
+
         #endregion
 
         #region IConfigRepository Methods
@@ -42,6 +52,18 @@ namespace LV.Publication.Management.Test.Mocks
         {
             this.GetConfigCalled = true;
             return _config;
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+
+        private static IEnumerable<long> BuildTimeouts(int sourceCount)
+        {
+            var timeouts = new List<long>();
+            for (int i = 0; i < sourceCount; i++)
+                timeouts.Add(_defaultTimeout);
+            return timeouts;
         }
 
         #endregion

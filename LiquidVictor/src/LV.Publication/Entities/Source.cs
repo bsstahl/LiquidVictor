@@ -7,5 +7,11 @@ namespace LV.Publication.Entities
 {
     public class Source
     {
+        public long AttemptTimeoutMs { get; set; }
+
+        public Source(long attemptTimeoutMs)
+        {
+            this.AttemptTimeoutMs = attemptTimeoutMs;
+        }
     }
 }

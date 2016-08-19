@@ -7,6 +7,6 @@ namespace LV.Publication.Interfaces
 {
     public interface ISourceProcessorFactory
     {
-        ISourceProcessor GetSource(Entities.Source source);
+        ISourceProcessor Create(Entities.Source source);
     }
 }

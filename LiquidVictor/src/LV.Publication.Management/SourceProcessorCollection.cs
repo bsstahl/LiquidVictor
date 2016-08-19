@@ -29,7 +29,7 @@ namespace LV.Publication.Management
             lock (_threadMonitor)
             {
                 foreach (var source in sources)
-                    this.Add(_sourceProcessorFactory.GetSource(source));
+                    this.Add(_sourceProcessorFactory.Create(source));
             }
         }
 
@@ -77,7 +77,7 @@ namespace LV.Publication.Management
                 {
                     _logger.LogWarning("Killing processor {0} due to no activity since {1}", processor.Id, processor.LastAttempt);
                     this.Remove(processor);
-                    var source = _sourceProcessorFactory.GetSource(processor.Config);
+                    var source = _sourceProcessorFactory.Create(processor.Config);
                     this.Add(source);
                     source.Start();
                     _logger.LogInformation("Processor {0} started", source.Id);

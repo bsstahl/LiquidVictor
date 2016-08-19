@@ -9,7 +9,7 @@ namespace LV.Publication.Interfaces
     {
         Guid Id { get; }
         DateTime LastAttempt { get; }
-        Int64 AttemptTimeoutMs { get; set; }
+        Int64 AttemptTimeoutMs { get; }
         Entities.Source Config { get; }
 
         bool IsActive { get; }

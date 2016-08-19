@@ -13,12 +13,12 @@ namespace LV.Publication.Management.Test.Mocks
 
         #region Constructors
 
-        public MockSourceProcessor()
+        public MockSourceProcessor(Entities.Source source)
         {
             this.Id = Guid.NewGuid();
-            this.LastAttempt = DateTime.Now;
-            this.AttemptTimeoutMs = 30000;
+            this.AttemptTimeoutMs = source.AttemptTimeoutMs;
             this.IsActive = false;
+            this.Config = source;
         }
 
         #endregion  
@@ -29,7 +29,7 @@ namespace LV.Publication.Management.Test.Mocks
 
         public DateTime LastAttempt { get; private set; }
 
-        public long AttemptTimeoutMs { get; set; }
+        public long AttemptTimeoutMs { get; private set; }
 
         public bool IsActive { get; private set; }
 
@@ -41,6 +41,7 @@ namespace LV.Publication.Management.Test.Mocks
             this.StartCalled = true;
             this.StopRequested = false;
             this.IsActive = true;
+            this.LastAttempt = DateTime.Now;
             Task.Factory.StartNew(() => Process());
         }
 

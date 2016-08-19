@@ -33,14 +33,6 @@ namespace LV.Publication.Management.Test.Mocks
             }
         }
 
-        public ISourceProcessor GetSecondProcessor()
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.Skip(1).Take(1).SingleOrDefault();
-            }
-        }
-
         public IEnumerable<ISourceProcessor> GetActiveProcessors()
         {
             lock (_threadMonitor)
@@ -48,7 +40,6 @@ namespace LV.Publication.Management.Test.Mocks
                 return _sourceProcessors.Where(p => p.IsActive).ToList();
             }
         }
-
 
         public ISourceProcessor GetProcessorById(Guid id)
         {
@@ -58,15 +49,11 @@ namespace LV.Publication.Management.Test.Mocks
             }
         }
 
-        public void ChangeRandomProcessorTimeouts(int timeoutMs)
+        public IEnumerable<ISourceProcessor> GetActiveProcessorWithTimeout(long timeoutMs)
         {
             lock (_threadMonitor)
             {
-                foreach (var processor in _sourceProcessors)
-                {
-                    if (processor.Id.IsEven())
-                        processor.AttemptTimeoutMs = timeoutMs;
-                }
+                return _sourceProcessors.Where(p => p.IsActive && p.AttemptTimeoutMs == timeoutMs).ToList();
             }
         }
 
@@ -74,15 +61,16 @@ namespace LV.Publication.Management.Test.Mocks
 
         #region ISourceProcessorFactory Methods
 
-        public ISourceProcessor GetSource(Entities.Source source)
+        public ISourceProcessor Create(Entities.Source source)
         {
             ISourceProcessor processor;
             lock (_threadMonitor)
             {
                 this.TimesCreateCalled++;
-                processor = new MockSourceProcessor();
+                processor = new MockSourceProcessor(source);
                 _sourceProcessors.Add(processor);
             }
+
             return processor;
         }
 
