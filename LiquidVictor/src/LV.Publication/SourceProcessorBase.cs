@@ -47,6 +47,7 @@ namespace LV.Publication
             this.StopRequested = false;
             this.IsActive = true;
             this.LastAttempt = DateTime.Now;
+            this.OnStart(null);
             Task.Factory.StartNew(() => Process());
         }
 

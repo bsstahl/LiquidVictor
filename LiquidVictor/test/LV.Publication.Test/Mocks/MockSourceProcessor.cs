@@ -12,13 +12,13 @@ namespace LV.Publication.Test.Mocks
 
         public MockSourceProcessor(Entities.Source source) : base(source)
         {
-            //this.StartCalled = false;
-            //base.Started += new StartEventHandler(OnProcessorStart);
+            this.StartCalled = false;
+            base.Started += new StartEventHandler(OnProcessorStart);
         }
 
         public void OnProcessorStart(object source, EventArgs e)
         {
-            // this.StartCalled = true;
+            this.StartCalled = true;
         }
 
         public override void DoWork(Source source)
