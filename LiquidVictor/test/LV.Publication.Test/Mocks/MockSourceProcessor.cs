@@ -12,6 +12,11 @@ namespace LV.Publication.Test.Mocks
 
         public bool StartedCalled { get; private set; }
 
+        public bool StoppingCalled { get; set; }
+
+        public bool StoppedCalled { get; set; }
+
+
 
         public MockSourceProcessor(Entities.Source source) : base(source)
         {
