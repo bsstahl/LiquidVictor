@@ -64,7 +64,10 @@ namespace LV.Publication.Management
             {
                 var processor = this.Where(p => p.Id == processorId).SingleOrDefault();
                 if (processor != null)
+                {
                     processor.Pause();
+                    _logger.LogInformation("Processor {0} paused", processor.Id);
+                }
             }
         }
 
