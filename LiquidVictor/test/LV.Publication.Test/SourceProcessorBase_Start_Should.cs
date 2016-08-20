@@ -11,6 +11,24 @@ namespace LV.Publication.Test
         const long _defaultTimeout = 30000;
 
         [Fact]
+        public static void RasiseTheStartingEvent()
+        {
+            var source = new Entities.Source(_defaultTimeout);
+            var target = new Mocks.MockSourceProcessor(source);
+            target.Start();
+
+            try
+            {
+                Assert.True(target.StartingCalled);
+            }
+            finally
+            {
+                target.Stop();
+            }
+
+        }
+
+        [Fact]
         public static void RasiseTheStartedEvent()
         {
             var source = new Entities.Source(_defaultTimeout);
@@ -19,7 +37,7 @@ namespace LV.Publication.Test
 
             try
             {
-                Assert.True(target.StartCalled);
+                Assert.True(target.StartedCalled);
             }
             finally
             {
