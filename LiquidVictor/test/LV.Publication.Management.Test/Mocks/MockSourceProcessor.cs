@@ -70,6 +70,14 @@ namespace LV.Publication.Management.Test.Mocks
             return result;
         }
 
+        public bool Unpause()
+        {
+            bool result = !this.IsActive;
+            if (!this.IsActive)
+                this.IsActive = true;
+            return result;
+        }
+
         #endregion
 
         #region Mock Information
