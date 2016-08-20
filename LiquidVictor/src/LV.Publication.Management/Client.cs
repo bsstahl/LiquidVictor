@@ -75,5 +75,20 @@ namespace LV.Publication.Management
 
             _logger.LogInformation("End Process");
         }
+
+        internal ISourceProcessor GetProcessorById(Guid id)
+        {
+            return _processors.GetProcessorById(id);
+        }
+
+        internal IEnumerable<ISourceProcessor> GetActiveProcessors()
+        {
+            return _processors.GetActiveProcessors();
+        }
+
+        internal IEnumerable<ISourceProcessor> GetInactiveProcessors()
+        {
+            return _processors.GetInactiveProcessors();
+        }
     }
 }

@@ -16,55 +16,7 @@ namespace LV.Publication.Management.Test.Mocks
 
         public int TimesCreateCalled { get; private set; }
 
-        private List<ISourceProcessor> _sourceProcessors = new List<ISourceProcessor>();
-
-        public IEnumerable<ISourceProcessor> GetUnstartedProcessors()
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.Select(s => (Mocks.MockSourceProcessor)s).Where(s => !s.IsActive).ToList();
-            }
-        }
-
-        public ISourceProcessor GetFirstProcessor()
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.FirstOrDefault();
-            }
-        }
-
-        public IEnumerable<ISourceProcessor> GetActiveProcessors()
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.Where(p => p.IsActive).ToList();
-            }
-        }
-
-        public ISourceProcessor GetRandomProcessor()
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.GetRandom();
-            }
-        }
-
-        public ISourceProcessor GetProcessorById(Guid id)
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.Where(p => p.Id == id).SingleOrDefault();
-            }
-        }
-
-        public IEnumerable<ISourceProcessor> GetActiveProcessorWithTimeout(long timeoutMs)
-        {
-            lock (_threadMonitor)
-            {
-                return _sourceProcessors.Where(p => p.IsActive && p.AttemptTimeoutMs == timeoutMs).ToList();
-            }
-        }
+        // private List<ISourceProcessor> _sourceProcessors = new List<ISourceProcessor>();
 
         #endregion
 
@@ -77,7 +29,7 @@ namespace LV.Publication.Management.Test.Mocks
             {
                 this.TimesCreateCalled++;
                 processor = new MockSourceProcessor(source);
-                _sourceProcessors.Add(processor);
+                // _sourceProcessors.Add(processor);
             }
 
             return processor;

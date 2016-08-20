@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestHelperExtensions;
 
 namespace LV.Publication.Management.Test.Extensions
 {
@@ -55,6 +56,16 @@ namespace LV.Publication.Management.Test.Extensions
         {
             client.Start();
             client.Stop();
+        }
+
+        public static ISourceProcessor GetRandomProcessor(this Client client)
+        {
+            return client.GetActiveProcessors().GetRandom();
+        }
+
+        public static IEnumerable<ISourceProcessor> GetActiveProcessorWithTimeout(this Client client, long timeoutMs)
+        {
+            return client.GetActiveProcessors().Where(p => p.AttemptTimeoutMs == timeoutMs);
         }
 
     }

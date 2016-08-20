@@ -24,7 +24,7 @@ namespace LV.Publication.Management.Test
             var timeoutTask = Task.Delay(100);
             target.Start();
 
-            var processor = factory.GetRandomProcessor();
+            var processor = target.GetRandomProcessor();
             System.Diagnostics.Debug.Assert(processor.IsActive);
 
             try
@@ -50,7 +50,7 @@ namespace LV.Publication.Management.Test
             var timeoutTask = Task.Delay(100);
             target.Start();
 
-            var processor = factory.GetRandomProcessor();
+            var processor = target.GetRandomProcessor();
             System.Diagnostics.Debug.Assert(processor.IsActive);
 
             try

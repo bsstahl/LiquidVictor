@@ -31,6 +31,31 @@ namespace LV.Publication.Management
             Load(sources);
         }
 
+        internal ISourceProcessor GetProcessorById(Guid id)
+        {
+            lock (_threadMonitor)
+            {
+                return this.Where(p => p.Id == id).SingleOrDefault();
+            }
+        }
+
+        internal IEnumerable<ISourceProcessor> GetActiveProcessors()
+        {
+            lock (_threadMonitor)
+            {
+                return this.Where(p => p.IsActive).ToList();
+            }
+        }
+
+        internal IEnumerable<ISourceProcessor> GetInactiveProcessors()
+        {
+            lock (_threadMonitor)
+            {
+                return this.Where(p => !p.IsActive).ToList();
+            }
+        }
+
+
         private void Load(IEnumerable<Source> sources)
         {
             lock (_threadMonitor)
@@ -99,5 +124,6 @@ namespace LV.Publication.Management
                 _logger.LogInformation("Process timeout check completed");
             }
         }
+
     }
 }

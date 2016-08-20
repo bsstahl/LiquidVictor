@@ -42,7 +42,7 @@ namespace LV.Publication.Management.Test
             var factory = new Mocks.MockSourceProcessorFactory();
             var target = (null as Client).Create(configRepo, factory);
             target.Start();
-            var unstartedProcessors = factory.GetUnstartedProcessors();
+            var unstartedProcessors = target.GetInactiveProcessors();
             try
             {
                 Assert.False(unstartedProcessors.Any());
@@ -98,11 +98,11 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             target.Start();
-            var originalProcessor = factory.GetActiveProcessors().Single();
+            var originalProcessor = target.GetActiveProcessors().Single();
             var originalProcessorId = originalProcessor.Id;
 
             Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
-            var finalProcessorId = factory.GetActiveProcessors().Single().Id;
+            var finalProcessorId = target.GetActiveProcessors().Single().Id;
 
             target.Stop();
 
@@ -119,9 +119,9 @@ namespace LV.Publication.Management.Test
             var target = (null as Client).Create(configRepo, factory);
 
             target.Start();
-            var originalProcessor = factory.GetActiveProcessorWithTimeout(timeoutMs).Single();
+            var originalProcessor = target.GetActiveProcessorWithTimeout(timeoutMs).Single();
             Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
-            var processorWithOriginalId = factory.GetProcessorById(originalProcessor.Id);
+            var processorWithOriginalId = target.GetProcessorById(originalProcessor.Id);
 
             try
             {
