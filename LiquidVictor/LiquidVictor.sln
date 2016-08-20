@@ -20,6 +20,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LV.Publication.Management.T
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LV.Publication", "src\LV.Publication\LV.Publication.xproj", "{2EB3727F-E5CE-4F23-8604-8000B00DACD1}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LV.Publication.Test", "test\LV.Publication.Test\LV.Publication.Test.xproj", "{F725FA61-599F-45C0-BC71-7A4370644EAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{2EB3727F-E5CE-4F23-8604-8000B00DACD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB3727F-E5CE-4F23-8604-8000B00DACD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EB3727F-E5CE-4F23-8604-8000B00DACD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F725FA61-599F-45C0-BC71-7A4370644EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F725FA61-599F-45C0-BC71-7A4370644EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F725FA61-599F-45C0-BC71-7A4370644EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F725FA61-599F-45C0-BC71-7A4370644EAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 		{7A49CD96-9774-407F-A1CE-83E8D4974C5B} = {F88F355A-988F-480C-A620-8DFAA9BC765A}
 		{1E1BB23E-9589-4D68-BC8E-D15616E50F6D} = {651D0E5B-D986-421C-B236-8384F9CF9BCB}
 		{2EB3727F-E5CE-4F23-8604-8000B00DACD1} = {F88F355A-988F-480C-A620-8DFAA9BC765A}
+		{F725FA61-599F-45C0-BC71-7A4370644EAE} = {651D0E5B-D986-421C-B236-8384F9CF9BCB}
 	EndGlobalSection
 EndGlobal
