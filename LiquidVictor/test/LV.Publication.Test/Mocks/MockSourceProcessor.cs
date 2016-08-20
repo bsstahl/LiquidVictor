@@ -17,10 +17,16 @@ namespace LV.Publication.Test.Mocks
         {
             this.StartingCalled = false;
             this.StartedCalled = false;
-            base.Started += new StartEventHandler(OnProcessorStart);
+            base.Started += SourceProcessor_Started;
+            base.Starting += SourceProcessor_Starting;
         }
 
-        public void OnProcessorStart(object source, EventArgs e)
+        private void SourceProcessor_Starting(object sender, EventArgs args)
+        {
+            this.StartingCalled = true;
+        }
+
+        public void SourceProcessor_Started(object source, EventArgs e)
         {
             this.StartedCalled = true;
         }

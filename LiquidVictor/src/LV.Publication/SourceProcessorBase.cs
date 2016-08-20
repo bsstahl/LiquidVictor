@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LV.Publication
 {
-    public delegate void StartEventHandler(object sender, EventArgs args);
+    public delegate void ProcessorEventHandler(object sender, EventArgs args);
 
 
     public abstract class SourceProcessorBase : ISourceProcessor
@@ -44,6 +44,7 @@ namespace LV.Publication
 
         public void Start()
         {
+            this.OnProcessorStarting(new EventArgs());
             this.StopRequested = false;
             this.IsActive = true;
             this.LastAttempt = DateTime.Now;
@@ -88,12 +89,19 @@ namespace LV.Publication
 
         #region Events
 
-        public event StartEventHandler Started;
+        public event ProcessorEventHandler Starting;
+        public event ProcessorEventHandler Started;
 
         protected virtual void OnProcessorStarted(EventArgs e)
         {
             if (Started != null)
                 Started(this, e);
+        }
+
+        protected virtual void OnProcessorStarting(EventArgs e)
+        {
+            if (Starting != null)
+                Starting(this, e);
         }
 
         #endregion
