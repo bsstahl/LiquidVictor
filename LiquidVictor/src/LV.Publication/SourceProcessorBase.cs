@@ -67,8 +67,10 @@ namespace LV.Publication
 
         public void Stop()
         {
+            this.OnProcessorStopping(new EventArgs());
             this.StopRequested = true;
             this.IsActive = false;
+            this.OnProcessorStopped(new EventArgs());
         }
 
         public bool Pause()
@@ -94,6 +96,9 @@ namespace LV.Publication
         public event ProcessorEventHandler Starting;
         public event ProcessorEventHandler Started;
 
+        public event ProcessorEventHandler Stopping;
+        public event ProcessorEventHandler Stopped;
+
         protected virtual void OnProcessorStarted(EventArgs e)
         {
             if (Started != null)
@@ -104,6 +109,18 @@ namespace LV.Publication
         {
             if (Starting != null)
                 Starting(this, e);
+        }
+
+        protected virtual void OnProcessorStopped(EventArgs e)
+        {
+            if (Stopped != null)
+                Stopped(this, e);
+        }
+
+        protected virtual void OnProcessorStopping(EventArgs e)
+        {
+            if (Stopping != null)
+                Stopping(this, e);
         }
 
         #endregion

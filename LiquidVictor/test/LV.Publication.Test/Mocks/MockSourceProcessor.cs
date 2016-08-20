@@ -22,8 +22,23 @@ namespace LV.Publication.Test.Mocks
         {
             this.StartingCalled = false;
             this.StartedCalled = false;
+            this.StoppingCalled = false;
+            this.StoppedCalled = false;
+
             base.Started += SourceProcessor_Started;
             base.Starting += SourceProcessor_Starting;
+            base.Stopping += SourceProcessor_Stopping;
+            base.Stopped += SourceProcessor_Stopped;
+        }
+
+        private void SourceProcessor_Stopped(object sender, EventArgs args)
+        {
+            this.StoppedCalled = true;
+        }
+
+        private void SourceProcessor_Stopping(object sender, EventArgs args)
+        {
+            this.StoppingCalled = true;
         }
 
         private void SourceProcessor_Starting(object sender, EventArgs args)
@@ -36,9 +51,11 @@ namespace LV.Publication.Test.Mocks
             this.StartedCalled = true;
         }
 
+
         public override void DoWork(Source source)
         {
             // Place any work the processor has to do here
+            Task.WaitAll(Task.Delay(100));
         }
 
     }

@@ -18,17 +18,9 @@ namespace LV.Publication.Test
 
             target.Start();
             System.Diagnostics.Debug.Assert(target.IsActive);
+
             target.Stop();
-
-            try
-            {
-                Assert.False(target.IsActive);
-            }
-            finally
-            {
-                target.Stop();
-            }
-
+            Assert.False(target.IsActive);
         }
 
         [Fact]
