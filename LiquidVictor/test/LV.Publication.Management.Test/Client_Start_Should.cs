@@ -10,6 +10,7 @@ namespace LV.Publication.Management.Test
     public class Client_Start_Should
     {
         const long _defaultTimeout = 30000;
+        const int _additionalDelayMs = 5;
 
         [Fact]
         public static void RetrieveItsConfigurationFromTheConfigStore()
@@ -100,7 +101,7 @@ namespace LV.Publication.Management.Test
             var originalProcessor = factory.GetActiveProcessors().Single();
             var originalProcessorId = originalProcessor.Id;
 
-            Task.WaitAll(Task.Delay(timeoutMs + 5));
+            Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
             var finalProcessorId = factory.GetActiveProcessors().Single().Id;
 
             target.Stop();
@@ -119,7 +120,7 @@ namespace LV.Publication.Management.Test
 
             target.Start();
             var originalProcessor = factory.GetActiveProcessorWithTimeout(timeoutMs).Single();
-            Task.WaitAll(Task.Delay(timeoutMs));
+            Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
             var processorWithOriginalId = factory.GetProcessorById(originalProcessor.Id);
 
             try
@@ -143,7 +144,7 @@ namespace LV.Publication.Management.Test
 
             target.Start();
 
-            Task.WaitAll(Task.Delay(timeoutMs));
+            Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
             var actualProcessorCount = target.ActiveProcessorCount;
 
             target.Stop();
