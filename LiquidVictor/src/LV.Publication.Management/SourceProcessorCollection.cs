@@ -14,7 +14,14 @@ namespace LV.Publication.Management
         ISourceProcessorFactory _sourceProcessorFactory;
         ILogger _logger;
 
-        public int ActiveProcessorCount { get; private set; }
+        public int ActiveProcessorCount
+        {
+            get
+            {
+                lock (_threadMonitor)
+                    return this.Count(p => p.IsActive);
+            }
+        }
 
 
         public SourceProcessorCollection(ILogger logger, ISourceProcessorFactory sourceProcessorFactory, IEnumerable<Source> sources)
@@ -38,10 +45,7 @@ namespace LV.Publication.Management
             lock (_threadMonitor)
             {
                 foreach (var source in this)
-                {
                     source.Start();
-                    this.ActiveProcessorCount++;
-                }
             }
         }
 
@@ -50,10 +54,7 @@ namespace LV.Publication.Management
             lock (_threadMonitor)
             {
                 foreach (var source in this)
-                {
                     source.Stop();
-                    this.ActiveProcessorCount--;
-                }
             }
         }
 
@@ -63,10 +64,7 @@ namespace LV.Publication.Management
             {
                 var processor = this.Where(p => p.Id == processorId).SingleOrDefault();
                 if (processor != null)
-                {
                     processor.Pause();
-                    this.ActiveProcessorCount--;
-                }
             }
         }
 
