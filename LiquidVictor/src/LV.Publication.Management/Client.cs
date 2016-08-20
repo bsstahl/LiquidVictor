@@ -68,7 +68,7 @@ namespace LV.Publication.Management
 
         public void Unpause(Guid processorId)
         {
-            throw new NotImplementedException();
+            _processors.Unpause(processorId);
         }
 
         private void Monitor()

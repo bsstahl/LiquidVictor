@@ -96,6 +96,19 @@ namespace LV.Publication.Management
             }
         }
 
+        internal void Unpause(Guid processorId)
+        {
+            lock (_threadMonitor)
+            {
+                var processor = this.Where(p => p.Id == processorId).SingleOrDefault();
+                if (processor != null)
+                {
+                    processor.Unpause();
+                    _logger.LogInformation("Processor {0} unpaused", processor.Id);
+                }
+            }
+        }
+
         internal void KillProcessorsPastTimeout()
         {
             var trouble = new List<ISourceProcessor>();
