@@ -47,8 +47,8 @@ namespace LV.Publication
             this.StopRequested = false;
             this.IsActive = true;
             this.LastAttempt = DateTime.Now;
-            this.OnStart(null);
             Task.Factory.StartNew(() => Process());
+            this.OnProcessorStarted(new EventArgs());
         }
 
         private void Process()
@@ -90,7 +90,7 @@ namespace LV.Publication
 
         public event StartEventHandler Started;
 
-        protected virtual void OnStart(EventArgs e)
+        protected virtual void OnProcessorStarted(EventArgs e)
         {
             if (Started != null)
                 Started(this, e);

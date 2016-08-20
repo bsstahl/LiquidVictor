@@ -11,7 +11,7 @@ namespace LV.Publication.Test
         const long _defaultTimeout = 30000;
 
         [Fact]
-        public static void RasiseTheOnStartEvent()
+        public static void RasiseTheStartedEvent()
         {
             var source = new Entities.Source(_defaultTimeout);
             var target = new Mocks.MockSourceProcessor(source);
