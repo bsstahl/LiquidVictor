@@ -63,7 +63,7 @@ namespace LV.Publication.Management
 
         public void Pause(Guid processorId)
         {
-            throw new NotImplementedException();
+            _processors.Pause(processorId);
         }
 
         private void Monitor()

@@ -16,6 +16,7 @@ namespace LV.Publication.Interfaces
 
         void Start();
         void Stop();
+        bool Pause();
     }
 
 }

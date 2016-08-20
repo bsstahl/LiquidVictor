@@ -44,15 +44,9 @@ namespace LV.Publication.Management.Test.Mocks
 
         public ISourceProcessor GetRandomProcessor()
         {
-            ISourceProcessor processor;
             lock (_threadMonitor)
             {
-                var count = _sourceProcessors.Count();
-                if (count < 2)
-                    processor = _sourceProcessors.FirstOrDefault();
-                else
-                    processor = _sourceProcessors.Skip(count.GetRandom()).First();
-                return processor;
+                return _sourceProcessors.GetRandom();
             }
         }
 

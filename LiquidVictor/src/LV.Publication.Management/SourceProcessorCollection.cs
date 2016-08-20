@@ -57,6 +57,19 @@ namespace LV.Publication.Management
             }
         }
 
+        internal void Pause(Guid processorId)
+        {
+            lock (_threadMonitor)
+            {
+                var processor = this.Where(p => p.Id == processorId).SingleOrDefault();
+                if (processor != null)
+                {
+                    processor.Pause();
+                    this.ActiveProcessorCount--;
+                }
+            }
+        }
+
         internal void KillProcessorsPastTimeout()
         {
             var trouble = new List<ISourceProcessor>();

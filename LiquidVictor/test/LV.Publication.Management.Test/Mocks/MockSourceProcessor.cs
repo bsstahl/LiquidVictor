@@ -48,13 +48,26 @@ namespace LV.Publication.Management.Test.Mocks
         private void Process()
         {
             while (!this.StopRequested)
-            { }
+            {
+                if (this.IsActive)
+                {
+                    // TODO: Do the work of this processor
+                }
+            }
         }
 
         public void Stop()
         {
             this.StopRequested = true;
             this.IsActive = false;
+        }
+
+        public bool Pause()
+        {
+            bool result = this.IsActive;
+            if (this.IsActive)
+                this.IsActive = false;
+            return result;
         }
 
         #endregion
