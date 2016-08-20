@@ -11,6 +11,27 @@ namespace LV.Publication.Test
         const long _defaultTimeout = 30000;
 
         [Fact]
+        public static void ActivateTheProcessor()
+        {
+            var source = new Entities.Source(_defaultTimeout);
+            var target = new Mocks.MockSourceProcessor(source);
+
+            System.Diagnostics.Debug.Assert(!target.IsActive);
+
+            target.Start();
+
+            try
+            {
+                Assert.True(target.IsActive);
+            }
+            finally
+            {
+                target.Stop();
+            }
+
+        }
+
+        [Fact]
         public static void RasiseTheStartingEvent()
         {
             var source = new Entities.Source(_defaultTimeout);

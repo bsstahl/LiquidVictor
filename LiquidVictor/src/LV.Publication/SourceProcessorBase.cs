@@ -47,7 +47,6 @@ namespace LV.Publication
             this.OnProcessorStarting(new EventArgs());
             this.StopRequested = false;
             this.IsActive = true;
-            this.LastAttempt = DateTime.Now;
             Task.Factory.StartNew(() => Process());
             this.OnProcessorStarted(new EventArgs());
         }
@@ -57,7 +56,10 @@ namespace LV.Publication
             while (!this.StopRequested)
             {
                 if (this.IsActive)
+                {
+                    this.LastAttempt = DateTime.Now;
                     DoWork(this.Config);
+                }
             }
         }
 
