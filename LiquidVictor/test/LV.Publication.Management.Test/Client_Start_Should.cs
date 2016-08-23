@@ -92,6 +92,7 @@ namespace LV.Publication.Management.Test
         public static void RestartTheOnlyProcessorPastItsTimeout()
         {
             int timeoutMs = 30;
+            bool processorStopped = false;
             var timeouts = new long[] { timeoutMs };
             var configRepo = new Mocks.MockConfigRepository(timeouts);
             var factory = new Mocks.MockSourceProcessorFactory();
@@ -99,9 +100,14 @@ namespace LV.Publication.Management.Test
 
             target.Start();
             var originalProcessor = target.GetActiveProcessors().Single();
-            var originalProcessorId = originalProcessor.Id;
+            Guid originalProcessorId = originalProcessor.Id;
+            originalProcessor.Stopped += (s, a) => processorStopped = true;
+            var delayTask = Task.Delay(timeoutMs * 2);
 
-            Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
+            do
+            { }
+            while (!delayTask.IsCompleted && !processorStopped);
+
             var finalProcessorId = target.GetActiveProcessors().Single().Id;
 
             target.Stop();
@@ -113,6 +119,7 @@ namespace LV.Publication.Management.Test
         public static void StopAProcessorPastItsTimeout()
         {
             int timeoutMs = 30;
+            bool processorStopped = false;
             var timeouts = new long[] { _defaultTimeout, timeoutMs, _defaultTimeout };
             var configRepo = new Mocks.MockConfigRepository(timeouts);
             var factory = new Mocks.MockSourceProcessorFactory();
@@ -120,12 +127,16 @@ namespace LV.Publication.Management.Test
 
             target.Start();
             var originalProcessor = target.GetActiveProcessorWithTimeout(timeoutMs).Single();
-            Task.WaitAll(Task.Delay(timeoutMs + _additionalDelayMs));
-            var processorWithOriginalId = target.GetProcessorById(originalProcessor.Id);
+            originalProcessor.Stopped += (s, a) => processorStopped = true;
+            var delayTask = Task.Delay(timeoutMs * 2);
+
+            do
+            { }
+            while (!delayTask.IsCompleted && !processorStopped);
 
             try
             {
-                Assert.False(processorWithOriginalId.IsActive);
+                Assert.True(processorStopped);
             }
             finally
             {

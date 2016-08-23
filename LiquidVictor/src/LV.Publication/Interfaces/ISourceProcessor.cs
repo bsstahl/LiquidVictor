@@ -18,6 +18,12 @@ namespace LV.Publication.Interfaces
         void Stop();
         bool Pause();
         bool Unpause();
+
+
+        event ProcessorEventHandler Starting;
+        event ProcessorEventHandler Started;
+        event ProcessorEventHandler Stopping;
+        event ProcessorEventHandler Stopped;
     }
 
 }

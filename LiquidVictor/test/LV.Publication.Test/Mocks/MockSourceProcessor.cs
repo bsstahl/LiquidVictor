@@ -52,10 +52,11 @@ namespace LV.Publication.Test.Mocks
         }
 
 
-        public override void DoWork(Source source)
+        public override Enumerations.ProcessorResult DoWork(Source source)
         {
             // Place any work the processor has to do here
             Task.WaitAll(Task.Delay(100));
+            return Enumerations.ProcessorResult.FailAndContinue;
         }
 
     }

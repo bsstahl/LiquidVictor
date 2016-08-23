@@ -63,7 +63,7 @@ namespace LV.Publication
             }
         }
 
-        public abstract void DoWork(Entities.Source source);
+        public abstract Enumerations.ProcessorResult DoWork(Entities.Source source);
 
         public void Stop()
         {

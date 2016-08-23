@@ -118,11 +118,17 @@ namespace LV.Publication.Management
             {
                 foreach (var processor in this)
                 {
-                    if (processor.IsActive && processor.LastAttempt.AddMilliseconds(processor.AttemptTimeoutMs) < DateTime.Now)
+                    if (processor.IsActive)
                     {
-                        processor.Stop();
-                        trouble.Add(processor);
-                        _logger.LogWarning("Processor {0} stopped due to no activity since {1}", processor.Id, processor.LastAttempt);
+                        DateTime currentTime = DateTime.Now;
+                        if (processor.LastAttempt.AddMilliseconds(processor.AttemptTimeoutMs) < currentTime)
+                        {
+                            processor.Stop();
+                            trouble.Add(processor);
+                            _logger.LogWarning("{2}: Processor {0} stopped due to no activity since {1}", processor.Id, processor.LastAttempt, currentTime.ToString("o"));
+                        }
+                        else
+                            _logger.LogInformation("{2}: Processor {0} processing normally -- Last activity {1}", processor.Id, processor.LastAttempt, currentTime.ToString("o"));
                     }
                 }
 

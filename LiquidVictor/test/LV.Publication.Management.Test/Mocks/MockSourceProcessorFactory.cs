@@ -29,7 +29,6 @@ namespace LV.Publication.Management.Test.Mocks
             {
                 this.TimesCreateCalled++;
                 processor = new MockSourceProcessor(source);
-                // _sourceProcessors.Add(processor);
             }
 
             return processor;
