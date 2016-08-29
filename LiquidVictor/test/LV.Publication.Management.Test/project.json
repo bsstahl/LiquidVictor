@@ -1,6 +1,13 @@
 {
   "version": "1.0.0-*",
-  "testRunner": "xunit",
+  "description": "LiquidVictor Publication Management UnitTests",
+  "authors": [ "bsstahl" ],
+
+  "buildOptions": {
+    "warningsAsErrors": true,
+    "define": [ "TRACE" ]
+  },
+
   "dependencies": {
     "LV.Publication.Management": {
       "target": "project"
@@ -11,7 +18,11 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "LV.Publication": "1.0.0-*",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "TestHelperExtensions": "1.1.5"},
+    "TestHelperExtensions": "1.1.5",
+  },
+
+  "testRunner": "xunit",
+
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
@@ -21,8 +32,5 @@
         }
       }
     }
-  },
-  "buildOptions": {
-    "define": [ "TRACE" ]
   }
 }
