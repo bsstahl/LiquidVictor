@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "LV.Publication.Management.Console": {
-      "commandName": "Project",
-      "commandLineArgs": "5000"
-    }
-  }
-}
