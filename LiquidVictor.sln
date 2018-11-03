@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C920CA5-A0A8-43B3-8E2A-EFA084956250}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tst", "tst", "{4B938667-F28A-4D2A-BE8E-BFDD90C914DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE870D0F-DCDD-484A-B5D6-9A1F56FBB113}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.Powerpoint", "src\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj", "{81CFC78D-D12C-4618-B97B-A9AF7594811D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor", "src\LiquidVictor\LiquidVictor.csproj", "{692A9C4E-2D42-485A-8E8C-A82135E1CFE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LV", "src\LV\LV.csproj", "{21910A64-8A87-4883-98F5-E8F55C386FB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.Hardcoded", "src\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj", "{68021E7C-FD93-4290-9576-6FEB501D641D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81CFC78D-D12C-4618-B97B-A9AF7594811D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81CFC78D-D12C-4618-B97B-A9AF7594811D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81CFC78D-D12C-4618-B97B-A9AF7594811D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81CFC78D-D12C-4618-B97B-A9AF7594811D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21910A64-8A87-4883-98F5-E8F55C386FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21910A64-8A87-4883-98F5-E8F55C386FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21910A64-8A87-4883-98F5-E8F55C386FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21910A64-8A87-4883-98F5-E8F55C386FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68021E7C-FD93-4290-9576-6FEB501D641D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68021E7C-FD93-4290-9576-6FEB501D641D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68021E7C-FD93-4290-9576-6FEB501D641D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68021E7C-FD93-4290-9576-6FEB501D641D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81CFC78D-D12C-4618-B97B-A9AF7594811D} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{21910A64-8A87-4883-98F5-E8F55C386FB1} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{68021E7C-FD93-4290-9576-6FEB501D641D} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}
+	EndGlobalSection
+EndGlobal

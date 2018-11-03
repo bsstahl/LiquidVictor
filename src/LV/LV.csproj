@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
+    <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
+  </ItemGroup>
+
+</Project>

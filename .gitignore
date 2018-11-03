@@ -222,3 +222,5 @@ FakesAssemblies/
 *.opt
 config.development.json
 *.orig
+
+Presentations/
