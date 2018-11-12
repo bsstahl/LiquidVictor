@@ -8,10 +8,11 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using P = DocumentFormat.OpenXml.Presentation;
 using D = DocumentFormat.OpenXml.Drawing;
+using LiquidVictor.Interfaces;
 
 namespace LiquidVictor.Output.Powerpoint
 {
-    public class Engine
+    public class Engine : IPresentationBuilder
     {
         public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
         {
@@ -30,7 +31,7 @@ namespace LiquidVictor.Output.Powerpoint
 
             foreach (var slide in slideDeck.Slides)
             {
-                presentationPart.AppendSlide(slide.Value.Title, "Slide Content");
+                presentationPart.AppendSlide(slide.Value.ContentText, "Slide Content");
             }
 
             // Close the presentation handle.

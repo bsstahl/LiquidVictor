@@ -223,4 +223,5 @@ FakesAssemblies/
 config.development.json
 *.orig
 
-Presentations/
+/Presentations
+/Media

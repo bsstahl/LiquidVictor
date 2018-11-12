@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
     <ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
   </ItemGroup>
 

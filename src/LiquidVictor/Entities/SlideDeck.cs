@@ -10,6 +10,8 @@ namespace LiquidVictor.Entities
         public string Title { get; set; }
         public string SubTitle { get; set; }
 
+        // TODO: Add AspectRatio (16:9 or 4:3)
+
         public SortedList<int, Slide> Slides { get; protected set; }
 
         public SlideDeck()
