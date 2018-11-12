@@ -3,12 +3,14 @@ using LiquidVictor.Interfaces;
 using System;
 using System.Text;
 using LiquidVictor.Extensions;
+using System.Linq;
 
 namespace LiquidVictor.Output.RevealJs
 {
     public class Engine : IPresentationBuilder
     {
-        const string _templatePath = @"..\..\..\..\..\Templates\RevealJs\index.html";
+        const string _templateFolder = @"..\..\..\..\..\Templates\RevealJs";
+        const string _templateFilename = "index.html";
 
         public void CreatePresentation(string filepath, SlideDeck slideDeck)
         {
@@ -32,7 +34,7 @@ namespace LiquidVictor.Output.RevealJs
 
                     var image = slide.Value.PrimaryImage;
                     if (image != null)
-                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.Content};base64,{image.Content.ToBase64()}\" /></td>");
+                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
 
                     slideSections.Append("</tr></table>");
                     slideSections.AppendLine("</section>");
@@ -45,7 +47,7 @@ namespace LiquidVictor.Output.RevealJs
 
                     var image = slide.Value.PrimaryImage;
                     if (image != null)
-                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.Content};base64,{image.Content.ToBase64()}\" /></td>");
+                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
 
                     slideSections.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.Value.ContentText)}</td>");
 
@@ -56,13 +58,40 @@ namespace LiquidVictor.Output.RevealJs
                     throw new NotImplementedException();
             }
 
-            var indexTemplate = System.IO.File.ReadAllText(_templatePath);
+            CopyFolder(_templateFolder, filepath);
+
+            var templatePath = System.IO.Path.Combine(filepath, _templateFilename);
+            var indexTemplate = System.IO.File.ReadAllText(templatePath);
             var content = indexTemplate.Replace("{SlideSections}", slideSections.ToString());
+            System.IO.File.WriteAllText(templatePath, content);
+        }
 
+        private void CopyFolder(string sourcePath, string targetPath)
+        {
+            if (System.IO.Directory.Exists(sourcePath))
+            {
+                if (!System.IO.Directory.Exists(targetPath))
+                    System.IO.Directory.CreateDirectory(targetPath);
 
-            System.IO.Directory.CreateDirectory(filepath);
-            string indexPath = System.IO.Path.Combine(filepath, "index.html");
-            System.IO.File.WriteAllText(indexPath, content);
+                // Copy files
+                var sourceFiles = System.IO.Directory.GetFiles(sourcePath);
+                foreach (var sourceFile in sourceFiles)
+                {
+                    var fileName = System.IO.Path.GetFileName(sourceFile);
+                    var destFile = System.IO.Path.Combine(targetPath, fileName);
+
+                    System.IO.File.Copy(sourceFile, destFile, true);
+                }
+
+                // Copy folders
+                var sourceFolders = System.IO.Directory.GetDirectories(sourcePath);
+                foreach (var sourceFolder in sourceFolders)
+                {
+                    string childFolder = sourceFolder.Split(System.IO.Path.DirectorySeparatorChar).Last();
+                    string folderTargetPath = System.IO.Path.Combine(targetPath, childFolder);
+                    CopyFolder(sourceFolder, folderTargetPath);
+                }
+            }
         }
     }
 }

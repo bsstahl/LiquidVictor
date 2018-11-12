@@ -17,6 +17,13 @@ namespace LiquidVictor.Data.Hardcoded
                         Layout = Enumerations.Layout.FullPage
                     } },
 
+                { 15, new Slide()
+                    {
+                        Title = "Paragraph Slide",
+                        ContentText = "Lorem impsum dolor est mungey. When in the course of human events it becomes necessary for the price to be right Bobby.\r\n\r\n* Bullet Point 1\r\n* Bullet Point 2\r\n* Bullet Point 3\r\n* Bullet Point 4\r\n\r\nLorem impsum dolor est mungey. When in the course of human events it becomes necessary for the price to be right Bobby.",
+                        Layout = Enumerations.Layout.FullPage
+                    } },
+
                 { 20, new Slide()
                     {
                         Title = "Image-Right Slide",
