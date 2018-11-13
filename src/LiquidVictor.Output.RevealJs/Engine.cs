@@ -39,7 +39,10 @@ namespace LiquidVictor.Output.RevealJs
 
             var templatePath = System.IO.Path.Combine(filepath, _templateFilename);
             var indexTemplate = System.IO.File.ReadAllText(templatePath);
-            var content = indexTemplate.Replace("{SlideSections}", slideSections.ToString());
+            var content = indexTemplate
+                .Replace("{SlideSections}", slideSections.ToString())
+                .Replace("{PresentationTitle}", slideDeck.Title);
+
             System.IO.File.WriteAllText(templatePath, content);
         }
 
