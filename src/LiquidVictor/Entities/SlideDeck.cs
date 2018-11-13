@@ -9,6 +9,7 @@ namespace LiquidVictor.Entities
         public Guid Id { get; protected set; }
         public string Title { get; set; }
         public string SubTitle { get; set; }
+        public string Presenter { get; set; }
 
         // TODO: Add AspectRatio (16:9 or 4:3)
 
@@ -19,11 +20,12 @@ namespace LiquidVictor.Entities
             this.Id = Guid.NewGuid();
         }
 
-        public SlideDeck(Guid id, string title, string subTitle, SortedList<int, Slide> slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, SortedList<int, Slide> slides)
         {
             this.Id = id;
             this.Title = title;
             this.SubTitle = subTitle;
+            this.Presenter = presenter;
             this.Slides = slides;
         }
     }

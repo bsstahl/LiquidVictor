@@ -6,6 +6,7 @@ namespace LiquidVictor.Enumerations
 {
     public enum Layout
     {
+        Title,
         FullPage,
         ImageLeft,
         ImageRight

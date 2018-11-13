@@ -20,7 +20,7 @@ namespace LiquidVictor.Data.Hardcoded
                 { 15, new Slide()
                     {
                         Title = "Paragraph Slide",
-                        ContentText = "Lorem impsum dolor est mungey. When in the course of human events it becomes necessary for the price to be right Bobby.\r\n\r\n* Bullet Point 1\r\n* Bullet Point 2\r\n* Bullet Point 3\r\n* Bullet Point 4\r\n\r\nLorem impsum dolor est mungey. When in the course of human events it becomes necessary for the price to be right Bobby.",
+                        ContentText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis consectetur dui ac ultrices. Vivamus et enim erat. Vestibulum vel lorem non diam ornare elementum sit amet sit amet diam. Nam in accumsan dui, sed aliquam orci. Duis ac ullamcorper lacus, eget mollis magna. Pellentesque cursus leo sem, luctus pharetra mauris aliquam sit amet. Pellentesque bibendum, erat at aliquet imperdiet, metus diam rhoncus ex, dictum elementum augue elit et ipsum. In fermentum consequat velit, non laoreet lacus. Ut feugiat nulla quis sapien consectetur, sed consectetur ante porttitor. Vestibulum tincidunt placerat nisl et efficitur. Pellentesque sodales auctor lorem lacinia malesuada. Duis vestibulum massa vel vulputate commodo.",
                         Layout = Enumerations.Layout.FullPage
                     } },
 
@@ -50,7 +50,7 @@ namespace LiquidVictor.Data.Hardcoded
                     } }
             };
 
-            return new SlideDeck(id, "Test Presentation", "A Test of What Liquid Victor Can Do", slides);
+            return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", slides);
         }
     }
 }

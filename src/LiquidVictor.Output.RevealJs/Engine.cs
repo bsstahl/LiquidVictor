@@ -14,48 +14,25 @@ namespace LiquidVictor.Output.RevealJs
 
         public void CreatePresentation(string filepath, SlideDeck slideDeck)
         {
+            var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
+            layoutStrategies[(int)Enumerations.Layout.Title] = new LayoutStrategy.Title();
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new LayoutStrategy.FullPage();
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft();
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight();
+
             var slideSections = new StringBuilder();
 
             // Title slide
-            slideSections.AppendLine($"<section>{Markdig.Markdown.ToHtml($"# {slideDeck.Title}\r\n## {slideDeck.SubTitle}")}</section>\r\n");
+            var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
+            slideSections.AppendLine(titleStrategy.Layout(slideDeck, null));
 
             // Content slides
             foreach (var slide in slideDeck.Slides)
             {
-                // TODO: Pull out into a strategy
-                if (slide.Value.Layout == Enumerations.Layout.FullPage)
-                    slideSections.AppendLine($"<section><h1>{slide.Value.Title}</h1>{Markdig.Markdown.ToHtml(slide.Value.ContentText)}</section>\r\n");
-                else if (slide.Value.Layout == Enumerations.Layout.ImageRight)
-                {
-                    slideSections.AppendLine("<section>");
-                    slideSections.AppendLine($"<h1>{slide.Value.Title}</h1>");
-                    slideSections.Append("<table><tr>");
-                    slideSections.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.Value.ContentText)}</td>");
-
-                    var image = slide.Value.PrimaryImage;
-                    if (image != null)
-                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
-
-                    slideSections.Append("</tr></table>");
-                    slideSections.AppendLine("</section>");
-                }
-                else if (slide.Value.Layout == Enumerations.Layout.ImageLeft)
-                {
-                    slideSections.AppendLine("<section>");
-                    slideSections.AppendLine($"<h1>{slide.Value.Title}</h1>");
-                    slideSections.Append("<table><tr>");
-
-                    var image = slide.Value.PrimaryImage;
-                    if (image != null)
-                        slideSections.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
-
-                    slideSections.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.Value.ContentText)}</td>");
-
-                    slideSections.Append("</tr></table>");
-                    slideSections.AppendLine("</section>");
-                }
-                else
-                    throw new NotImplementedException();
+                var strategy = layoutStrategies[(int)slide.Value.Layout];
+                if (strategy == null)
+                    throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
+                slideSections.AppendLine(strategy.Layout(slideDeck, slide.Value));
             }
 
             CopyFolder(_templateFolder, filepath);
