@@ -31,7 +31,8 @@ namespace LiquidVictor.Output.Powerpoint
 
             foreach (var slide in slideDeck.Slides)
             {
-                presentationPart.AppendSlide(slide.Value.ContentText, "Slide Content");
+                // TODO: Handle multi-line content as multiple fragments
+                presentationPart.AppendSlide(string.Join("\r\n", slide.Value.ContentText), "Slide Content");
             }
 
             // Close the presentation handle.

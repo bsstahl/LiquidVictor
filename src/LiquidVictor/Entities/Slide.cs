@@ -9,7 +9,7 @@ namespace LiquidVictor.Entities
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string ContentText { get; set; }
+        public string[] ContentText { get; set; }
         public Layout Layout { get; set; }
 
         // public Interfaces.IPresentationImage BackgroundImage { get; set; }

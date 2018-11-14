@@ -16,8 +16,16 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 
         public string Layout(SlideDeck deck, Slide slide)
         {
-            var content = Markdig.Markdown.ToHtml(slide.ContentText, _pipeline);
-            return $"<section><h1>{slide.Title}</h1>{content}</section>\r\n";
+            var sb = new StringBuilder();
+            sb.AppendLine("<section>");
+            sb.AppendLine($"<h1>{slide.Title}</h1>");
+
+            foreach (var contentItem in slide.ContentText)
+                sb.AppendLine(Markdig.Markdown.ToHtml(contentItem, _pipeline));
+
+            sb.AppendLine("</section>\r\n");
+
+            return sb.ToString();
         }
     }
 }

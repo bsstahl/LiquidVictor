@@ -8,7 +8,9 @@ namespace LiquidVictor.Enumerations
     {
         Title,
         FullPage,
+        FullPageFragments,
         ImageLeft,
-        ImageRight
+        ImageRight,
+        ImageWithCaption
     }
 }

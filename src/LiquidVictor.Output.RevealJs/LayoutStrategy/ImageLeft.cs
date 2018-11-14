@@ -25,7 +25,10 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             if (image != null)
                 result.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
 
-            result.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.ContentText, _pipeline)}</td>");
+            result.AppendLine("<td style=\"vertical-align:top;\">");
+            foreach (var contentItem in slide.ContentText)
+                result.AppendLine(Markdig.Markdown.ToHtml(contentItem, _pipeline));
+            result.AppendLine("</td>");
 
             result.Append("</tr></table>");
             result.AppendLine("</section>");

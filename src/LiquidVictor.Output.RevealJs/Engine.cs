@@ -22,8 +22,10 @@ namespace LiquidVictor.Output.RevealJs
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
             layoutStrategies[(int)Enumerations.Layout.Title] = new LayoutStrategy.Title(pipeline);
             layoutStrategies[(int)Enumerations.Layout.FullPage] = new LayoutStrategy.FullPage(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new LayoutStrategy.FullPageFragments(pipeline);
             layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft(pipeline);
             layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new LayoutStrategy.ImageWithCaption(pipeline);
 
             var slideSections = new StringBuilder();
 

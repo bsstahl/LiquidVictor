@@ -27,7 +27,7 @@ namespace LiquidVictor.Data.JsonFile
 
         public Entities.SlideDeck AsEntity(IOrderedEnumerable<KeyValuePair<int, Entities.Slide>> slides)
         {
-            return new Entities.SlideDeck(Guid.Parse(this.Id), this.Title, 
+            return new Entities.SlideDeck(Guid.Parse(this.Id), this.Title,
                 this.SubTitle, this.Presenter, this.ThemeName, (AspectRatio)Enum.Parse(typeof(AspectRatio), this.AspectRatio), slides);
         }
 
@@ -55,11 +55,11 @@ namespace LiquidVictor.Data.JsonFile
         public string Title { get; set; }
         public string[] ContentText { get; set; }
         public string Layout { get; set; }
-        public string PrimaryImage { get; set; }
+        public PresentationImage PrimaryImage { get; set; }
 
-        public string GetContent()
+        public string[] GetContent()
         {
-            return this.ContentText.NormalizeWhiteSpace();
+            return this.ContentText;
         }
 
         public Enumerations.Layout GetLayout()
@@ -69,8 +69,25 @@ namespace LiquidVictor.Data.JsonFile
 
         public Entities.PresentationImage GetPrimaryImage()
         {
-            return null;
+            Entities.PresentationImage result = null;
+
+            if (this.PrimaryImage != null)
+                result = new Entities.PresentationImage()
+                {
+                    Name = this.PrimaryImage.Name,
+                    ImageFormat = this.PrimaryImage.ImageFormat,
+                    Content = Convert.FromBase64String(this.PrimaryImage.Content)
+                };
+
+            return result;
         }
+    }
+
+    public class PresentationImage
+    {
+        public string ImageFormat { get; set; }
+        public string Name { get; set; }
+        public string Content { get; set; }
     }
 
 }
