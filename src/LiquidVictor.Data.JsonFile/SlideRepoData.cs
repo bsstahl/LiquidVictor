@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using LiquidVictor.Extensions;
+using LiquidVictor.Enumerations;
 
 namespace LiquidVictor.Data.JsonFile
 {
@@ -18,12 +19,16 @@ namespace LiquidVictor.Data.JsonFile
         public string Id { get; set; }
         public string Title { get; set; }
         public string SubTitle { get; set; }
+        public string ThemeName { get; set; }
         public string Presenter { get; set; }
+        public string AspectRatio { get; set; }
+
         public string[] SlideIds { get; set; }
 
         public Entities.SlideDeck AsEntity(IOrderedEnumerable<KeyValuePair<int, Entities.Slide>> slides)
         {
-            return new Entities.SlideDeck(Guid.Parse(this.Id), this.Title, this.SubTitle, this.Presenter, slides);
+            return new Entities.SlideDeck(Guid.Parse(this.Id), this.Title, 
+                this.SubTitle, this.Presenter, this.ThemeName, (AspectRatio)Enum.Parse(typeof(AspectRatio), this.AspectRatio), slides);
         }
 
         public int GetOrderIndex(string slideId)

@@ -21,7 +21,9 @@ namespace LiquidVictor.Data.JsonFile
             var repoJson = System.IO.File.ReadAllText(_dataFilePath);
             var repoData = JsonConvert.DeserializeObject<SlideRepoData>(repoJson);
 
-            var slideDeck = repoData.slideDecks.SingleOrDefault(d => d.Id.ToLower() == id.ToString().ToLower());
+            var slideDeck = repoData.slideDecks
+                .SingleOrDefault(d => d.Id.ToLower() == id.ToString().ToLower());
+
             if (slideDeck == null)
                 throw new Exceptions.SlideDeckNotFoundException(id, _dataFilePath);
             else

@@ -42,11 +42,16 @@ namespace LiquidVictor.Output.RevealJs
 
             CopyFolder(_templateFolder, filepath);
 
+            (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
+
             var templatePath = System.IO.Path.Combine(filepath, _templateFilename);
             var indexTemplate = System.IO.File.ReadAllText(templatePath);
             var content = indexTemplate
                 .Replace("{SlideSections}", slideSections.ToString())
-                .Replace("{PresentationTitle}", slideDeck.Title);
+                .Replace("{PresentationTitle}", slideDeck.Title)
+                .Replace("{ThemeName}", slideDeck.ThemeName.ToLower())
+                .Replace("{Width}", presentationWidth.ToString())
+                .Replace("{Height}", presentationHeight.ToString());
 
             System.IO.File.WriteAllText(templatePath, content);
         }
