@@ -8,6 +8,12 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 {
     internal class ImageLeft : ILayoutStrategy
     {
+        Markdig.MarkdownPipeline _pipeline;
+        public ImageLeft(Markdig.MarkdownPipeline pipeline)
+        {
+            _pipeline = pipeline;
+        }
+
         public string Layout(SlideDeck deck, Slide slide)
         {
             var result = new StringBuilder();
@@ -19,7 +25,7 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             if (image != null)
                 result.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
 
-            result.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.ContentText)}</td>");
+            result.AppendLine($"<td style=\"vertical-align:top;\">{Markdig.Markdown.ToHtml(slide.ContentText, _pipeline)}</td>");
 
             result.Append("</tr></table>");
             result.AppendLine("</section>");

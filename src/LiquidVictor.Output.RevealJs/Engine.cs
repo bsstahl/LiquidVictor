@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using LiquidVictor.Extensions;
 using System.Linq;
+using Markdig;
 
 namespace LiquidVictor.Output.RevealJs
 {
@@ -14,11 +15,15 @@ namespace LiquidVictor.Output.RevealJs
 
         public void CreatePresentation(string filepath, SlideDeck slideDeck)
         {
+            var pipeline = new MarkdownPipelineBuilder()
+                             .UseAdvancedExtensions()
+                             .Build();
+
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new LayoutStrategy.Title();
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new LayoutStrategy.FullPage();
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft();
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight();
+            layoutStrategies[(int)Enumerations.Layout.Title] = new LayoutStrategy.Title(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new LayoutStrategy.FullPage(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight(pipeline);
 
             var slideSections = new StringBuilder();
 

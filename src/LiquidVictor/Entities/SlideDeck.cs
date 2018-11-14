@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LiquidVictor.Entities
@@ -13,14 +14,14 @@ namespace LiquidVictor.Entities
 
         // TODO: Add AspectRatio (16:9 or 4:3)
 
-        public SortedList<int, Slide> Slides { get; protected set; }
+        public IOrderedEnumerable<KeyValuePair<int, Slide>> Slides { get; protected set; }
 
         public SlideDeck()
         {
             this.Id = Guid.NewGuid();
         }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, SortedList<int, Slide> slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, IOrderedEnumerable<KeyValuePair<int, Slide>> slides)
         {
             this.Id = id;
             this.Title = title;

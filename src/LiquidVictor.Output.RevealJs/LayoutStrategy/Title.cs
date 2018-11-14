@@ -7,6 +7,12 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 {
     internal class Title : ILayoutStrategy
     {
+        Markdig.MarkdownPipeline _pipeline;
+        public Title(Markdig.MarkdownPipeline pipeline)
+        {
+            _pipeline = pipeline;
+        }
+
         public string Layout(SlideDeck deck, Slide slide)
         {
             var markdown = new StringBuilder();
@@ -14,7 +20,7 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             markdown.AppendLine($"## {deck.SubTitle}");
             markdown.AppendLine($"*{deck.Presenter}*");
 
-            return $"<section>{Markdig.Markdown.ToHtml(markdown.ToString())}</section>\r\n";
+            return $"<section>{Markdig.Markdown.ToHtml(markdown.ToString(), _pipeline)}</section>\r\n";
         }
     }
 }
