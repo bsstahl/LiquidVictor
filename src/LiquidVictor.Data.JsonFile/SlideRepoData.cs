@@ -55,6 +55,10 @@ namespace LiquidVictor.Data.JsonFile
         public string Title { get; set; }
         public string[] ContentText { get; set; }
         public string Layout { get; set; }
+
+        public string TransitionIn { get; set; }
+        public string TransitionOut { get; set; }
+
         public PresentationImage PrimaryImage { get; set; }
 
         public string[] GetContent()
@@ -65,6 +69,24 @@ namespace LiquidVictor.Data.JsonFile
         public Enumerations.Layout GetLayout()
         {
             return (Enumerations.Layout)Enum.Parse(typeof(Enumerations.Layout), this.Layout);
+        }
+
+        public Transition GetTransitionIn()
+        {
+            return GetTransition(this.TransitionIn);
+        }
+
+        public Transition GetTransitionOut()
+        {
+            return GetTransition(this.TransitionOut);
+        }
+
+        private static Transition GetTransition(string transition)
+        {
+            Transition result = Transition.PresentationDefault;
+            if (!string.IsNullOrWhiteSpace(transition))
+                result = (Transition)Enum.Parse(typeof(Transition), transition);
+            return result;
         }
 
         public Entities.PresentationImage GetPrimaryImage()

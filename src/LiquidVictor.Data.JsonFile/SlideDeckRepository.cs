@@ -37,6 +37,8 @@ namespace LiquidVictor.Data.JsonFile
                             ContentText = s.GetContent(),
                             Layout = s.GetLayout(),
                             Title = s.Title,
+                            TransitionIn = s.GetTransitionIn(),
+                            TransitionOut = s.GetTransitionOut(),
                             PrimaryImage = s.GetPrimaryImage()
                         }))
                     .OrderBy(s => s.Key);

@@ -12,6 +12,10 @@ namespace LiquidVictor.Entities
         public string[] ContentText { get; set; }
         public Layout Layout { get; set; }
 
+        public Transition TransitionIn { get; set; }
+        public Transition TransitionOut { get; set; }
+
+
         // public Interfaces.IPresentationImage BackgroundImage { get; set; }
 
         // public string Notes { get; set; }

@@ -26,6 +26,7 @@ namespace LiquidVictor.Output.RevealJs
             layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft(pipeline);
             layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight(pipeline);
             layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new LayoutStrategy.ImageWithCaption(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new LayoutStrategy.MultiColumn(pipeline);
 
             var slideSections = new StringBuilder();
 

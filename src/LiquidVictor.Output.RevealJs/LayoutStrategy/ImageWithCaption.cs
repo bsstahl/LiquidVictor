@@ -22,7 +22,12 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
                 throw new SlideLayoutException(Enumerations.Layout.ImageWithCaption, "content must contain exactly one item");
 
             var result = new StringBuilder();
-            result.AppendLine("<section>");
+
+            string transitionClass = $"{slide.TransitionIn.GetClass(true)} {slide.TransitionOut.GetClass(false)}".Trim();
+            if (string.IsNullOrWhiteSpace(transitionClass))
+                result.AppendLine("<section>");
+            else
+                result.AppendLine($"<section data-transition=\"{transitionClass}\">");
 
             result.AppendLine($"<h1>{slide.Title}</h1>");
 

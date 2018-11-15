@@ -11,6 +11,7 @@ namespace LiquidVictor.Enumerations
         FullPageFragments,
         ImageLeft,
         ImageRight,
-        ImageWithCaption
+        ImageWithCaption,
+        MultiColumn
     }
 }
