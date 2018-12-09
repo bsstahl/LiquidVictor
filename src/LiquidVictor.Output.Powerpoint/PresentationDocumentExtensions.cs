@@ -13,7 +13,7 @@ namespace LiquidVictor.Output.Powerpoint
 {
     public static class PresentationDocumentExtensions
     {
-        public static void AppendSlide(this PresentationPart presentationPart, string titleText, string contentText)
+        public static void AppendSlide(this PresentationPart presentationPart, string titleText, IEnumerable<KeyValuePair<int, Entities.ContentItem>> contentItems)
         {
             SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
             slidePart.Slide = new Slide(

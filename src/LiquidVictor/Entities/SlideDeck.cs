@@ -19,18 +19,18 @@ namespace LiquidVictor.Entities
 
         public AspectRatio AspectRatio { get; set; }
 
-        public IOrderedEnumerable<KeyValuePair<int, Slide>> Slides { get; protected set; }
+        public IEnumerable<KeyValuePair<int, Slide>> Slides { get; protected set; }
 
 
         public SlideDeck()
             : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, null)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, IOrderedEnumerable<KeyValuePair<int, Slide>> slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, IEnumerable<KeyValuePair<int, Slide>> slides)
             :this(id, title, subTitle, presenter, _defaultThemeName, _defaultAspectRatio, slides)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, AspectRatio aspectRatio, IOrderedEnumerable<KeyValuePair<int, Slide>> slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, AspectRatio aspectRatio, IEnumerable<KeyValuePair<int, Slide>> slides)
         {
             this.Id = id;
             this.Title = title;

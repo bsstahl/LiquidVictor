@@ -35,7 +35,7 @@ namespace LiquidVictor.Output.RevealJs
             slideSections.AppendLine(titleStrategy.Layout(slideDeck, null));
 
             // Content slides
-            foreach (var slide in slideDeck.Slides)
+            foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
             {
                 var strategy = layoutStrategies[(int)slide.Value.Layout];
                 if (strategy == null)

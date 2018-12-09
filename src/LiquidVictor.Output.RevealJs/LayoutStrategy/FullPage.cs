@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
@@ -21,7 +22,11 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 
             sb.AppendLine($"<h1>{slide.Title}</h1>");
 
-            var content = string.Join("\r\n", slide.ContentText);
+            var textContentItems = slide.ContentItems
+                .TextContentItems().OrderBy(c => c.Key)
+                .Select(c => c.Value.Content.AsString());
+
+            var content = string.Join("\r\n", textContentItems);
             sb.AppendLine(Markdig.Markdown.ToHtml(content, _pipeline));
 
             sb.AppendLine("</section>\r\n");

@@ -1,13 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>af4e5408-cde4-4984-9d8b-ba9ad1de64b2</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.JsonFile\LiquidVictor.Data.JsonFile.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Data.Postgres\LiquidVictor.Data.Postgres.csproj" />
     <ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
     <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />

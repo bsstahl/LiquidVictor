@@ -61,9 +61,32 @@ namespace LiquidVictor.Data.JsonFile
 
         public PresentationImage PrimaryImage { get; set; }
 
-        public string[] GetContent()
+        public string GetContent()
         {
-            return this.ContentText;
+            return string.Join("\r\n", this.ContentText);
+        }
+
+        public Entities.ContentItem GetPrimaryContent()
+        {
+            return new Entities.ContentItem()
+            {
+                Content = this.ContentText[0].AsByteArray(),
+                ContentType = "text/markdown",
+                Id = Guid.NewGuid()
+            };
+        }
+
+        public Entities.ContentItem GetSecondaryContent()
+        {
+            Entities.ContentItem result = null;
+            if (this.ContentText.Count() > 1)
+                result = new Entities.ContentItem()
+                {
+                    Content = this.ContentText[1].AsByteArray(),
+                    ContentType = "text/markdown",
+                    Id = Guid.NewGuid()
+                };
+            return result;
         }
 
         public Enumerations.Layout GetLayout()
@@ -89,15 +112,15 @@ namespace LiquidVictor.Data.JsonFile
             return result;
         }
 
-        public Entities.PresentationImage GetPrimaryImage()
+        public Entities.ContentItem GetPrimaryImage()
         {
-            Entities.PresentationImage result = null;
+            Entities.ContentItem result = null;
 
             if (this.PrimaryImage != null)
-                result = new Entities.PresentationImage()
+                result = new Entities.ContentItem()
                 {
-                    Name = this.PrimaryImage.Name,
-                    ImageFormat = this.PrimaryImage.ImageFormat,
+                    FileName = this.PrimaryImage.Name,
+                    ContentType = this.PrimaryImage.ImageFormat,
                     Content = Convert.FromBase64String(this.PrimaryImage.Content)
                 };
 

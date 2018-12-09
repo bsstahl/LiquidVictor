@@ -18,9 +18,6 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 
         public string Layout(SlideDeck deck, Slide slide)
         {
-            if (slide.ContentText.Count() != 1)
-                throw new SlideLayoutException(Enumerations.Layout.ImageWithCaption, "content must contain exactly one item");
-
             var result = new StringBuilder();
 
             string transitionClass = $"{slide.TransitionIn.GetClass(true)} {slide.TransitionOut.GetClass(false)}".Trim();
@@ -31,11 +28,17 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
 
             result.AppendLine($"<h1>{slide.Title}</h1>");
 
-            var image = slide.PrimaryImage;
-            if (image != null)
-                result.AppendLine($"<img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" />");
+            var image = slide.ContentItems.ImageContentItems()
+                .OrderBy(c => c.Key).FirstOrDefault();
 
-            result.AppendLine($"<h2>{Markdig.Markdown.ToHtml(slide.ContentText.Single(), _pipeline)}</h2>");
+            var caption = slide.ContentItems.TextContentItems()
+                .OrderBy(c => c.Key).FirstOrDefault();
+
+            if (!image.Equals(null))
+                result.AppendLine($"<img alt=\"{image.Value.FileName}\" src=\"data:{image.Value.ContentType};base64,{image.Value.Content.AsBase64String()}\" />");
+
+            if (!caption.Equals(null))
+                result.AppendLine($"<h2>{Markdig.Markdown.ToHtml(caption.Value.Content.AsString(), _pipeline)}</h2>");
 
             result.AppendLine("</section>");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace LV
 {
@@ -12,9 +13,13 @@ namespace LV
         {
             string outputPath = $"..\\..\\..\\..\\..\\Presentations\\{Guid.NewGuid().ToString()}\\";
 
+            // EF Postgres Repository
+            Guid slideDeckId = Guid.Parse("	c11b3e5f-1b2a-430c-8be7-b37377c4c198");
+            var source = new LiquidVictor.Data.Postgres.ReadRepository();
+
             // JsonFile Repository
-            Guid slideDeckId = Guid.Parse("C11B3E5F-1B2A-430C-8BE7-B37377C4C198");    // WASM Using Blazor presentation
-            var source = new LiquidVictor.Data.JsonFile.SlideDeckRepository("..\\..\\..\\..\\..\\SlideDeckRepository.json");
+            //Guid slideDeckId = Guid.Parse("C11B3E5F-1B2A-430C-8BE7-B37377C4C198");    // WASM Using Blazor presentation
+            //var source = new LiquidVictor.Data.JsonFile.SlideDeckRepository("..\\..\\..\\..\\..\\SlideDeckRepository.json");
 
             // Hardcoded Repository
             // Guid slideDeckId = Guid.Parse("FF9BE76C-EB21-447F-A41F-76383259A454"); // bad Id
@@ -22,8 +27,12 @@ namespace LV
             //var source = new LiquidVictor.Data.Hardcoded.SlideDeckRepository();
 
             var slideDeck = source.GetSlideDeck(slideDeckId);
+
             var engine = new LiquidVictor.Output.RevealJs.Engine();
             engine.CreatePresentation(outputPath, slideDeck);
+
+            //var target = new LiquidVictor.Data.Postgres.SlideDeckWriteRepository();
+            //target.SaveSlideDeck(slideDeck);
         }
 
     }

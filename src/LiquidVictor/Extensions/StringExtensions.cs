@@ -6,6 +6,11 @@ namespace LiquidVictor.Extensions
 {
     public static class StringExtensions
     {
+        public static byte[] AsByteArray(this string content)
+        {
+            return Encoding.ASCII.GetBytes(content);
+        }
+
         public static string AsFilename(this string name)
         {
             return name.Replace(" ", "_");

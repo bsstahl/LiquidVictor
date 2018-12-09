@@ -34,12 +34,16 @@ namespace LiquidVictor.Data.JsonFile
                         slideDeck.GetOrderIndex(s.Id), new Entities.Slide()
                         {
                             Id = Guid.Parse(s.Id),
-                            ContentText = s.GetContent(),
                             Layout = s.GetLayout(),
                             Title = s.Title,
                             TransitionIn = s.GetTransitionIn(),
                             TransitionOut = s.GetTransitionOut(),
-                            PrimaryImage = s.GetPrimaryImage()
+                            ContentItems = new List<KeyValuePair<int, ContentItem>>()
+                            {
+                                new KeyValuePair<int, ContentItem>(10, s.GetPrimaryContent()),
+                                new KeyValuePair<int, ContentItem>(15, s.GetSecondaryContent()),
+                                new KeyValuePair<int, ContentItem>(20, s.GetPrimaryImage())
+                            }
                         }))
                     .OrderBy(s => s.Key);
 

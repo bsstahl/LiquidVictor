@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
@@ -21,13 +22,16 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             result.AppendLine($"<h1>{slide.Title}</h1>");
             result.Append("<table><tr>");
 
-            var image = slide.PrimaryImage;
-            if (image != null)
-                result.AppendLine($"<td width=\"60%\"><img alt=\"{image.Name}\" src=\"data:{image.ImageFormat};base64,{image.Content.ToBase64()}\" /></td>");
+            var images = slide.ContentItems.ImageContentItems().OrderBy(c => c.Key);
+            result.AppendLine("<td width=\"60%\">");
+            foreach (var image in images)
+                result.AppendLine($"<img alt=\"{image.Value.FileName}\" src=\"data:{image.Value.ContentType};base64,{image.Value.Content.AsBase64String()}\" />");
+            result.AppendLine("</td>");
 
+            var textContentItems = slide.ContentItems.TextContentItems().OrderBy(c => c.Key);
             result.AppendLine("<td style=\"vertical-align:top;\">");
-            foreach (var contentItem in slide.ContentText)
-                result.AppendLine(Markdig.Markdown.ToHtml(contentItem, _pipeline));
+            foreach (var textContentItem in textContentItems)
+                result.AppendLine(Markdig.Markdown.ToHtml(textContentItem.Value.Content.AsString(), _pipeline));
             result.AppendLine("</td>");
 
             result.Append("</tr></table>");
