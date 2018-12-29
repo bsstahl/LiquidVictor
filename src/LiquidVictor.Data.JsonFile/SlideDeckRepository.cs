@@ -6,51 +6,27 @@ using Newtonsoft.Json;
 
 namespace LiquidVictor.Data.JsonFile
 {
-    public class SlideDeckRepository : Interfaces.ISlideDeckRepository
+    public class SlideDeckRepository : Interfaces.ISlideDeckReadRepository, Interfaces.ISlideDeckWriteRepository
     {
-        readonly string _dataFilePath;
-        public SlideDeckRepository(string dataFilePath)
+        readonly string _dataPath;
+        public SlideDeckRepository(string dataPath)
         {
-            _dataFilePath = dataFilePath;
+            _dataPath = dataPath;
+        }
+
+        public void SaveSlideDeck(SlideDeck slideDeck)
+        {
+            var fullPath = System.IO.Path.Combine(_dataPath, $"{slideDeck.Id.ToString()}.json");
+            var json = JsonConvert.SerializeObject(slideDeck);
+            System.IO.File.WriteAllText(fullPath, json);
         }
 
         public SlideDeck GetSlideDeck(Guid id)
         {
-            SlideDeck result;
-
-            var repoJson = System.IO.File.ReadAllText(_dataFilePath);
-            var repoData = JsonConvert.DeserializeObject<SlideRepoData>(repoJson);
-
-            var slideDeck = repoData.slideDecks
-                .SingleOrDefault(d => d.Id.ToLower() == id.ToString().ToLower());
-
-            if (slideDeck == null)
-                throw new Exceptions.SlideDeckNotFoundException(id, _dataFilePath);
-            else
-            {
-                var slides = repoData.slides
-                    .Where(s => slideDeck.SlideIds.Contains(s.Id))
-                    .Select(s => new KeyValuePair<int, Entities.Slide>(
-                        slideDeck.GetOrderIndex(s.Id), new Entities.Slide()
-                        {
-                            Id = Guid.Parse(s.Id),
-                            Layout = s.GetLayout(),
-                            Title = s.Title,
-                            TransitionIn = s.GetTransitionIn(),
-                            TransitionOut = s.GetTransitionOut(),
-                            ContentItems = new List<KeyValuePair<int, ContentItem>>()
-                            {
-                                new KeyValuePair<int, ContentItem>(10, s.GetPrimaryContent()),
-                                new KeyValuePair<int, ContentItem>(15, s.GetSecondaryContent()),
-                                new KeyValuePair<int, ContentItem>(20, s.GetPrimaryImage())
-                            }
-                        }))
-                    .OrderBy(s => s.Key);
-
-                result = slideDeck.AsEntity(slides);
-            }
-
-            return result;
+            var fullPath = System.IO.Path.Combine(_dataPath, $"{id}.json");
+            var json = System.IO.File.ReadAllText(fullPath);
+            return JsonConvert.DeserializeObject<SlideDeck>(json);
         }
+
     }
 }

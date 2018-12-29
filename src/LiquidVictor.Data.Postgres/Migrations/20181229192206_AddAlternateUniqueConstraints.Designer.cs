@@ -3,15 +3,17 @@ using System;
 using LiquidVictor.Data.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LiquidVictor.Data.Postgres.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20181229192206_AddAlternateUniqueConstraints")]
+    partial class AddAlternateUniqueConstraints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,19 +27,18 @@ namespace LiquidVictor.Data.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnName("content");
+
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasColumnName("contenttype")
-                        .HasMaxLength(100);
+                        .HasColumnName("contenttype");
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("createdate")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("EncodedContent")
-                        .IsRequired()
-                        .HasColumnName("encodedcontent");
 
                     b.Property<string>("FileName")
                         .HasColumnName("filename")

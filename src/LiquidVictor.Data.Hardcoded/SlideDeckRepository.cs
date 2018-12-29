@@ -6,7 +6,7 @@ using LiquidVictor.Enumerations;
 
 namespace LiquidVictor.Data.Hardcoded
 {
-    public class SlideDeckRepository : Interfaces.ISlideDeckRepository
+    public class SlideDeckRepository : Interfaces.ISlideDeckReadRepository
     {
         public SlideDeck GetSlideDeck(Guid id)
         {
@@ -34,7 +34,7 @@ namespace LiquidVictor.Data.Hardcoded
             else
                 throw new Exceptions.SlideDeckNotFoundException(id, this.GetType().FullName);
 
-            return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", slides.OrderBy(s => s.Key));
+            return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", slides);
         }
     }
 }

@@ -19,48 +19,7 @@ namespace LiquidVictor.Entities
 
         public string Notes { get; set; }
 
-        public IEnumerable<KeyValuePair<int, ContentItem>> ContentItems { get; set; }
+        public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; set; }
 
-        //// TODO: Remove this
-        //public string PrimaryContent
-        //{
-        //    get
-        //    {
-        //        return this.ContentItems
-        //            .Where(c => c.Value.ContentType.ToLower().StartsWith("text"))
-        //            .OrderBy(c => c.Key)
-        //            .First().Value
-        //            .Content.AsString();
-        //    }
-        //}
-
-        //// TODO: Remove this
-        //public string SecondaryContent
-        //{
-        //    get
-        //    {
-        //        return this.ContentItems
-        //            .Where(c => c.Value.ContentType.ToLower().StartsWith("text"))
-        //            .OrderBy(c => c.Key)
-        //            .Skip(1).First().Value
-        //            .Content.AsString();
-        //    }
-        //}
-
-
-        //// TODO: Remove this
-        //public ContentItem PrimaryImage
-        //{
-        //    get
-        //    {
-        //        return this.ContentItems
-        //            .Where(c => c.Value.ContentType.ToLower().StartsWith("image"))
-        //            .OrderBy(c => c.Key)
-        //            .First().Value;
-        //    }
-        //}
-
-        // public string SecondaryContent { get; set; }
-        // public ContentItem SecondaryImage { get; set; }
     }
 }

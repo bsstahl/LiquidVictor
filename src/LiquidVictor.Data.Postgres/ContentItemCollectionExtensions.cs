@@ -6,7 +6,7 @@ namespace LiquidVictor.Data.Postgres
 {
     public static class ContentItemCollectionExtensions
     {
-        internal static IEnumerable<KeyValuePair<int, Entities.ContentItem>> AsEntities(this IEnumerable<SlideContentItem> slideContentItems)
+        internal static ICollection<KeyValuePair<int, Entities.ContentItem>> AsEntities(this IEnumerable<SlideContentItem> slideContentItems)
         {
             var result = new List<KeyValuePair<int, Entities.ContentItem>>();
             foreach (var slideContentItem in slideContentItems)

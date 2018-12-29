@@ -8,6 +8,12 @@ namespace LiquidVictor.Data.Postgres
 {
     internal class Context : DbContext
     {
+        string _connectionString;
+        public Context(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         internal DbSet<SlideDeck> SlideDecks { get; set; }
         internal DbSet<Slide> Slides { get; set; }
         internal DbSet<ContentItem> ContentItems { get; set; }
@@ -15,18 +21,27 @@ namespace LiquidVictor.Data.Postgres
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // TODO: Pull the connection string from User Secrets
-            var conn = "Host=localhost;Database=liquidvictor;Username=postgres;Password=admin";
-            optionsBuilder.UseNpgsql(conn);
+            optionsBuilder
+                .UseNpgsql(_connectionString)
+                .EnableSensitiveDataLogging(true);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
+                modelBuilder.Entity<SlideContentItem>()
+                    .HasAlternateKey(sci => new { sci.SlideId, sci.ContentItemId, sci.SortOrder })
+                    .HasName("UX_slideid_slidecontentitd_sortorder");
+
+                modelBuilder.Entity<SlideDeckSlide>()
+                    .HasAlternateKey(sds => new { sds.SlideDeckId, sds.SlideId, sds.SortOrder })
+                    .HasName("UX_slidedeckid_slideid_sortorder");
+
                 modelBuilder.Entity(entityType.ClrType)
                     .Property("CreateDate")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
             }
         }
 

@@ -91,7 +91,7 @@ namespace LiquidVictor.Data.Postgres
                 if (contentItem.Value != null)
                 {
                     var associationExists = this.SlideContentItems.Any(sci =>
-                        sci.SlideId == contentItem.Value.Id
+                        sci.ContentItemId == contentItem.Value.Id
                         && sci.SortOrder == contentItem.Key);
 
                     if (!associationExists)
@@ -103,7 +103,8 @@ namespace LiquidVictor.Data.Postgres
                         {
                             Id = Guid.NewGuid(),
                             LastModifiedDate = DateTime.UtcNow,
-                            ContentItem = storageContentItem
+                            ContentItem = storageContentItem,
+                            SortOrder = contentItem.Key
                         };
 
                         this.SlideContentItems.Add(storageSlideContentItem);

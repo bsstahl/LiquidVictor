@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LiquidVictor.Interfaces
 {
-    public interface ISlideDeckRepository
+    public interface ISlideDeckReadRepository
     {
         SlideDeck GetSlideDeck(Guid id);
     }

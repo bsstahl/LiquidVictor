@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LiquidVictor.Data.Postgres
 {
-    public class ReadRepository : Interfaces.ISlideDeckRepository
+    public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
     {
         Context _context;
-        public ReadRepository()
+        public SlideDeckReadRepository(string connectionString)
         {
-            _context = new Context();
+            _context = new Context(connectionString);
         }
 
         public Entities.SlideDeck GetSlideDeck(Guid id)
