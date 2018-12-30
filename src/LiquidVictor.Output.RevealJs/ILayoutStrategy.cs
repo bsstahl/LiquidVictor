@@ -7,6 +7,6 @@ namespace LiquidVictor.Output.RevealJs
 {
     internal interface ILayoutStrategy
     {
-        string Layout(SlideDeck deck, Slide slide);
+        string Layout(Slide slide);
     }
 }

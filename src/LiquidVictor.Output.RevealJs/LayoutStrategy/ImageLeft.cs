@@ -15,7 +15,7 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             _pipeline = pipeline;
         }
 
-        public string Layout(SlideDeck deck, Slide slide)
+        public string Layout(Slide slide)
         {
             var result = new StringBuilder();
             result.AppendLine("<section>");

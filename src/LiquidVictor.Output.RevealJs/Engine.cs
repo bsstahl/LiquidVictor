@@ -5,6 +5,7 @@ using System.Text;
 using LiquidVictor.Extensions;
 using System.Linq;
 using Markdig;
+using System.Collections.Generic;
 
 namespace LiquidVictor.Output.RevealJs
 {
@@ -32,7 +33,8 @@ namespace LiquidVictor.Output.RevealJs
 
             // Title slide
             var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-            slideSections.AppendLine(titleStrategy.Layout(slideDeck, null));
+            var titleSlide = slideDeck.CreateTitleSlide();
+            slideSections.AppendLine(titleStrategy.Layout(titleSlide));
 
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
@@ -40,7 +42,7 @@ namespace LiquidVictor.Output.RevealJs
                 var strategy = layoutStrategies[(int)slide.Value.Layout];
                 if (strategy == null)
                     throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
-                slideSections.AppendLine(strategy.Layout(slideDeck, slide.Value));
+                slideSections.AppendLine(strategy.Layout(slide.Value));
             }
 
             CopyFolder(_templateFolder, filepath);
