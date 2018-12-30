@@ -17,7 +17,7 @@
     <ProjectReference Include="..\LiquidVictor.Data.JsonFile\LiquidVictor.Data.JsonFile.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.Postgres\LiquidVictor.Data.Postgres.csproj" />
     <ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
-    <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
   </ItemGroup>
 

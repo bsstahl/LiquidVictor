@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.15.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.FullPageFragments\LiquidVictor.Output.RevealJs.Layout.FullPageFragments.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.FullPage\LiquidVictor.Output.RevealJs.Layout.FullPage.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.ImageLeft\LiquidVictor.Output.RevealJs.Layout.ImageLeft.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.ImageRight\LiquidVictor.Output.RevealJs.Layout.ImageRight.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.MultiColumn\LiquidVictor.Output.RevealJs.Layout.MultiColumn.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
+    <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
+  </ItemGroup>
+
+</Project>

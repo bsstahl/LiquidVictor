@@ -26,7 +26,7 @@ namespace LV
             Guid slideDeckId = Guid.Parse("c11b3e5f-1b2a-430c-8be7-b37377c4c198");
             var slideDeck = source.GetSlideDeck(slideDeckId);
 
-            var engine = new LiquidVictor.Output.RevealJs.Engine();
+            var engine = new LiquidVictor.Output.RevealJs.Generator.Engine();
             engine.CreatePresentation(outputPath, slideDeck);
         }
 

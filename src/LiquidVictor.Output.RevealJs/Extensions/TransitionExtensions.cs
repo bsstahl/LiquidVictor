@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LiquidVictor.Output.RevealJs
+namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class TransitionExtensions
     {

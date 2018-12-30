@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
+using LiquidVictor.Output.RevealJs.Interfaces;
 
-namespace LiquidVictor.Output.RevealJs.LayoutStrategy
+namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
 {
-    internal class FullPageFragments : ILayoutStrategy
+    public class Engine : ILayoutStrategy
     {
         Markdig.MarkdownPipeline _pipeline;
-        public FullPageFragments(Markdig.MarkdownPipeline pipeline)
+        public Engine(Markdig.MarkdownPipeline pipeline)
         {
             _pipeline = pipeline;
         }

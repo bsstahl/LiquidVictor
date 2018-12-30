@@ -9,8 +9,9 @@ using DocumentFormat.OpenXml.Presentation;
 using P = DocumentFormat.OpenXml.Presentation;
 using D = DocumentFormat.OpenXml.Drawing;
 using LiquidVictor.Interfaces;
+using LiquidVictor.Output.Powerpoint.Extensions;
 
-namespace LiquidVictor.Output.Powerpoint
+namespace LiquidVictor.Output.Powerpoint.Generator
 {
     public class Engine : IPresentationBuilder
     {

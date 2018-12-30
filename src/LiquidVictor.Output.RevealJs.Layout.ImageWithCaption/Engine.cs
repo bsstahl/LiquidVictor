@@ -5,13 +5,15 @@ using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
 using LiquidVictor.Exceptions;
+using LiquidVictor.Output.RevealJs.Interfaces;
+using LiquidVictor.Output.RevealJs.Extensions;
 
-namespace LiquidVictor.Output.RevealJs.LayoutStrategy
+namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
 {
-    internal class ImageWithCaption : ILayoutStrategy
+    public class Engine : ILayoutStrategy
     {
         Markdig.MarkdownPipeline _pipeline;
-        public ImageWithCaption(Markdig.MarkdownPipeline pipeline)
+        public Engine(Markdig.MarkdownPipeline pipeline)
         {
             _pipeline = pipeline;
         }
@@ -34,10 +36,10 @@ namespace LiquidVictor.Output.RevealJs.LayoutStrategy
             var caption = slide.ContentItems.TextContentItems()
                 .OrderBy(c => c.Key).FirstOrDefault();
 
-            if (!image.Equals(null))
+            if (image.HasValue())
                 result.AppendLine($"<img alt=\"{image.Value.FileName}\" src=\"data:{image.Value.ContentType};base64,{image.Value.Content.AsBase64String()}\" />");
 
-            if (!caption.Equals(null))
+            if (caption.HasValue())
                 result.AppendLine($"<h2>{Markdig.Markdown.ToHtml(caption.Value.Content.AsString(), _pipeline)}</h2>");
 
             result.AppendLine("</section>");

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LiquidVictor.Output.RevealJs
+namespace LiquidVictor.Output.RevealJs.Interfaces
 {
-    internal interface ILayoutStrategy
+    public interface ILayoutStrategy
     {
         string Layout(Slide slide);
     }
