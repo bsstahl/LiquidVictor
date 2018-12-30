@@ -5,15 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.8.1" />
+    <PackageReference Include="Markdig" Version="0.15.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

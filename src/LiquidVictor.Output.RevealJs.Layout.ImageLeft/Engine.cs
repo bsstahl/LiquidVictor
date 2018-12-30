@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
+using LiquidVictor.Output.RevealJs.Extensions;
+using LiquidVictor.Output.RevealJs.Interfaces;
 
-namespace LiquidVictor.Output.RevealJs.LayoutStrategy
+namespace LiquidVictor.Output.RevealJs.Layout.ImageLeft
 {
-    internal class ImageLeft : ILayoutStrategy
+    public class Engine : ILayoutStrategy
     {
         Markdig.MarkdownPipeline _pipeline;
-        public ImageLeft(Markdig.MarkdownPipeline pipeline)
+        public Engine(Markdig.MarkdownPipeline pipeline)
         {
             _pipeline = pipeline;
         }
 
-        public string Layout(SlideDeck deck, Slide slide)
+        public string Layout(Slide slide)
         {
             var result = new StringBuilder();
             result.AppendLine("<section>");

@@ -9,11 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ using DocumentFormat.OpenXml.Presentation;
 using P = DocumentFormat.OpenXml.Presentation;
 using D = DocumentFormat.OpenXml.Drawing;
 
-namespace LiquidVictor.Output.Powerpoint
+namespace LiquidVictor.Output.Powerpoint.Extensions
 {
     public static class PresentationDocumentExtensions
     {

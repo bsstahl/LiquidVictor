@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LiquidVictor.Output.RevealJs
+namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class SlideExtensions
     {

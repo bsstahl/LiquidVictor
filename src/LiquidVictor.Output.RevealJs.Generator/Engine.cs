@@ -5,8 +5,11 @@ using System.Text;
 using LiquidVictor.Extensions;
 using System.Linq;
 using Markdig;
+using System.Collections.Generic;
+using LiquidVictor.Output.RevealJs.Interfaces;
+using LiquidVictor.Output.RevealJs.Extensions;
 
-namespace LiquidVictor.Output.RevealJs
+namespace LiquidVictor.Output.RevealJs.Generator
 {
     public class Engine : IPresentationBuilder
     {
@@ -20,19 +23,20 @@ namespace LiquidVictor.Output.RevealJs
                              .Build();
 
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new LayoutStrategy.Title(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new LayoutStrategy.FullPage(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new LayoutStrategy.FullPageFragments(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new LayoutStrategy.ImageLeft(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new LayoutStrategy.ImageRight(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new LayoutStrategy.ImageWithCaption(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new LayoutStrategy.MultiColumn(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline);
 
             var slideSections = new StringBuilder();
 
             // Title slide
             var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-            slideSections.AppendLine(titleStrategy.Layout(slideDeck, null));
+            var titleSlide = slideDeck.CreateTitleSlide();
+            slideSections.AppendLine(titleStrategy.Layout(titleSlide));
 
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
@@ -40,7 +44,7 @@ namespace LiquidVictor.Output.RevealJs
                 var strategy = layoutStrategies[(int)slide.Value.Layout];
                 if (strategy == null)
                     throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
-                slideSections.AppendLine(strategy.Layout(slideDeck, slide.Value));
+                slideSections.AppendLine(strategy.Layout(slide.Value));
             }
 
             CopyFolder(_templateFolder, filepath);
