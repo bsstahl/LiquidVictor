@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LV
+namespace LiquidVictor.Data.Postgres
 {
     public class Config
     {

@@ -14,16 +14,9 @@ namespace LV
         {
             // TODO: Pull from args
             string outputPath = $"..\\..\\..\\..\\..\\Presentations\\{Guid.NewGuid().ToString()}\\";
+            var source = new LiquidVictor.Data.Postgres.SlideDeckReadRepository();
 
-            var config = new ConfigurationBuilder()
-                .AddUserSecrets<Config>()
-                .Build();
-
-            // EF Postgres Repository
-            string db = config["Db"];
-            var source = new LiquidVictor.Data.Postgres.SlideDeckReadRepository(db);
-
-            Guid slideDeckId = Guid.Parse("c11b3e5f-1b2a-430c-8be7-b37377c4c198");
+            Guid slideDeckId = Guid.Parse("E0B187D2-C9B7-4635-8FE5-0CA21BC5007F");
             var slideDeck = source.GetSlideDeck(slideDeckId);
 
             var engine = new LiquidVictor.Output.RevealJs.Generator.Engine();

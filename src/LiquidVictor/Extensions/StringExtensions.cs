@@ -16,6 +16,11 @@ namespace LiquidVictor.Extensions
             return Convert.FromBase64String(content);
         }
 
+        public static string AsBase64String(this string content)
+        {
+            return content.AsByteArray().AsBase64String();
+        }
+
         public static string AsFilename(this string name)
         {
             return name.Replace(" ", "_");

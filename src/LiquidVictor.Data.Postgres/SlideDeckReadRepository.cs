@@ -7,6 +7,12 @@ namespace LiquidVictor.Data.Postgres
     public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
     {
         Context _context;
+
+        public SlideDeckReadRepository()
+        {
+            _context = new Context();
+        }
+
         public SlideDeckReadRepository(string connectionString)
         {
             _context = new Context(connectionString);
