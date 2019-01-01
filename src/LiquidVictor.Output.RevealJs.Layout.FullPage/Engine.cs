@@ -6,12 +6,18 @@ using LiquidVictor.Entities;
 using LiquidVictor.Extensions;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Output.RevealJs.Interfaces;
+using Markdig;
 
 namespace LiquidVictor.Output.RevealJs.Layout.FullPage
 {
     public class Engine : ILayoutStrategy
     {
-        Markdig.MarkdownPipeline _pipeline;
+        MarkdownPipeline _pipeline;
+
+        public Engine()
+            :this(new MarkdownPipelineBuilder().UseAdvancedExtensions().Build())
+        { }
+
         public Engine(Markdig.MarkdownPipeline pipeline)
         {
             _pipeline = pipeline;
@@ -22,14 +28,31 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
             var sb = new StringBuilder();
             sb.AppendLine("<section>");
 
-            sb.AppendLine($"<h1>{slide.Title}</h1>");
+            if (!string.IsNullOrWhiteSpace(slide.Title))
+                sb.AppendLine($"<h1>{slide.Title}</h1>");
 
-            var textContentItems = slide.ContentItems
-                .TextContentItems().OrderBy(c => c.Key)
-                .Select(c => c.Value.Content.AsString());
+            if ((slide.ContentItems != null) && (slide.ContentItems.Any()))
+            {
+                var firstItem = slide.ContentItems
+                    .OrderBy(c => c.Key)
+                    .First();
 
-            var content = string.Join("\r\n", textContentItems);
-            sb.AppendLine(Markdig.Markdown.ToHtml(content, _pipeline));
+                if (firstItem.Value.IsText())
+                {
+                    var textContent = firstItem.Value.Content.AsString();
+                    var content = string.Join("\r\n", textContent);
+                    sb.AppendLine(Markdig.Markdown.ToHtml(content, _pipeline));
+                }
+                else if (firstItem.Value.IsImage())
+                {
+                    string imageTitle = firstItem.Value.Title ?? "Image";
+                    string imageContent = firstItem.Value.Content.AsBase64String();
+                    string contentType = firstItem.Value.ContentType;
+                    sb.AppendLine($"<img alt=\"{imageTitle}\" src=\"data:{contentType};base64,{imageContent}\" />");
+                }
+                else
+                    throw new Exceptions.ContentTypeNotSupportedException(firstItem.Value.ContentType);
+            }
 
             sb.AppendLine("</section>\r\n");
 

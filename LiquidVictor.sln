@@ -37,23 +37,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Powerpoint", "Powerpoint", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RevealJs", "RevealJs", "{317B49EF-4153-4974-A715-BF7DBBEAEF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPage", "src\LiquidVictor.Output.RevealJs.Layout.FullPage\LiquidVictor.Output.RevealJs.Layout.FullPage.csproj", "{32C1F7F7-D1D5-4D38-9097-BE75014E786F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.FullPage", "src\LiquidVictor.Output.RevealJs.Layout.FullPage\LiquidVictor.Output.RevealJs.Layout.FullPage.csproj", "{32C1F7F7-D1D5-4D38-9097-BE75014E786F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPageFragments", "src\LiquidVictor.Output.RevealJs.Layout.FullPageFragments\LiquidVictor.Output.RevealJs.Layout.FullPageFragments.csproj", "{37C3AE1E-3500-468A-8A41-41E62687E777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.FullPageFragments", "src\LiquidVictor.Output.RevealJs.Layout.FullPageFragments\LiquidVictor.Output.RevealJs.Layout.FullPageFragments.csproj", "{37C3AE1E-3500-468A-8A41-41E62687E777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageLeft", "src\LiquidVictor.Output.RevealJs.Layout.ImageLeft\LiquidVictor.Output.RevealJs.Layout.ImageLeft.csproj", "{D8B37DC8-5F25-4B90-9F46-3357F4059C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageLeft", "src\LiquidVictor.Output.RevealJs.Layout.ImageLeft\LiquidVictor.Output.RevealJs.Layout.ImageLeft.csproj", "{D8B37DC8-5F25-4B90-9F46-3357F4059C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageRight", "src\LiquidVictor.Output.RevealJs.Layout.ImageRight\LiquidVictor.Output.RevealJs.Layout.ImageRight.csproj", "{E7F631BE-B5F0-4570-96A5-954C87FB859F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageRight", "src\LiquidVictor.Output.RevealJs.Layout.ImageRight\LiquidVictor.Output.RevealJs.Layout.ImageRight.csproj", "{E7F631BE-B5F0-4570-96A5-954C87FB859F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageWithCaption", "src\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption.csproj", "{55AFA70C-AED7-494D-A4B7-52588BAEFB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageWithCaption", "src\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption.csproj", "{55AFA70C-AED7-494D-A4B7-52588BAEFB7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.MultiColumn", "src\LiquidVictor.Output.RevealJs.Layout.MultiColumn\LiquidVictor.Output.RevealJs.Layout.MultiColumn.csproj", "{DB012EE6-84D7-4249-AAF3-8D6B84D39CD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.MultiColumn", "src\LiquidVictor.Output.RevealJs.Layout.MultiColumn\LiquidVictor.Output.RevealJs.Layout.MultiColumn.csproj", "{DB012EE6-84D7-4249-AAF3-8D6B84D39CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.Title", "src\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj", "{B98A9733-B3E4-420D-83B2-162F539FCF6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.Title", "src\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj", "{B98A9733-B3E4-420D-83B2-162F539FCF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Generator", "src\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj", "{E3551463-24CD-4330-B640-3614C6B23599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Generator", "src\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj", "{E3551463-24CD-4330-B640-3614C6B23599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Powerpoint.Generator", "src\LiquidVictor.Output.Powerpoint.Generator\LiquidVictor.Output.Powerpoint.Generator.csproj", "{09DDA944-33D1-4814-906D-B16FB03666BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.Powerpoint.Generator", "src\LiquidVictor.Output.Powerpoint.Generator\LiquidVictor.Output.Powerpoint.Generator.csproj", "{09DDA944-33D1-4814-906D-B16FB03666BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.Service", "src\LiquidVictor.Output.RevealJs.Layout.Service\LiquidVictor.Output.RevealJs.Layout.Service.csproj", "{A3E4755F-EE07-4408-B909-0387D5524017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPage.Test", "tst\LiquidVictor.Output.RevealJs.Layout.FullPage.Test\LiquidVictor.Output.RevealJs.Layout.FullPage.Test.csproj", "{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Test", "tst\LiquidVictor.Test\LiquidVictor.Test.csproj", "{9708AF51-3887-4183-83A9-E4453F8098B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General", "General", "{DC01FC20-A0BB-4837-86C9-4E0604BF55D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FEC88C68-6ADB-41D2-AE84-CB2489F7C0A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Builders", "src\LiquidVictor.Builders\LiquidVictor.Builders.csproj", "{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,14 +137,30 @@ Global
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3E4755F-EE07-4408-B909-0387D5524017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3E4755F-EE07-4408-B909-0387D5524017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3E4755F-EE07-4408-B909-0387D5524017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3E4755F-EE07-4408-B909-0387D5524017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9708AF51-3887-4183-83A9-E4453F8098B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9708AF51-3887-4183-83A9-E4453F8098B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9708AF51-3887-4183-83A9-E4453F8098B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9708AF51-3887-4183-83A9-E4453F8098B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{81CFC78D-D12C-4618-B97B-A9AF7594811D} = {8C2B728E-3F68-418E-AF07-872A5DD6AB42}
-		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
-		{21910A64-8A87-4883-98F5-E8F55C386FB1} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{692A9C4E-2D42-485A-8E8C-A82135E1CFE9} = {DC01FC20-A0BB-4837-86C9-4E0604BF55D6}
+		{21910A64-8A87-4883-98F5-E8F55C386FB1} = {FEC88C68-6ADB-41D2-AE84-CB2489F7C0A1}
 		{68021E7C-FD93-4290-9576-6FEB501D641D} = {5A4A4989-480F-46A9-A7BD-C93B5635EAAF}
 		{A7FEFD09-554B-4F0A-9F22-FA5C05FD70C1} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{700D2070-6FB1-4B95-9D28-E565F27F6CA0} = {5A4A4989-480F-46A9-A7BD-C93B5635EAAF}
@@ -150,6 +178,12 @@ Global
 		{B98A9733-B3E4-420D-83B2-162F539FCF6C} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{E3551463-24CD-4330-B640-3614C6B23599} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{09DDA944-33D1-4814-906D-B16FB03666BE} = {8C2B728E-3F68-418E-AF07-872A5DD6AB42}
+		{A3E4755F-EE07-4408-B909-0387D5524017} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
+		{F700EB26-0DBC-45B2-8E58-231D74B9CCAF} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
+		{9708AF51-3887-4183-83A9-E4453F8098B2} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
+		{DC01FC20-A0BB-4837-86C9-4E0604BF55D6} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{FEC88C68-6ADB-41D2-AE84-CB2489F7C0A1} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{CDC9329A-EB4C-471D-9ABF-820CEDCE8684} = {DC01FC20-A0BB-4837-86C9-4E0604BF55D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}
