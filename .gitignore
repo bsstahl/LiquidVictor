@@ -227,3 +227,4 @@ config.development.json
 /Media
 /SlideDeckRepository.json
 /SlideDeckRepository_old.json
+/tools

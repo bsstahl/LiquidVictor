@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE870D0F-DCDD-484A-B5D6-9A1F56FBB113}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build.cake = build.cake
+		build.ps1 = build.ps1
 		docker-compose.yml = docker-compose.yml
 		LICENSE = LICENSE
 		README.md = README.md
@@ -57,15 +59,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.Powerpo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.Service", "src\LiquidVictor.Output.RevealJs.Layout.Service\LiquidVictor.Output.RevealJs.Layout.Service.csproj", "{A3E4755F-EE07-4408-B909-0387D5524017}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPage.Test", "tst\LiquidVictor.Output.RevealJs.Layout.FullPage.Test\LiquidVictor.Output.RevealJs.Layout.FullPage.Test.csproj", "{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.FullPage.Test", "tst\LiquidVictor.Output.RevealJs.Layout.FullPage.Test\LiquidVictor.Output.RevealJs.Layout.FullPage.Test.csproj", "{F700EB26-0DBC-45B2-8E58-231D74B9CCAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Test", "tst\LiquidVictor.Test\LiquidVictor.Test.csproj", "{9708AF51-3887-4183-83A9-E4453F8098B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Test", "tst\LiquidVictor.Test\LiquidVictor.Test.csproj", "{9708AF51-3887-4183-83A9-E4453F8098B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "General", "General", "{DC01FC20-A0BB-4837-86C9-4E0604BF55D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FEC88C68-6ADB-41D2-AE84-CB2489F7C0A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Builders", "src\LiquidVictor.Builders\LiquidVictor.Builders.csproj", "{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Builders", "src\LiquidVictor.Builders\LiquidVictor.Builders.csproj", "{CDC9329A-EB4C-471D-9ABF-820CEDCE8684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

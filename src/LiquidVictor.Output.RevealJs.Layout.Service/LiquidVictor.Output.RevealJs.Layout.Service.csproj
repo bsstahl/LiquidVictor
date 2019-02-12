@@ -20,8 +20,4 @@
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(ProjectDir)..\LiquidVictor.Output.RevealJs.Layout.FullPage\bin\debug\netstandard2.0\LiquidVictor.Output.RevealJs.Layout.FullPage.dll $(TargetDir)" />
-  </Target>
-
 </Project>
