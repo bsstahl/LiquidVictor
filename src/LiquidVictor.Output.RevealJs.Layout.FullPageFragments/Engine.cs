@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
+using LiquidVictor.Enumerations;
 using LiquidVictor.Extensions;
+using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Output.RevealJs.Interfaces;
 
 namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
@@ -11,16 +13,23 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
     public class Engine : ILayoutStrategy
     {
         Markdig.MarkdownPipeline _pipeline;
-        public Engine(Markdig.MarkdownPipeline pipeline)
+        Transition _presentationDefaultTransition;
+
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition)
         {
             _pipeline = pipeline;
+            _presentationDefaultTransition = presentationDefaultTransition;
         }
 
         public string Layout(Slide slide)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("<section>");
+
+            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
+
             sb.AppendLine($"<h1>{slide.Title}</h1><table border=\"0\" width=\"100%\"");
+            sb.AppendLine(slide.Id.ToString().AsComment());
+            sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));
 
             var textContentItems = slide.ContentItems.OrderBy(ci => ci.Key).Where(ci => ci.Value.ContentType.ToLower().StartsWith("text"));
             foreach (var contentItem in textContentItems)

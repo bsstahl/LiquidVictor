@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C920CA5-A0A8-43B3-8E2A-EFA084956250}"
 EndProject
@@ -37,23 +37,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Powerpoint", "Powerpoint", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RevealJs", "RevealJs", "{317B49EF-4153-4974-A715-BF7DBBEAEF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPage", "src\LiquidVictor.Output.RevealJs.Layout.FullPage\LiquidVictor.Output.RevealJs.Layout.FullPage.csproj", "{32C1F7F7-D1D5-4D38-9097-BE75014E786F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.FullPage", "src\LiquidVictor.Output.RevealJs.Layout.FullPage\LiquidVictor.Output.RevealJs.Layout.FullPage.csproj", "{32C1F7F7-D1D5-4D38-9097-BE75014E786F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.FullPageFragments", "src\LiquidVictor.Output.RevealJs.Layout.FullPageFragments\LiquidVictor.Output.RevealJs.Layout.FullPageFragments.csproj", "{37C3AE1E-3500-468A-8A41-41E62687E777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.FullPageFragments", "src\LiquidVictor.Output.RevealJs.Layout.FullPageFragments\LiquidVictor.Output.RevealJs.Layout.FullPageFragments.csproj", "{37C3AE1E-3500-468A-8A41-41E62687E777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageLeft", "src\LiquidVictor.Output.RevealJs.Layout.ImageLeft\LiquidVictor.Output.RevealJs.Layout.ImageLeft.csproj", "{D8B37DC8-5F25-4B90-9F46-3357F4059C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageLeft", "src\LiquidVictor.Output.RevealJs.Layout.ImageLeft\LiquidVictor.Output.RevealJs.Layout.ImageLeft.csproj", "{D8B37DC8-5F25-4B90-9F46-3357F4059C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageRight", "src\LiquidVictor.Output.RevealJs.Layout.ImageRight\LiquidVictor.Output.RevealJs.Layout.ImageRight.csproj", "{E7F631BE-B5F0-4570-96A5-954C87FB859F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageRight", "src\LiquidVictor.Output.RevealJs.Layout.ImageRight\LiquidVictor.Output.RevealJs.Layout.ImageRight.csproj", "{E7F631BE-B5F0-4570-96A5-954C87FB859F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.ImageWithCaption", "src\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption.csproj", "{55AFA70C-AED7-494D-A4B7-52588BAEFB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.ImageWithCaption", "src\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption\LiquidVictor.Output.RevealJs.Layout.ImageWithCaption.csproj", "{55AFA70C-AED7-494D-A4B7-52588BAEFB7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.MultiColumn", "src\LiquidVictor.Output.RevealJs.Layout.MultiColumn\LiquidVictor.Output.RevealJs.Layout.MultiColumn.csproj", "{DB012EE6-84D7-4249-AAF3-8D6B84D39CD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.MultiColumn", "src\LiquidVictor.Output.RevealJs.Layout.MultiColumn\LiquidVictor.Output.RevealJs.Layout.MultiColumn.csproj", "{DB012EE6-84D7-4249-AAF3-8D6B84D39CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Layout.Title", "src\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj", "{B98A9733-B3E4-420D-83B2-162F539FCF6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Layout.Title", "src\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj", "{B98A9733-B3E4-420D-83B2-162F539FCF6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Generator", "src\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj", "{E3551463-24CD-4330-B640-3614C6B23599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJs.Generator", "src\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj", "{E3551463-24CD-4330-B640-3614C6B23599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Powerpoint.Generator", "src\LiquidVictor.Output.Powerpoint.Generator\LiquidVictor.Output.Powerpoint.Generator.csproj", "{09DDA944-33D1-4814-906D-B16FB03666BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.Powerpoint.Generator", "src\LiquidVictor.Output.Powerpoint.Generator\LiquidVictor.Output.Powerpoint.Generator.csproj", "{09DDA944-33D1-4814-906D-B16FB03666BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.JsonFileSystem", "src\LiquidVictor.Data.JsonFileSystem\LiquidVictor.Data.JsonFileSystem.csproj", "{11743C53-ABCA-4620-AF32-CB025C132574}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVConvert", "src\LVConvert\LVConvert.csproj", "{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +129,14 @@ Global
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09DDA944-33D1-4814-906D-B16FB03666BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11743C53-ABCA-4620-AF32-CB025C132574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11743C53-ABCA-4620-AF32-CB025C132574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11743C53-ABCA-4620-AF32-CB025C132574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11743C53-ABCA-4620-AF32-CB025C132574}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,6 +162,8 @@ Global
 		{B98A9733-B3E4-420D-83B2-162F539FCF6C} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{E3551463-24CD-4330-B640-3614C6B23599} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{09DDA944-33D1-4814-906D-B16FB03666BE} = {8C2B728E-3F68-418E-AF07-872A5DD6AB42}
+		{11743C53-ABCA-4620-AF32-CB025C132574} = {5A4A4989-480F-46A9-A7BD-C93B5635EAAF}
+		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/{ThemeName}.css">
+    <link rel="stylesheet" href="css/headers.css">
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -26,6 +27,8 @@
         <div class="slides">
             {SlideSections}
         </div>
+        <div class="footer-left">{PresentationTitle}</div>
+        <div class="footer-right">{Presenter}</div>
     </div>
 
     <script src="lib/js/head.min.js"></script>
@@ -38,6 +41,7 @@
         Reveal.initialize({
 			width: {Width},
 			height: {Height},
+            transition: '{Transition}',
             dependencies: [
                 { src: 'plugin/markdown/marked.js' },
                 { src: 'plugin/markdown/markdown.js' },

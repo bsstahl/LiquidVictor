@@ -13,8 +13,14 @@ namespace LiquidVictor.Output.RevealJs.Generator
 {
     public class Engine : IPresentationBuilder
     {
-        const string _templateFolder = @"..\..\..\..\..\Templates\RevealJs";
         const string _templateFilename = "index.html";
+
+        string _templatePath;
+
+        public Engine(string templatePath)
+        {
+            _templatePath = templatePath;
+        }
 
         public void CreatePresentation(string filepath, SlideDeck slideDeck)
         {
@@ -23,13 +29,13 @@ namespace LiquidVictor.Output.RevealJs.Generator
                              .Build();
 
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline);
-            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline);
+            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition);
 
             var slideSections = new StringBuilder();
 
@@ -44,10 +50,11 @@ namespace LiquidVictor.Output.RevealJs.Generator
                 var strategy = layoutStrategies[(int)slide.Value.Layout];
                 if (strategy == null)
                     throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
+                // slideSections.AppendLine($"<!-- SlideId={slide.Value.Id.ToString()} -->");
                 slideSections.AppendLine(strategy.Layout(slide.Value));
             }
 
-            CopyFolder(_templateFolder, filepath);
+            CopyFolder(_templatePath, filepath);
 
             (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
 
@@ -55,8 +62,10 @@ namespace LiquidVictor.Output.RevealJs.Generator
             var indexTemplate = System.IO.File.ReadAllText(templatePath);
             var content = indexTemplate
                 .Replace("{SlideSections}", slideSections.ToString())
+                .Replace("{Presenter}", slideDeck.Presenter)
                 .Replace("{PresentationTitle}", slideDeck.Title)
                 .Replace("{ThemeName}", slideDeck.ThemeName.ToLower())
+                .Replace("{Transition}", slideDeck.Transition.GetTransitionBaseName())
                 .Replace("{Width}", presentationWidth.ToString())
                 .Replace("{Height}", presentationHeight.ToString());
 

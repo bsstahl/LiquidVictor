@@ -9,6 +9,7 @@ namespace LiquidVictor.Enumerations
         PresentationDefault,
         None,
         Fade,
-        Slide
+        Slide,
+        Fancy
     }
 }

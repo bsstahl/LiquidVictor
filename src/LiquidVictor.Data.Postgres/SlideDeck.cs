@@ -10,6 +10,8 @@ namespace LiquidVictor.Data.Postgres
     [Table("slidedeck")]
     internal class SlideDeck : EntityBase
     {
+        const Transition _defaultTransition = Transition.Slide;
+
         private string _title;
         private string _subTitle;
         private AspectRatio _aspectRatio;
@@ -56,8 +58,9 @@ namespace LiquidVictor.Data.Postgres
 
         internal Entities.SlideDeck AsEntity()
         {
+            // TODO: Respect the Transition value from the data store
             var slides = this.SlideDeckSlides.AsEntities();
-            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, this.AspectRatio, slides);
+            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, _defaultTransition, this.AspectRatio, slides);
         }
 
         internal void Update(Context context, Entities.SlideDeck slideDeck)

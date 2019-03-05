@@ -11,5 +11,6 @@ namespace LiquidVictor.Entities
         public string ContentType { get; set; }
         public string FileName { get; set; }
         public string Title { get; set; }
+
     }
 }
