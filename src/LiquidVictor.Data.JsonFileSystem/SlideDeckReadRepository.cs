@@ -30,7 +30,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
             var slideDeckId = Guid.Parse(slideDeck.Id);
             var slideDeckTransition = slideDeck.GetTransition();
-            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckTransition, aspectRatio, slides);
+            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeckTransition, aspectRatio, slides);
 
             return result;
         }

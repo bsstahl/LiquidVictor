@@ -31,7 +31,12 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
             var markdown = new StringBuilder();
             markdown.AppendLine($"# {slide.Title}");
             markdown.AppendLine($"## {textContentItems[0].Value.Content.AsString()}");
+
+            if (textContentItems.Length > 2)
+                markdown.AppendLine($"### {textContentItems[2].Value.Content.AsString()}");
+
             markdown.AppendLine($"*{textContentItems[1].Value.Content.AsString()}*");
+
 
             return $"{slide.AsStartSlideSection(_presentationDefaultTransition)}{Markdig.Markdown.ToHtml(markdown.ToString(), _pipeline)}</section>\r\n";
         }

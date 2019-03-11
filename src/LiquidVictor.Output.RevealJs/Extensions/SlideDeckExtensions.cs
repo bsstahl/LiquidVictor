@@ -36,6 +36,18 @@ namespace LiquidVictor.Output.RevealJs.Extensions
                     Id = Guid.NewGuid()
                 }));
 
+            if (!string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl))
+            {
+                titleSlide.ContentItems.Add(
+                    new KeyValuePair<int, ContentItem>(3,
+                    new ContentItem()
+                    {
+                        Content = slideDeck.SlideDeckUrl.AsByteArray(),
+                        ContentType = "text/plain",
+                        Id = Guid.NewGuid()
+                    }));
+            }
+
             return titleSlide;
         }
 

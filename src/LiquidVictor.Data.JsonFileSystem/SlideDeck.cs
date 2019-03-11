@@ -16,6 +16,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         public string ThemeName { get; set; }
         public string AspectRatio { get; set; }
         public string Transition { get; set; }
+        public string SlideDeckUrl { get; set; }
         public string[] SlideIds { get; set; }
 
         internal Transition GetTransition()
