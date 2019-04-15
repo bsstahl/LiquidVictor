@@ -15,7 +15,7 @@ namespace LiquidVictor.Output.Powerpoint.Generator
 {
     public class Engine : IPresentationBuilder
     {
-        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
+        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck, bool buildTitleSlide)
         {
             // Create a presentation at a specified file path. The presentation document type is pptx, by default.
             PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);

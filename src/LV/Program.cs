@@ -31,7 +31,15 @@ namespace LV
             Guid slideDeckId = Guid.Parse(args[2]);
             var slideDeck = source.GetSlideDeck(slideDeckId);
 
-            engine.CreatePresentation(outputPath, slideDeck);
+            bool buildTitleSlide = true;
+            for (int i = 6; i < args.Length; i++)
+            {
+                // TODO: Add any other arguments
+                if (args[i].ToLower() == "--notitle")
+                    buildTitleSlide = false;
+            }
+
+            engine.CreatePresentation(outputPath, slideDeck, buildTitleSlide);
 
             Console.WriteLine($"Presentation written to {outputPath}");
         }

@@ -22,7 +22,7 @@ namespace LiquidVictor.Output.RevealJs.Generator
             _templatePath = templatePath;
         }
 
-        public void CreatePresentation(string filepath, SlideDeck slideDeck)
+        public void CreatePresentation(string filepath, SlideDeck slideDeck, bool buildTitleSlide)
         {
             var pipeline = new MarkdownPipelineBuilder()
                              .UseAdvancedExtensions()
@@ -40,9 +40,12 @@ namespace LiquidVictor.Output.RevealJs.Generator
             var slideSections = new StringBuilder();
 
             // Title slide
-            var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-            var titleSlide = slideDeck.CreateTitleSlide();
-            slideSections.AppendLine(titleStrategy.Layout(titleSlide));
+            if (buildTitleSlide)
+            {
+                var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
+                var titleSlide = slideDeck.CreateTitleSlide();
+                slideSections.AppendLine(titleStrategy.Layout(titleSlide));
+            }
 
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
