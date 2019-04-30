@@ -22,7 +22,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             int slideIndex = 0;
             foreach (var slideId in slideDeck.SlideIds)
             {
-                var slidePair = GetSlide(slideIndex, slideId);
+                var slidePair = this.GetSlide(slideIndex, slideId);
                 slides.Add(slidePair);
                 slideIndex++;
             }
@@ -30,7 +30,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
             var slideDeckId = Guid.Parse(slideDeck.Id);
             var slideDeckTransition = slideDeck.GetTransition();
-            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeckTransition, aspectRatio, slides);
+            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
 
             return result;
         }
@@ -46,7 +46,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             var contentItems = new List<KeyValuePair<int, Entities.ContentItem>>();
             foreach (var contentItemId in slide.ContentItemIds)
             {
-                var contentItemPair = GetContentItem(contentItemIndex, contentItemId);
+                var contentItemPair = this.GetContentItem(contentItemIndex, contentItemId);
                 contentItems.Add(contentItemPair);
                 contentItemIndex++;
             }

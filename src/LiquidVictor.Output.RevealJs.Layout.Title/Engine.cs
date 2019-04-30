@@ -32,11 +32,15 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
             markdown.AppendLine($"# {slide.Title}");
             markdown.AppendLine($"## {textContentItems[0].Value.Content.AsString()}");
 
-            if (textContentItems.Length > 2)
-                markdown.AppendLine($"### {textContentItems[2].Value.Content.AsString()}");
+            string url = textContentItems[2].Value.Content.AsString();
+            if (!string.IsNullOrWhiteSpace(url))
+                markdown.AppendLine($"### {url}");
 
             markdown.AppendLine($"*{textContentItems[1].Value.Content.AsString()}*");
 
+            string printLinkText = textContentItems[3].Value.Content.AsString();
+            if (!string.IsNullOrWhiteSpace(printLinkText))
+                markdown.AppendLine($"##### [{printLinkText}](index.html?print-pdf#/)");
 
             return $"{slide.AsStartSlideSection(_presentationDefaultTransition)}{Markdig.Markdown.ToHtml(markdown.ToString(), _pipeline)}</section>\r\n";
         }

@@ -2,7 +2,7 @@
   "profiles": {
     "LV": {
       "commandName": "Project",
-      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\SlideDecks\\VS2019Launch-Keynote.json\" \"e3d01c9f-9c91-4fe7-bcb5-86edc3a746b5\" \"RevealJS\" \"..\\..\\..\\LiquidVictor\\Templates\\RevealJS\" \"..\\..\\..\\VisualStudio2019Launch\\AZ Event\\Presentations\\01 - Keynote\" --NoTitle"
+      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\..\\..\\..\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\SlideDecks\\DesignPatternsForLooseCoupling-45min.json\" \"c151666d-f3e5-4bce-9033-b7401833c8df\" \"RevealJS\" \"..\\..\\..\\..\\..\\..\\LiquidVictor\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\..\\PnPPresentations\\Presentations\\Design Patterns for Loosely Coupled Apps\\Design Patterns for Loosely Coupled Apps - Craft2019\""
     }
   }
 }

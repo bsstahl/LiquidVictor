@@ -18,6 +18,7 @@ namespace LiquidVictor.Entities
         public string Presenter { get; set; }
         public string ThemeName { get; set; }
         public string SlideDeckUrl { get; set; }
+        public string PrintLinkText { get; set; } = "Printable Version";
         public Transition Transition { get; set; } = Transition.Slide;
 
         public AspectRatio AspectRatio { get; set; }
@@ -26,18 +27,20 @@ namespace LiquidVictor.Entities
 
 
         public SlideDeck()
-            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, null)
+            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, null)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, ICollection<KeyValuePair<int, Slide>> slides)
-            : this(id, title, subTitle, presenter, _defaultThemeName, _defaultTransition, _defaultAspectRatio, slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string printLinkText, ICollection<KeyValuePair<int, Slide>> slides)
+            : this(id, title, subTitle, presenter, _defaultThemeName, printLinkText, _defaultTransition, _defaultAspectRatio, slides)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, Transition transition, AspectRatio aspectRatio, ICollection<KeyValuePair<int, Slide>> slides)
-            : this(id, title, subTitle, presenter, themeName, string.Empty, transition, aspectRatio, slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, string printLinkText, Transition transition, AspectRatio aspectRatio, ICollection<KeyValuePair<int, Slide>> slides)
+            : this(id, title, subTitle, presenter, themeName, string.Empty, printLinkText, transition, aspectRatio, slides)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, string slideDeckUrl, Transition transition, AspectRatio aspectRatio, ICollection<KeyValuePair<int, Slide>> slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, 
+            string slideDeckUrl, string printLinkText, Transition transition, AspectRatio aspectRatio, 
+            ICollection<KeyValuePair<int, Slide>> slides)
         {
             this.Id = id;
             this.Title = title;
@@ -45,6 +48,7 @@ namespace LiquidVictor.Entities
             this.Presenter = presenter;
             this.ThemeName = themeName;
             this.SlideDeckUrl = slideDeckUrl;
+            this.PrintLinkText = printLinkText;
             this.Transition = transition;
             this.AspectRatio = aspectRatio;
             this.Slides = slides;

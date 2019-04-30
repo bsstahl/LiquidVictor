@@ -34,7 +34,7 @@ namespace LiquidVictor.Data.Hardcoded
             else
                 throw new Exceptions.SlideDeckNotFoundException(id, this.GetType().FullName);
 
-            return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", slides);
+            return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", "Printable Version", slides);
         }
     }
 }

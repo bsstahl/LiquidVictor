@@ -60,7 +60,7 @@ namespace LiquidVictor.Data.Postgres
         {
             // TODO: Respect the Transition value from the data store
             var slides = this.SlideDeckSlides.AsEntities();
-            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, _defaultTransition, this.AspectRatio, slides);
+            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, "Printable Version", _defaultTransition, this.AspectRatio, slides);
         }
 
         internal void Update(Context context, Entities.SlideDeck slideDeck)
