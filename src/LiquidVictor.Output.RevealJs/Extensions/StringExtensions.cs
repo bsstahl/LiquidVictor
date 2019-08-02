@@ -15,5 +15,6 @@ namespace LiquidVictor.Output.RevealJs.Extensions
         {
             return string.IsNullOrWhiteSpace(comment) ? string.Empty : $"<!-- {comment} -->";
         }
+
     }
 }

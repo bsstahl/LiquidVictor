@@ -11,6 +11,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         public string TransitionIn { get; set; }
         public string TransitionOut { get; set; }
         public string Notes { get; set; }
+        public string BackgroundContent { get; set; }
         public string[] ContentItemIds { get; set; }
     }
 }

@@ -1,13 +1,14 @@
-﻿using LiquidVictor.Entities;
-using LiquidVictor.Interfaces;
-using System;
+﻿using System;
 using System.Text;
-using LiquidVictor.Extensions;
 using System.Linq;
 using Markdig;
 using System.Collections.Generic;
 using LiquidVictor.Output.RevealJs.Interfaces;
 using LiquidVictor.Output.RevealJs.Extensions;
+using LiquidVictor.Entities;
+using LiquidVictor.Interfaces;
+using LiquidVictor.Extensions;
+using System.IO;
 
 namespace LiquidVictor.Output.RevealJs.Generator
 {
@@ -27,6 +28,8 @@ namespace LiquidVictor.Output.RevealJs.Generator
             var pipeline = new MarkdownPipelineBuilder()
                              .UseAdvancedExtensions()
                              .Build();
+
+            var images = new List<ContentItem>();
 
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
             layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition);
@@ -50,6 +53,15 @@ namespace LiquidVictor.Output.RevealJs.Generator
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
             {
+                if (slide.Value.BackgroundContent != null)
+                {
+                    // Add the ContentItem to the images collection if 
+                    // it isn't already there
+                    var backgroundContentId = slide.Value.BackgroundContent.Id;
+                    if (!images.Any(i => i.Id == slide.Value.BackgroundContent.Id))
+                        images.Add(slide.Value.BackgroundContent);
+                }
+
                 var strategy = layoutStrategies[(int)slide.Value.Layout];
                 if (strategy == null)
                     throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
@@ -57,7 +69,8 @@ namespace LiquidVictor.Output.RevealJs.Generator
                 slideSections.AppendLine(strategy.Layout(slide.Value));
             }
 
-            CopyFolder(_templatePath, filepath);
+            this.CopyFolder(_templatePath, filepath);
+            this.AddImages(slideDeck, images, filepath);
 
             (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
 
@@ -73,6 +86,21 @@ namespace LiquidVictor.Output.RevealJs.Generator
                 .Replace("{Height}", presentationHeight.ToString());
 
             System.IO.File.WriteAllText(templatePath, content);
+        }
+
+        private void AddImages(SlideDeck slideDeck, IEnumerable<ContentItem> images, string targetPath)
+        {
+            string folderPath = System.IO.Path.Combine(targetPath, "img");
+            if (!System.IO.Directory.Exists(folderPath))
+                System.IO.Directory.CreateDirectory(folderPath);
+
+            foreach (var contentItem in images)
+            {
+                var fileName = $"{contentItem.Id.ToString()}{Path.GetExtension(contentItem.FileName)}";
+                var filePath = System.IO.Path.Combine(folderPath, fileName);
+                System.IO.File.WriteAllBytes(filePath, contentItem.Content);
+            }
+
         }
 
         private void CopyFolder(string sourcePath, string targetPath)

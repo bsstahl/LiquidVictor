@@ -46,10 +46,14 @@ namespace LiquidVictor.Data.JsonFileSystem
             var contentItems = new List<KeyValuePair<int, Entities.ContentItem>>();
             foreach (var contentItemId in slide.ContentItemIds)
             {
-                var contentItemPair = this.GetContentItem(contentItemIndex, contentItemId);
+                var contentItemPair = this.GetContentItemPair(contentItemIndex, contentItemId);
                 contentItems.Add(contentItemPair);
                 contentItemIndex++;
             }
+
+            Guid? backgroundContentItemId = null;
+            if (Guid.TryParse(slide.BackgroundContent, out var parsedValue))
+                backgroundContentItemId = parsedValue;
 
             var slidePair = new KeyValuePair<int, Entities.Slide>(slideIndex,
                 new Entities.Slide()
@@ -60,30 +64,36 @@ namespace LiquidVictor.Data.JsonFileSystem
                     Title = slide.Title,
                     TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
                     TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
+                    BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
                     ContentItems = contentItems
                 });
 
             return slidePair;
         }
 
-        private KeyValuePair<int, Entities.ContentItem> GetContentItem(int contentItemIndex, string contentItemId)
+        private KeyValuePair<int, Entities.ContentItem> GetContentItemPair(int contentItemIndex, string contentItemId)
+        {
+            return new KeyValuePair<int, Entities.ContentItem>(contentItemIndex, 
+                this.GetContentItem(Guid.Parse(contentItemId)));
+        }
+
+        private Entities.ContentItem GetContentItem(Guid contentItemId)
         {
             var sourceFolderPath = System.IO.Path.GetDirectoryName(_slideDeckPath);
             var contentItemsPath = System.IO.Path.Combine(sourceFolderPath, @"..\ContentItems");
-            var contentItemPath = System.IO.Path.Combine(contentItemsPath, $"{contentItemId}.json");
+            var contentItemPath = System.IO.Path.Combine(contentItemsPath, $"{contentItemId.ToString()}.json");
             var contentItemJson = System.IO.File.ReadAllText(contentItemPath);
-            var contentItem = Newtonsoft.Json.JsonConvert.DeserializeObject<ContentItem>(contentItemJson);
+            var localContentItem = Newtonsoft.Json.JsonConvert.DeserializeObject<ContentItem>(contentItemJson);
 
-            var contentItemPair = new KeyValuePair<int, Entities.ContentItem>(contentItemIndex,
-                    new Entities.ContentItem()
-                    {
-                        Id = Guid.Parse(contentItemId),
-                        ContentType = contentItem.ContentType,
-                        FileName = contentItem.FileName,
-                        Title = contentItem.Title,
-                        Content = ContentItem.DecodeContent(contentItem.ContentType, contentItem.EncodedContent)
-                    });
-            return contentItemPair;
+            var contentItemEntity = new Entities.ContentItem()
+            {
+                Id = contentItemId,
+                ContentType = localContentItem.ContentType,
+                FileName = localContentItem.FileName,
+                Title = localContentItem.Title,
+                Content = ContentItem.DecodeContent(localContentItem.ContentType, localContentItem.EncodedContent)
+            };
+            return contentItemEntity;
         }
     }
 }

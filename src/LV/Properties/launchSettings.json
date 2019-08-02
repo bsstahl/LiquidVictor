@@ -2,7 +2,7 @@
   "profiles": {
     "LV": {
       "commandName": "Project",
-      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\..\\..\\..\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\SlideDecks\\DesignPatternsForLooseCoupling-45min.json\" \"c151666d-f3e5-4bce-9033-b7401833c8df\" \"RevealJS\" \"..\\..\\..\\..\\..\\..\\LiquidVictor\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\..\\PnPPresentations\\Presentations\\Design Patterns for Loosely Coupled Apps\\Design Patterns for Loosely Coupled Apps - Craft2019\""
+      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\..\\..\\..\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\SlideDecks\\DesignPatternsForLooseCoupling.json\" \"c151666d-f3e5-4bce-9033-b7401833c8df\" \"RevealJS\" \"..\\..\\..\\..\\..\\..\\LiquidVictor\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\..\\PnPPresentations\\Presentations\\Design Patterns for Loosely Coupled Apps\\Design Patterns for Loosely Coupled Apps - THAT2019\" --NoTitle"
     }
   }
 }

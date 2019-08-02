@@ -13,10 +13,19 @@ namespace LiquidVictor.Output.RevealJs.Extensions
         {
             string transitionClass = $"{slide.TransitionIn.GetClass(true, presentationDefaultTransition)} {slide.TransitionOut.GetClass(false, presentationDefaultTransition)}".Trim();
 
-            string result = "<section>";
+            string result = "<section";
             if (!string.IsNullOrWhiteSpace(transitionClass))
-                result = $"<section data-transition=\"{transitionClass}\">";
+                result += $" data-transition=\"{transitionClass}\"";
 
+            if (slide.BackgroundContent != null)
+            {
+                var bgContent = slide.BackgroundContent;
+                string backgroundId = bgContent.Id.ToString();
+                string backgroundExtension = System.IO.Path.GetExtension(bgContent.FileName);
+                result += $" data-background=\'img/{backgroundId}{backgroundExtension}\'";
+            }
+
+            result += ">";
             return result;
         }
 

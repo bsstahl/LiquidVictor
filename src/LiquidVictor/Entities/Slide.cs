@@ -19,6 +19,8 @@ namespace LiquidVictor.Entities
 
         public string Notes { get; set; }
 
+        public ContentItem BackgroundContent { get; set; }
+
         public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; set; }
 
     }
