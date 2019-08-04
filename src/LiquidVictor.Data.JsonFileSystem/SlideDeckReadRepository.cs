@@ -65,6 +65,7 @@ namespace LiquidVictor.Data.JsonFileSystem
                     TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
                     TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
                     BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
+                    NeverFullScreen = slide.NeverFullScreen,
                     ContentItems = contentItems
                 });
 

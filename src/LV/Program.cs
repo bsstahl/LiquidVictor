@@ -31,15 +31,18 @@ namespace LV
             Guid slideDeckId = Guid.Parse(args[2]);
             var slideDeck = source.GetSlideDeck(slideDeckId);
 
-            bool buildTitleSlide = true;
+            var config = new LiquidVictor.Entities.Configuration();
             for (int i = 6; i < args.Length; i++)
             {
                 // TODO: Add any other arguments
-                if (args[i].ToLower() == "--notitle")
-                    buildTitleSlide = false;
+                string arg = args[i].ToLower();
+                if (arg == "--notitle")
+                    config.BuildTitleSlide = false;
+                else if (arg == "--makesoloimagesfullscreen")
+                    config.MakeSoloImagesFullScreen = true;
             }
 
-            engine.CreatePresentation(outputPath, slideDeck, buildTitleSlide);
+            engine.CreatePresentation(outputPath, slideDeck, config);
 
             Console.WriteLine($"Presentation written to {outputPath}");
         }

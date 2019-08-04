@@ -10,12 +10,13 @@ using P = DocumentFormat.OpenXml.Presentation;
 using D = DocumentFormat.OpenXml.Drawing;
 using LiquidVictor.Interfaces;
 using LiquidVictor.Output.Powerpoint.Extensions;
+using LiquidVictor.Entities;
 
 namespace LiquidVictor.Output.Powerpoint.Generator
 {
     public class Engine : IPresentationBuilder
     {
-        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck, bool buildTitleSlide)
+        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck, Configuration config)
         {
             // Create a presentation at a specified file path. The presentation document type is pptx, by default.
             PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);

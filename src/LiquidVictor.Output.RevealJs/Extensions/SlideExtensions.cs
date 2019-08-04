@@ -9,6 +9,15 @@ namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class SlideExtensions
     {
+        public static bool MakeSoloImageFullScreen(this Slide slide, Configuration config)
+        {
+            return config.MakeSoloImagesFullScreen &&
+                 string.IsNullOrWhiteSpace(slide.Title) &&
+                 !slide.NeverFullScreen &&
+                 slide.ContentItems.Count() == 1 &&
+                 slide.ContentItems.First().Value.IsImage();
+        }
+
         public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition)
         {
             string transitionClass = $"{slide.TransitionIn.GetClass(true, presentationDefaultTransition)} {slide.TransitionOut.GetClass(false, presentationDefaultTransition)}".Trim();

@@ -12,13 +12,15 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
 {
     public class Engine : ILayoutStrategy
     {
-        Markdig.MarkdownPipeline _pipeline;
-        Transition _presentationDefaultTransition;
+        readonly Markdig.MarkdownPipeline _pipeline;
+        readonly Transition _presentationDefaultTransition;
+        readonly Configuration _config;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _config = config;
         }
 
         public string Layout(Slide slide)
@@ -43,7 +45,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
             var imageContentItems = slide.ContentItems
                 .ImageContentItems().OrderBy(c => c.Key);
             foreach (var image in imageContentItems)
-                sb.AppendLine($"<td width=\"60%\"><img alt=\"{image.Value.FileName}\" src=\"data:{image.Value.ContentType};base64,{image.Value.Content.AsBase64String()}\" /></td>");
+                sb.AppendLine($"<td width=\"60%\"><img alt=\"{image.Value.FileName}\" src=\"{image.Value.RelativePathToImage()}\" /></td>");
 
             sb.Append("</tr></table>");
             sb.AppendLine("</section>");

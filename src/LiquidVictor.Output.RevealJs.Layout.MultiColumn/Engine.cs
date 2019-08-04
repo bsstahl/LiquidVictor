@@ -12,13 +12,15 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
 {
     public class Engine : ILayoutStrategy
     {
-        Markdig.MarkdownPipeline _pipeline;
-        Transition _presentationDefaultTransition;
+        readonly Markdig.MarkdownPipeline _pipeline;
+        readonly Transition _presentationDefaultTransition;
+        readonly Configuration _config;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _config = config;
         }
 
         public string Layout(Slide slide)
@@ -39,7 +41,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
                 if (contentItem.Value.IsText())
                     sb.AppendLine(Markdig.Markdown.ToHtml(contentItem.Value.Content.AsString(), _pipeline));
                 else if (contentItem.Value.IsImage())
-                    sb.AppendLine($"<img alt=\"{contentItem.Value.FileName}\" src=\"data:{contentItem.Value.ContentType};base64,{contentItem.Value.Content.AsBase64String()}\" />");
+                    sb.AppendLine($"<img alt=\"{contentItem.Value.FileName}\" src=\"{contentItem.Value.RelativePathToImage()}\" />");
                 else
                     throw new NotSupportedException("Only Text and Image content is currently supported");
                 sb.AppendLine("</td>");

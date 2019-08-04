@@ -20,8 +20,24 @@ namespace LiquidVictor.Entities
         public string Notes { get; set; }
 
         public ContentItem BackgroundContent { get; set; }
+        public bool NeverFullScreen { get; set; }
 
         public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; set; }
 
+
+        public Slide Clone()
+        {
+            return new Slide()
+            {
+                Id = this.Id,
+                Title = this.Title,
+                TransitionIn = this.TransitionIn,
+                TransitionOut = this.TransitionOut,
+                Notes = this.Notes,
+                BackgroundContent = this.BackgroundContent,
+                NeverFullScreen = this.NeverFullScreen,
+                ContentItems = this.ContentItems.Clone()
+            };
+        }
     }
 }

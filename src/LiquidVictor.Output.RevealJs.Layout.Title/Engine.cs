@@ -12,13 +12,15 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
 {
     public class Engine : ILayoutStrategy
     {
-        Markdig.MarkdownPipeline _pipeline;
-        Transition _presentationDefaultTransition;
+        readonly Markdig.MarkdownPipeline _pipeline;
+        readonly Transition _presentationDefaultTransition;
+        readonly Configuration _config;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _config = config;
         }
 
         public string Layout(Slide slide)

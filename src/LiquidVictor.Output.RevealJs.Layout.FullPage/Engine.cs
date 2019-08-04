@@ -12,26 +12,36 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
 {
     public class Engine : ILayoutStrategy
     {
-        Markdig.MarkdownPipeline _pipeline;
-        Transition _presentationDefaultTransition;
+        readonly Markdig.MarkdownPipeline _pipeline;
+        readonly Transition _presentationDefaultTransition;
+        readonly Configuration _config;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _config = config;
         }
 
         public string Layout(Slide slide)
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
+            Slide slideToRender = slide.Clone();
 
-            sb.AppendLine($"<h1>{slide.Title}</h1>");
-            sb.AppendLine(slide.Id.ToString().AsComment());
-            sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));
+            if (slideToRender.MakeSoloImageFullScreen(_config))
+            {
+                slideToRender.BackgroundContent = slideToRender.ContentItems.Single().Value;
+                slideToRender.ContentItems.Clear();
+            }
 
-            var contentItems = slide.ContentItems
+            sb.AppendLine(slideToRender.AsStartSlideSection(_presentationDefaultTransition));
+
+            sb.AppendLine(slideToRender.Title.AsTitle());
+            sb.AppendLine(slideToRender.Id.ToString().AsComment());
+            sb.AppendLine(slideToRender.Notes.AsNotesSection(_pipeline));
+
+            var contentItems = slideToRender.ContentItems
                 .OrderBy(c => c.Key)
                 .Select(c => c.Value);
 
@@ -43,7 +53,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
                 }
                 else if (contentItem.IsImage())
                 {
-                    sb.AppendLine($"<img alt=\"{contentItem.FileName}\" src=\"data:{contentItem.ContentType};base64,{contentItem.Content.AsBase64String()}\" />");
+                    sb.AppendLine($"<img alt=\"{contentItem.FileName}\" src=\"{contentItem.RelativePathToImage()}\" />");
                 }
                 else
                     throw new Exceptions.SlideLayoutException(Enumerations.Layout.FullPage, "Only Image and Text items are supported in this layout");
