@@ -22,3 +22,10 @@ and maintaining these presentations much easer.
 
 
 Prototypes and contribution guidelines are forthcoming.
+
+To build the project, take the following steps:
+
+1) Download the code repository and open the LiquidVictor solution file in Visual Studio or equivalent IDE.
+1) From a console window at the root of the code repository, execute the git command `git update-index --skip-worktree \src\lv\Properties\launchSettings.json` to tell git not to upload any changes to that file since they are specific to your local installation.
+1) Modify the `\src\lv\Properties\launchSettings.json` file to point to the presentation you wish to build (sample presentation repositories are forthcoming).
+1) Execute the LV.exe CLI by pressing F5 in Visual Studio or invoking the proper command in your IDE.
