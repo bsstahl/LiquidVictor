@@ -25,128 +25,44 @@ namespace LiquidVictor.Output.RevealJs.Generator
 
         public void CompilePresentation(SlideDeck slideDeck, Configuration config)
         {
-            var pipeline = new MarkdownPipelineBuilder()
-                             .UseAdvancedExtensions()
-                             .Build();
-
-            var images = new List<ContentItem>();
-
-            var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, config);
-
-            var slideSections = new StringBuilder();
-
-            // Title slide
-            if (config.BuildTitleSlide)
-            {
-                var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-                var titleSlide = slideDeck.CreateTitleSlide();
-                slideSections.AppendLine(titleStrategy.Layout(titleSlide));
-            }
-
-            // Content slides
-            foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
-            {
-                if (slide.Value.BackgroundContent != null)
-                {
-                    images.AddIfNotPresent(slide.Value.BackgroundContent);
-                }
-
-                // Add additional content item images to images collection
-                foreach (var contentItem in slide.Value.ContentItems)
-                {
-                    if (contentItem.Value.IsImage())
-                        images.AddIfNotPresent(contentItem.Value);
-                }
-
-                var strategy = layoutStrategies[(int)slide.Value.Layout];
-                if (strategy == null)
-                    throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
-                // slideSections.AppendLine($"<!-- SlideId={slide.Value.Id.ToString()} -->");
-                slideSections.AppendLine(strategy.Layout(slide.Value));
-            }
-
-            //this.CopyFolder(_templatePath, filepath);
-            //this.AddImages(images, filepath);
-
-            (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
-
-            var templateFilePath = System.IO.Path.Combine(_templatePath, _templateFilename);
-            var indexTemplate = System.IO.File.ReadAllText(templateFilePath);
-            var content = indexTemplate
-                .Replace("{SlideSections}", slideSections.ToString())
-                .Replace("{Presenter}", slideDeck.Presenter)
-                .Replace("{PresentationTitle}", slideDeck.Title)
-                .Replace("{ThemeName}", slideDeck.ThemeName.ToLower())
-                .Replace("{Transition}", slideDeck.Transition.GetTransitionBaseName())
-                .Replace("{Width}", presentationWidth.ToString())
-                .Replace("{Height}", presentationHeight.ToString());
-
-            // System.IO.File.WriteAllText(templateFilePath, content);
+            _ = BuildContent(slideDeck, config);
         }
 
         public void CreatePresentation(string filepath, SlideDeck slideDeck, Configuration config)
+        {
+            var (images, content) = BuildContent(slideDeck, config);
+            WriteContent(filepath, images, content);
+        }
+
+        private (IEnumerable<ContentItem>, string) BuildContent(SlideDeck slideDeck, Configuration config)
         {
             var pipeline = new MarkdownPipelineBuilder()
                              .UseAdvancedExtensions()
                              .Build();
 
             var images = new List<ContentItem>();
-
-            var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, config);
-
+            var layoutStrategies = GetLayoutStrategies(pipeline, config, slideDeck);
             var slideSections = new StringBuilder();
 
-            // Title slide
             if (config.BuildTitleSlide)
             {
-                var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
                 var titleSlide = slideDeck.CreateTitleSlide();
+                var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
                 slideSections.AppendLine(titleStrategy.Layout(titleSlide));
             }
 
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
             {
-                if (slide.Value.BackgroundContent != null)
-                {
-                    images.AddIfNotPresent(slide.Value.BackgroundContent);
-                }
-
-                // Add additional content item images to images collection
-                foreach (var contentItem in slide.Value.ContentItems)
-                {
-                    if (contentItem.Value.IsImage())
-                        images.AddIfNotPresent(contentItem.Value);
-                }
-
-                var strategy = layoutStrategies[(int)slide.Value.Layout];
-                if (strategy == null)
-                    throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
-                // slideSections.AppendLine($"<!-- SlideId={slide.Value.Id.ToString()} -->");
-                slideSections.AppendLine(strategy.Layout(slide.Value));
+                images.AddFromSlide(slide.Value);
+                slideSections.AppendLine(slide.Value.GetLayout(layoutStrategies));
             }
-
-            this.CopyFolder(_templatePath, filepath);
-            this.AddImages(images, filepath);
 
             (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
 
-            var templatePath = System.IO.Path.Combine(filepath, _templateFilename);
-            var indexTemplate = System.IO.File.ReadAllText(templatePath);
+            var templateFilePath = Path.Combine(_templatePath, _templateFilename);
+            var indexTemplate = File.ReadAllText(templateFilePath);
+
             var content = indexTemplate
                 .Replace("{SlideSections}", slideSections.ToString())
                 .Replace("{Presenter}", slideDeck.Presenter)
@@ -156,7 +72,28 @@ namespace LiquidVictor.Output.RevealJs.Generator
                 .Replace("{Width}", presentationWidth.ToString())
                 .Replace("{Height}", presentationHeight.ToString());
 
-            File.WriteAllText(templatePath, content);
+            return (images, content);
+        }
+
+        private void WriteContent(string filepath, IEnumerable<ContentItem> images, string content)
+        {
+            var outputFilePath = System.IO.Path.Combine(filepath, _templateFilename);
+            this.CopyFolder(_templatePath, filepath);
+            this.AddImages(images, filepath);
+            File.WriteAllText(outputFilePath, content);
+        }
+
+        private static ILayoutStrategy[] GetLayoutStrategies(MarkdownPipeline pipeline, Configuration config, SlideDeck slideDeck)
+        {
+            var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
+            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, config);
+            return layoutStrategies;
         }
 
         private void AddImages(IEnumerable<ContentItem> images, string targetPath)

@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
+using LiquidVictor.Output.RevealJs.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,14 @@ namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class SlideExtensions
     {
+        public static string GetLayout(this Slide slide, ILayoutStrategy[] layoutStrategies)
+        {
+            var strategy = layoutStrategies[(int)slide.Layout];
+            return strategy == null 
+                ? throw new NotSupportedException($"No layout strategy found for {slide.Layout}") 
+                : strategy.Layout(slide);
+        }
+
         public static bool MakeSoloImageFullScreen(this Slide slide, Configuration config)
         {
             return config.MakeSoloImagesFullScreen &&
