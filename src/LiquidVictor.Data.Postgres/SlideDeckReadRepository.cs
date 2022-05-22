@@ -18,6 +18,18 @@ namespace LiquidVictor.Data.Postgres
             _context = new Context(connectionString);
         }
 
+        public Entities.ContentItem GetContentItem(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public Entities.Slide GetSlide(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
         public Entities.SlideDeck GetSlideDeck(Guid id)
         {
             // TODO: Throw custom error if not found

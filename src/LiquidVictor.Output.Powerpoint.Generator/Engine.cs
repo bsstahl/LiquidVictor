@@ -16,7 +16,7 @@ namespace LiquidVictor.Output.Powerpoint.Generator
 {
     public class Engine : IPresentationBuilder
     {
-        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck, Configuration config)
+        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
         {
             // Create a presentation at a specified file path. The presentation document type is pptx, by default.
             PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);
@@ -40,7 +40,7 @@ namespace LiquidVictor.Output.Powerpoint.Generator
             presentationDoc.Close();
         }
 
-        public void CompilePresentation(SlideDeck slideDeck, Configuration configuration)
+        public void CompilePresentation(SlideDeck slideDeck)
         {
             throw new NotImplementedException();
         }

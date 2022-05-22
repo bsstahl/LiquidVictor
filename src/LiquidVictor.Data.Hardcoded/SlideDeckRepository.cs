@@ -8,6 +8,18 @@ namespace LiquidVictor.Data.Hardcoded
 {
     public class SlideDeckRepository : Interfaces.ISlideDeckReadRepository
     {
+        public ContentItem GetContentItem(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public Slide GetSlide(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
         public SlideDeck GetSlideDeck(Guid id)
         {
             var slides = new List<KeyValuePair<int, Slide>>();

@@ -14,13 +14,6 @@ namespace LiquidVictor.Data.JsonFile
             _dataPath = dataPath;
         }
 
-        public void SaveSlideDeck(SlideDeck slideDeck)
-        {
-            var fullPath = System.IO.Path.Combine(_dataPath, $"{slideDeck.Id.ToString()}.json");
-            var json = JsonConvert.SerializeObject(slideDeck);
-            System.IO.File.WriteAllText(fullPath, json);
-        }
-
         public SlideDeck GetSlideDeck(Guid id)
         {
             var fullPath = System.IO.Path.Combine(_dataPath, $"{id}.json");
@@ -28,5 +21,35 @@ namespace LiquidVictor.Data.JsonFile
             return JsonConvert.DeserializeObject<SlideDeck>(json);
         }
 
+        public void SaveSlideDeck(SlideDeck slideDeck)
+        {
+            var fullPath = System.IO.Path.Combine(_dataPath, $"{slideDeck.Id.ToString()}.json");
+            var json = JsonConvert.SerializeObject(slideDeck);
+            System.IO.File.WriteAllText(fullPath, json);
+        }
+
+        public void SaveSlide(Slide slide)
+        {
+            // TODO: Refactor from SaveSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public void SaveContentItem(ContentItem contentItem)
+        {
+            // TODO: Refactor from SaveSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public Slide GetSlide(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public ContentItem GetContentItem(Guid id)
+        {
+            // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
     }
 }

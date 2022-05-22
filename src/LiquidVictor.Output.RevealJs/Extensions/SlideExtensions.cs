@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
+using LiquidVictor.Output.RevealJs.Entities;
 using LiquidVictor.Output.RevealJs.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace LiquidVictor.Output.RevealJs.Extensions
                 : strategy.Layout(slide);
         }
 
-        public static bool MakeSoloImageFullScreen(this Slide slide, Configuration config)
+        public static bool MakeSoloImageFullScreen(this Slide slide, BuilderOptions builderOptions)
         {
-            return config.MakeSoloImagesFullScreen &&
+            return builderOptions.MakeSoloImagesFullScreen &&
                  string.IsNullOrWhiteSpace(slide.Title) &&
                  !slide.NeverFullScreen &&
                  slide.ContentItems.Count() == 1 &&

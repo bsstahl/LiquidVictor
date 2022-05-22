@@ -7,8 +7,8 @@ using LiquidVictor.Output.RevealJs.Interfaces;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Entities;
 using LiquidVictor.Interfaces;
-using LiquidVictor.Extensions;
 using System.IO;
+using LiquidVictor.Output.RevealJs.Entities;
 
 namespace LiquidVictor.Output.RevealJs.Generator
 {
@@ -17,34 +17,36 @@ namespace LiquidVictor.Output.RevealJs.Generator
         const string _templateFilename = "index.html";
 
         readonly string _templatePath;
+        readonly BuilderOptions _builderOptions;
 
-        public Engine(string templatePath)
+        public Engine(string templatePath, BuilderOptions builderOptions)
         {
             _templatePath = templatePath;
+            _builderOptions = builderOptions;
         }
 
-        public void CompilePresentation(SlideDeck slideDeck, Configuration config)
+        public void CompilePresentation(SlideDeck slideDeck)
         {
-            _ = BuildContent(slideDeck, config);
+            _ = BuildContent(slideDeck, _builderOptions);
         }
 
-        public void CreatePresentation(string filepath, SlideDeck slideDeck, Configuration config)
+        public void CreatePresentation(string filepath, SlideDeck slideDeck)
         {
-            var (images, content) = BuildContent(slideDeck, config);
+            var (images, content) = BuildContent(slideDeck, _builderOptions);
             WriteContent(filepath, images, content);
         }
 
-        private (IEnumerable<ContentItem>, string) BuildContent(SlideDeck slideDeck, Configuration config)
+        private (IEnumerable<ContentItem>, string) BuildContent(SlideDeck slideDeck, BuilderOptions builderOptions)
         {
             var pipeline = new MarkdownPipelineBuilder()
                              .UseAdvancedExtensions()
                              .Build();
 
             var images = new List<ContentItem>();
-            var layoutStrategies = GetLayoutStrategies(pipeline, config, slideDeck);
+            var layoutStrategies = GetLayoutStrategies(pipeline, builderOptions, slideDeck);
             var slideSections = new StringBuilder();
 
-            if (config.BuildTitleSlide)
+            if (builderOptions.BuildTitleSlide)
             {
                 var titleSlide = slideDeck.CreateTitleSlide();
                 var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
@@ -77,22 +79,22 @@ namespace LiquidVictor.Output.RevealJs.Generator
 
         private void WriteContent(string filepath, IEnumerable<ContentItem> images, string content)
         {
-            var outputFilePath = System.IO.Path.Combine(filepath, _templateFilename);
+            var outputFilePath = Path.Combine(filepath, _templateFilename);
             this.CopyFolder(_templatePath, filepath);
             this.AddImages(images, filepath);
             File.WriteAllText(outputFilePath, content);
         }
 
-        private static ILayoutStrategy[] GetLayoutStrategies(MarkdownPipeline pipeline, Configuration config, SlideDeck slideDeck)
+        private static ILayoutStrategy[] GetLayoutStrategies(MarkdownPipeline pipeline, BuilderOptions builderOptions, SlideDeck slideDeck)
         {
             var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
-            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, config);
-            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, builderOptions);
             return layoutStrategies;
         }
 

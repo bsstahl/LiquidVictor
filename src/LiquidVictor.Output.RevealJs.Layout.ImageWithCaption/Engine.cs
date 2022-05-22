@@ -8,6 +8,7 @@ using LiquidVictor.Exceptions;
 using LiquidVictor.Output.RevealJs.Interfaces;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Enumerations;
+using LiquidVictor.Output.RevealJs.Entities;
 
 namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
 {
@@ -15,13 +16,13 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
-        readonly Configuration _config;
+        readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
-            _config = config;
+            _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide)

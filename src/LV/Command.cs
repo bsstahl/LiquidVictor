@@ -9,9 +9,11 @@ namespace LV
     internal enum Command
     {
         Build,
-        CreateContentItem,
+        CreateSlideDeck,
         CreateSlide,
+        CreateContentItem,
         ExportContentItem,
+        CloneSlideDeck,
         CloneSlide,
         CloneContentItem
     }

@@ -15,6 +15,18 @@ namespace LiquidVictor.Data.Postgres
             _context = new Context(connectionString);
         }
 
+        public void SaveContentItem(Entities.ContentItem contentItem)
+        {
+            // TODO: Refactor out of SaveSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public void SaveSlide(Entities.Slide slide)
+        {
+            // TODO: Refactor out of SaveSlideDeck
+            throw new NotImplementedException();
+        }
+
         public void SaveSlideDeck(Entities.SlideDeck slideDeck)
         {
             _context.UpdateSlideDeck(slideDeck);

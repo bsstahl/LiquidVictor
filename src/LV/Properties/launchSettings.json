@@ -2,7 +2,7 @@
   "profiles": {
     "LV": {
       "commandName": "Project",
-      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\..\\..\\Sample\\Input\\SlideDecks\\SlideDeck.json\" \"e0b187d2-c9b7-4635-8fe5-0ca21bc5007f\" \"RevealJS\" \"..\\..\\..\\..\\..\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\Sample\\Output\" --MakeSoloImagesFullScreen"
+      "commandLineArgs": "jsonFileSystem ..\\..\\..\\..\\..\\Sample\\Input\\ -SlideDeckId:e0b187d2-c9b7-4635-8fe5-0ca21bc5007f \"RevealJS\" \"..\\..\\..\\..\\..\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\Sample\\Output\" --MakeSoloImagesFullScreen CloneSlide -SlideId:a19ea545-d4cf-4150-ad22-0c5a7c033fe9"
     }
   }
 }

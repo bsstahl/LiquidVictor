@@ -5,6 +5,7 @@ using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
 using LiquidVictor.Extensions;
+using LiquidVictor.Output.RevealJs.Entities;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Output.RevealJs.Interfaces;
 
@@ -14,13 +15,13 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
-        readonly Configuration _config;
+        readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Configuration config)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
-            _config = config;
+            _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide)
@@ -29,7 +30,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
 
             Slide slideToRender = slide.Clone();
 
-            if (slideToRender.MakeSoloImageFullScreen(_config))
+            if (slideToRender.MakeSoloImageFullScreen(_builderOptions))
             {
                 slideToRender.BackgroundContent = slideToRender.ContentItems.Single().Value;
                 slideToRender.ContentItems.Clear();
