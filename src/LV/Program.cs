@@ -24,27 +24,28 @@ namespace LV
             //Console.WriteLine();
 
             ISlideDeckReadRepository source = GetSourceRepository(args[0], args[1]);
-
-            string outputPath = System.IO.Path.GetFullPath(args[5]);
             IPresentationBuilder engine = GetEngine(args[3], args[4]);
 
-            Guid slideDeckId = Guid.Parse(args[2]);
-            var slideDeck = source.GetSlideDeck(slideDeckId);
+            var slideDeck = source.GetSlideDeck(Guid.Parse(args[2]));
+            var (command, config) = args.Parse();
 
-            var config = new LiquidVictor.Entities.Configuration();
-            for (int i = 6; i < args.Length; i++)
+            if (command == Command.Build)
             {
-                // TODO: Add any other arguments
-                string arg = args[i].ToLower();
-                if (arg == "--notitle")
-                    config.BuildTitleSlide = false;
-                else if (arg == "--makesoloimagesfullscreen")
-                    config.MakeSoloImagesFullScreen = true;
+                string outputPath = System.IO.Path.GetFullPath(args[5]);
+                if (config.SkipOutput)
+                {
+                    engine.CompilePresentation(slideDeck, config);
+                    Console.WriteLine($"Presentation '{slideDeck.Title}' successfully compiled");
+                }
+                else
+                {
+                    engine.CreatePresentation(outputPath, slideDeck, config);
+                    Console.WriteLine($"Presentation '{slideDeck.Title}' written to {outputPath}");
+                }
             }
+            else
+                throw new NotImplementedException($"The '({command})' feature has not yet been implemented");
 
-            engine.CreatePresentation(outputPath, slideDeck, config);
-
-            Console.WriteLine($"Presentation written to {outputPath}");
         }
 
         private static IPresentationBuilder GetEngine(string engineType, string engineParameters)

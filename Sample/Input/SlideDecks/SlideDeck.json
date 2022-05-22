@@ -1,0 +1,16 @@
+{
+    "Id": "e0b187d2-c9b7-4635-8fe5-0ca21bc5007f",
+    "Title": "Sample Liquid Victor Presentation",
+    "SubTitle": "This title slide was automatically generated (optional)",
+    "Presenter": "@bsstahl",
+    "ThemeName": "Moon",
+    "AspectRatio": "Widescreen",
+    "Transition": "Slide",
+    "SlideDeckUrl" : "https://SampleLiquidVictorPresentation.azurewebsites.net",
+    "SlideIds": [
+        "f7161575-bd05-41dc-9ad0-7e700cd6deb3",
+        "5ed14ce6-0afb-4bff-91c1-d0b6b8c4a8d0",
+        "a19ea545-d4cf-4150-ad22-0c5a7c033fe9",
+        "2f334db4-c915-4783-9641-b1162099cea9"
+    ]
+}

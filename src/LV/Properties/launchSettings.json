@@ -2,7 +2,7 @@
   "profiles": {
     "LV": {
       "commandName": "Project",
-      "commandLineArgs": "\"jsonFileSystem\" \"RepositoryPath\\SlideDecks\\Presentation.json\" \"94609cde-b638-4fb7-9d8a-06c3a06a5696\" \"RevealJS\" \"RepositoryPath\\Templates\\RevealJS\" \"OutputPath\\Presentation\" --NoTitle --MakeSoloImagesFullScreen"
+      "commandLineArgs": "\"jsonFileSystem\" \"..\\..\\..\\..\\..\\Sample\\Input\\SlideDecks\\SlideDeck.json\" \"e0b187d2-c9b7-4635-8fe5-0ca21bc5007f\" \"RevealJS\" \"..\\..\\..\\..\\..\\Templates\\RevealJS\" \"..\\..\\..\\..\\..\\Sample\\Output\" --MakeSoloImagesFullScreen"
     }
   }
 }

@@ -1,0 +1,11 @@
+{
+    "Title": "1 text col, 1 image col",
+    "Layout": "MultiColumn",
+    "TransitionIn": "PresentationDefault",
+    "TransitionOut": "PresentationDefault",
+    "Notes": "These are some notes \r\n* Bullet point 1\r\n* Bullet point 2",
+    "ContentItemIds": [
+        "1fcb8baa-a9a4-4943-a6d5-58272e7932dc",
+        "3374a169-db2c-4016-a8a0-e8c1542a6409"
+    ]
+}

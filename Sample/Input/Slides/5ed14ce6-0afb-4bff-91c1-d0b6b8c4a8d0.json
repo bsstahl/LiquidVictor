@@ -1,0 +1,10 @@
+{
+    "Title": "Basic Text Slide",
+    "Layout": "MultiColumn",
+    "TransitionIn": "PresentationDefault",
+    "TransitionOut": "PresentationDefault",
+    "Notes": "These are some notes. We have all of the capabilities of Markdown here including **Highlighting** and [Hyperlinks](http://www.hyperlink.com). \r\n",
+    "ContentItemIds": [
+        "59cd12f8-4bb4-4f5f-b85d-717e045053a3"
+    ]
+}

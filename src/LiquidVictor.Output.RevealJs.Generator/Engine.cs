@@ -23,6 +23,74 @@ namespace LiquidVictor.Output.RevealJs.Generator
             _templatePath = templatePath;
         }
 
+        public void CompilePresentation(SlideDeck slideDeck, Configuration config)
+        {
+            var pipeline = new MarkdownPipelineBuilder()
+                             .UseAdvancedExtensions()
+                             .Build();
+
+            var images = new List<ContentItem>();
+
+            var layoutStrategies = new ILayoutStrategy[Enum.GetValues(typeof(Enumerations.Layout)).Length];
+            layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, config);
+            layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, config);
+
+            var slideSections = new StringBuilder();
+
+            // Title slide
+            if (config.BuildTitleSlide)
+            {
+                var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
+                var titleSlide = slideDeck.CreateTitleSlide();
+                slideSections.AppendLine(titleStrategy.Layout(titleSlide));
+            }
+
+            // Content slides
+            foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
+            {
+                if (slide.Value.BackgroundContent != null)
+                {
+                    images.AddIfNotPresent(slide.Value.BackgroundContent);
+                }
+
+                // Add additional content item images to images collection
+                foreach (var contentItem in slide.Value.ContentItems)
+                {
+                    if (contentItem.Value.IsImage())
+                        images.AddIfNotPresent(contentItem.Value);
+                }
+
+                var strategy = layoutStrategies[(int)slide.Value.Layout];
+                if (strategy == null)
+                    throw new NotSupportedException($"No layout strategy found for {slide.Value.Layout}");
+                // slideSections.AppendLine($"<!-- SlideId={slide.Value.Id.ToString()} -->");
+                slideSections.AppendLine(strategy.Layout(slide.Value));
+            }
+
+            //this.CopyFolder(_templatePath, filepath);
+            //this.AddImages(images, filepath);
+
+            (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
+
+            var templateFilePath = System.IO.Path.Combine(_templatePath, _templateFilename);
+            var indexTemplate = System.IO.File.ReadAllText(templateFilePath);
+            var content = indexTemplate
+                .Replace("{SlideSections}", slideSections.ToString())
+                .Replace("{Presenter}", slideDeck.Presenter)
+                .Replace("{PresentationTitle}", slideDeck.Title)
+                .Replace("{ThemeName}", slideDeck.ThemeName.ToLower())
+                .Replace("{Transition}", slideDeck.Transition.GetTransitionBaseName())
+                .Replace("{Width}", presentationWidth.ToString())
+                .Replace("{Height}", presentationHeight.ToString());
+
+            // System.IO.File.WriteAllText(templateFilePath, content);
+        }
+
         public void CreatePresentation(string filepath, SlideDeck slideDeck, Configuration config)
         {
             var pipeline = new MarkdownPipelineBuilder()
@@ -88,7 +156,7 @@ namespace LiquidVictor.Output.RevealJs.Generator
                 .Replace("{Width}", presentationWidth.ToString())
                 .Replace("{Height}", presentationHeight.ToString());
 
-            System.IO.File.WriteAllText(templatePath, content);
+            File.WriteAllText(templatePath, content);
         }
 
         private void AddImages(IEnumerable<ContentItem> images, string targetPath)
