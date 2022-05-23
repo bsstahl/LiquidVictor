@@ -23,6 +23,9 @@ namespace LV
             {
                 switch (command)
                 {
+                    case Command.Help: // TODO: Implement Help command
+                        throw new NotImplementedException();
+
                     case Command.Build:
                         ExecuteBuild(config, readRepo, engine);
                         break;

@@ -15,6 +15,7 @@ namespace LV
         ExportContentItem,
         CloneSlideDeck,
         CloneSlide,
-        CloneContentItem
+        CloneContentItem,
+        Help
     }
 }

@@ -1,9 +1,5 @@
-﻿using LiquidVictor.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
 
 namespace LV
 {
@@ -11,7 +7,7 @@ namespace LV
     {
         internal static (Command, Configuration) Parse(this string[] args, Configuration defaults = null)
         {
-            var command = Command.Build;
+            var command = Command.Help;
             var config = defaults ?? new Configuration()
             {
                 BuildTitleSlide = true,
@@ -56,7 +52,7 @@ namespace LV
                     config.ContentPath = System.IO.Path.GetFullPath(args[i].Substring(13));
                 else
                 {
-                    if (Enum.TryParse<Command>(args[i], out var commandResult))
+                    if (Enum.TryParse<Command>(args[i], true, out var commandResult))
                         command = commandResult;
                     else
                         Console.WriteLine($"Unknown parameter '{args[i]}'");
