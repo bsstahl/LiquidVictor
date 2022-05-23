@@ -22,9 +22,11 @@ namespace LiquidVictor.Data.JsonFileSystem
                 Id = slideDeck.Id.ToString(),
                 AspectRatio = slideDeck.AspectRatio.ToString(),
                 Presenter = slideDeck.Presenter,
+                PrintLinkText = slideDeck.PrintLinkText,
                 SubTitle = slideDeck.SubTitle,
                 ThemeName = slideDeck.ThemeName,
                 Title = slideDeck.Title,
+                Transition = slideDeck.Transition.ToString(),
                 SlideIds = slideDeck.Slides.OrderBy(s => s.Key).Select(s => s.Value.Id.ToString()).ToArray()
             };
 
@@ -52,7 +54,9 @@ namespace LiquidVictor.Data.JsonFileSystem
 
             var slide = new JsonFileSystem.Slide()
             {
+                BackgroundContent = s.BackgroundContent?.Id.ToString(),
                 Layout = s.Layout.ToString(),
+                NeverFullScreen = s.NeverFullScreen,
                 Notes = s.Notes,
                 Title = s.Title,
                 TransitionIn = s.TransitionIn.ToString(),

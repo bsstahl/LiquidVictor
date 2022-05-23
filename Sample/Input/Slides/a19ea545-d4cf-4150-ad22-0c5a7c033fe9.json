@@ -4,6 +4,8 @@
     "TransitionIn": "PresentationDefault",
     "TransitionOut": "PresentationDefault",
     "Notes": "These are some notes \r\n* Bullet point 1\r\n* Bullet point 2",
+    "BackgroundContent": null,
+    "NeverFullScreen": false,
     "ContentItemIds": [
         "f7b8526d-cfbc-4133-b116-c8ad47f53eee",
         "f3bb0122-bf6d-481b-8c52-aba172c939bc"

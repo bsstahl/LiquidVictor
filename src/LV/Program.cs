@@ -32,6 +32,10 @@ namespace LV
                     ExecuteCloneSlide(config, readRepo, writeRepo);
                     break;
 
+                case Command.CloneSlideDeck:
+                    ExecuteCloneSlideDeck(config, readRepo, writeRepo);
+                    break;
+
                 default:
                     throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
             }
@@ -57,6 +61,17 @@ namespace LV
 
             writeRepo.SaveSlide(newSlide);
             Console.WriteLine($"Slide {newSlide.Id} ('{newSlide.Title}') written to {config.SourceRepoPath}");
+        }
+
+        private static void ExecuteCloneSlideDeck(Configuration config, ISlideDeckReadRepository readRepo, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Validate inputs
+            // TODO: Respect --SkipOutput switch
+            var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
+
+            var newSlideDeck = slideDeck.Clone(Guid.NewGuid(), config.Title);
+            writeRepo.SaveSlideDeck(newSlideDeck);
+            Console.WriteLine($"Presentation {newSlideDeck.Id} ('{newSlideDeck.Title}') written to {config.SourceRepoPath}");
         }
 
         private static void ExecuteBuild(Configuration config, ISlideDeckReadRepository readRepo, IPresentationBuilder engine)

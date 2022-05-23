@@ -53,5 +53,12 @@ namespace LiquidVictor.Entities
             this.AspectRatio = aspectRatio;
             this.Slides = slides;
         }
+
+        public SlideDeck Clone(Guid? newId = null, string newTitle = "")
+        {
+            var id = newId ?? this.Id;
+            var title = string.IsNullOrEmpty(newTitle) ? this.Title : newTitle;
+            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, this.Slides);
+        }
     }
 }
