@@ -36,7 +36,7 @@ namespace LiquidVictor.Data.JsonFileSystem
                 System.IO.Directory.CreateDirectory(_sourceFolderPath);
 
             // Write SlideDeck file
-            System.IO.File.WriteAllText(slideDeckPath, Newtonsoft.Json.JsonConvert.SerializeObject(sd));
+            sd.SerializeTo(slideDeckPath);
 
             // Write Slides
             // TODO: Deduplicate (in case a slide is used more than once in a presentation)

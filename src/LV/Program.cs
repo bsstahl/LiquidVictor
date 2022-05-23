@@ -8,10 +8,6 @@ namespace LV
 {
     class Program
     {
-        // This is the 1st pass at a prototype that will load
-        // a slide deck from a pre-defined (hardcoded) source repository
-        // and turn it into a RevealJS presentation
-
         static void Main(string[] args)
         {
             // TODO: Add configurable default values for all config items
@@ -43,6 +39,7 @@ namespace LV
 
         private static void ExecuteCreateSlideDeck(Configuration config, ISlideDeckWriteRepository writeRepo)
         {
+            // TODO: Respect --SkipOutput switch
             var slideDeck = new LiquidVictor.Entities
                 .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>());
             writeRepo.SaveSlideDeck(slideDeck);
@@ -52,6 +49,7 @@ namespace LV
         private static void ExecuteCloneSlide(Configuration config, ISlideDeckReadRepository readRepo, ISlideDeckWriteRepository writeRepo)
         {
             // TODO: Validate inputs
+            // TODO: Respect --SkipOutput switch
             var slide = readRepo.GetSlide(config.SlideId);
 
             var newSlide = slide.Clone();
@@ -63,6 +61,9 @@ namespace LV
 
         private static void ExecuteBuild(Configuration config, ISlideDeckReadRepository readRepo, IPresentationBuilder engine)
         {
+            // Load a slide deck from a source repository
+            // and build it into a RevealJS presentation
+
             // TODO: Validate Inputs
             var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
             if (config.SkipOutput)

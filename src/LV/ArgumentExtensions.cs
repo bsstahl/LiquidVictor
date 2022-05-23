@@ -9,12 +9,19 @@ namespace LV
 {
     internal static class ArgumentExtensions
     {
-        internal static (Command, Configuration) Parse(this string[] args)
+        internal static (Command, Configuration) Parse(this string[] args, Configuration defaults = null)
         {
             var command = Command.Build;
-            var config = new Configuration()
+            var config = defaults ?? new Configuration()
             {
-                // TODO: Replace -- OutputPath = System.IO.Path.GetFullPath(args[5])
+                BuildTitleSlide = true,
+                MakeSoloImagesFullScreen = false,
+                OutputEngineType = "RevealJS",
+                PresentationPath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Sample\Output\"),
+                SkipOutput = false,
+                SourceRepoPath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Sample\Input\"),
+                SourceRepoType = "jsonFileSystem",
+                TemplatePath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Templates\RevealJS\")
             };
 
             for (int i = 0; i < args.Length; i++)
