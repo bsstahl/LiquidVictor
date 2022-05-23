@@ -24,7 +24,7 @@ namespace LV
                 switch (command)
                 {
                     case Command.Help: // TODO: Implement Help command
-                        throw new NotImplementedException();
+                        throw new NotImplementedException("Help command not yet implemented");
 
                     case Command.Build:
                         ExecuteBuild(config, readRepo, engine);
@@ -43,7 +43,7 @@ namespace LV
                         break;
 
                     case Command.ExportContentItem: // TODO: Implement ExportContentItem command
-                        throw new NotImplementedException();
+                        throw new NotImplementedException("ExportContentItem command not yet implemented");
 
                     case Command.CloneSlideDeck:
                         ExecuteCloneSlideDeck(config, readRepo, writeRepo);
@@ -54,7 +54,7 @@ namespace LV
                         break;
 
                     case Command.CloneContentItem: // TODO: Implement CloneContentItem command
-                        throw new NotImplementedException();
+                        throw new NotImplementedException("CloneContentItem command not yet implemented");
 
                     default:
                         throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
