@@ -36,13 +36,32 @@ namespace LV
                     ExecuteCloneSlideDeck(config, readRepo, writeRepo);
                     break;
 
+                case Command.CreateContentItem:
+                    ExecuteCreateContentItem(config, writeRepo);
+                    break;
+
                 default:
                     throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
             }
         }
 
+        private static void ExecuteCreateContentItem(Configuration config, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Validate inputs
+            // TODO: Respect --SkipOutput switch
+            var contentType = GetContentType(config.ContentPath);
+            var content = System.IO.File.ReadAllBytes(config.ContentPath);
+            var contentItemId = Guid.NewGuid();
+            var contentItemTitle = config.Title;
+            var contentItemFileName = System.IO.Path.GetFileName(config.ContentPath);
+
+            writeRepo.WriteContentItem(contentItemId, contentType, contentItemFileName, contentItemTitle, content);
+            Console.WriteLine($"ContentItem {contentItemId} ('{contentItemTitle}') written to {config.SourceRepoPath}");
+        }
+
         private static void ExecuteCreateSlideDeck(Configuration config, ISlideDeckWriteRepository writeRepo)
         {
+            // TODO: Validate inputs
             // TODO: Respect --SkipOutput switch
             var slideDeck = new LiquidVictor.Entities
                 .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>());
@@ -142,6 +161,31 @@ namespace LV
                     break;
                 default:
                     result = new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(config.SourceRepoPath);
+                    break;
+            }
+
+            return result;
+        }
+
+        private static string GetContentType(string sourceFilePath)
+        {
+            string result = string.Empty;
+            string cleanExtension = System.IO.Path.GetExtension(sourceFilePath).ToLower();
+            switch (cleanExtension)
+            {
+                case ".md":
+                    result = "text/markdown";
+                    break;
+                case ".png":
+                    result = "image/png";
+                    break;
+                case ".jpg":
+                case ".jfif":
+                case ".jpeg":
+                    result = "image/jpg";
+                    break;
+                case ".gif":
+                    result = "image/gif";
                     break;
             }
 

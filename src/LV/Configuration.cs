@@ -29,5 +29,8 @@ namespace LV
         public string PresentationPath { get; set; } = string.Empty;
 
         public string Title { get; set; } = string.Empty;
+
+        public string ContentPath { get; set; } = string.Empty;
+
     }
 }

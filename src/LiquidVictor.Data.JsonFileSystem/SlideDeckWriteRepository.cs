@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
+using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.JsonFileSystem
 {
@@ -78,7 +79,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             var ci = new JsonFileSystem.ContentItem()
             {
                 ContentType = contentItem.ContentType,
-                EncodedContent = ContentItem.EncodeContent(contentItem.ContentType, contentItem.Content),
+                EncodedContent = contentItem.Content.EncodeContent(contentItem.ContentType),
                 FileName = contentItem.FileName,
                 Title = contentItem.Title
             };

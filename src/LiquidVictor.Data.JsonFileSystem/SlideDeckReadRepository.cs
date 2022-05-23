@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiquidVictor.Extensions;
 using LiquidVictor.Interfaces;
 
 namespace LiquidVictor.Data.JsonFileSystem
@@ -98,7 +99,7 @@ namespace LiquidVictor.Data.JsonFileSystem
                 ContentType = localContentItem.ContentType,
                 FileName = localContentItem.FileName,
                 Title = localContentItem.Title,
-                Content = ContentItem.DecodeContent(localContentItem.ContentType, localContentItem.EncodedContent)
+                Content = localContentItem.EncodedContent.DecodeContent(localContentItem.ContentType)
             };
 
             return contentItemEntity;

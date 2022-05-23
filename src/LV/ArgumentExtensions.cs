@@ -52,6 +52,8 @@ namespace LV
                     config.PresentationPath = System.IO.Path.GetFullPath(args[i].Substring(18));
                 else if (arg.StartsWith("-title:"))
                     config.Title = args[i].Substring(7);
+                else if (arg.StartsWith("-contentpath:"))
+                    config.ContentPath = System.IO.Path.GetFullPath(args[i].Substring(13));
                 else
                 {
                     if (Enum.TryParse<Command>(args[i], out var commandResult))
