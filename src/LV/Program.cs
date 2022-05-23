@@ -18,41 +18,49 @@ namespace LV
             var writeRepo = GetWriteRepository(config);
             var engine = GetEngine(config);
 
-            switch (command)
+
+            try
             {
-                case Command.Build:
-                    ExecuteBuild(config, readRepo, engine);
-                    break;
+                switch (command)
+                {
+                    case Command.Build:
+                        ExecuteBuild(config, readRepo, engine);
+                        break;
 
-                case Command.CreateSlideDeck:
-                    ExecuteCreateSlideDeck(config, writeRepo);
-                    break;
+                    case Command.CreateSlideDeck:
+                        ExecuteCreateSlideDeck(config, writeRepo);
+                        break;
 
-                case Command.CreateSlide:
-                    ExecuteCreateSlide(config, writeRepo);
-                    break;
+                    case Command.CreateSlide:
+                        ExecuteCreateSlide(config, writeRepo);
+                        break;
 
-                case Command.CreateContentItem:
-                    ExecuteCreateContentItem(config, writeRepo);
-                    break;
+                    case Command.CreateContentItem:
+                        ExecuteCreateContentItem(config, writeRepo);
+                        break;
 
-                case Command.ExportContentItem: // TODO: Implement ExportContentItem command
-                    throw new NotImplementedException();
+                    case Command.ExportContentItem: // TODO: Implement ExportContentItem command
+                        throw new NotImplementedException();
 
-                case Command.CloneSlideDeck:
-                    ExecuteCloneSlideDeck(config, readRepo, writeRepo);
-                    break;
+                    case Command.CloneSlideDeck:
+                        ExecuteCloneSlideDeck(config, readRepo, writeRepo);
+                        break;
 
-                case Command.CloneSlide:
-                    ExecuteCloneSlide(config, readRepo, writeRepo);
-                    break;
+                    case Command.CloneSlide:
+                        ExecuteCloneSlide(config, readRepo, writeRepo);
+                        break;
 
-                case Command.CloneContentItem: // TODO: Implement CloneContentItem command
-                    throw new NotImplementedException();
+                    case Command.CloneContentItem: // TODO: Implement CloneContentItem command
+                        throw new NotImplementedException();
 
-                default:
-                    throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
+                    default:
+                        throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }        
         }
 
         private static void ExecuteCreateSlide(Configuration config, ISlideDeckWriteRepository writeRepo)
@@ -145,7 +153,10 @@ namespace LV
             // Load a slide deck from a source repository
             // and build it into a RevealJS presentation
 
-            // TODO: Validate Inputs
+            // TODO: Validate other Inputs
+            if (config.SlideDeckId == Guid.Empty)
+                throw new ArgumentException("A valid Slide Deck must be specified");
+
             var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
             if (config.SkipOutput)
             {
