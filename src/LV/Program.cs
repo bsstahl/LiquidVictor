@@ -20,29 +20,76 @@ namespace LV
 
             switch (command)
             {
-                case Command.CreateSlideDeck:
-                    ExecuteCreateSlideDeck(config, writeRepo);
-                    break;
-
                 case Command.Build:
                     ExecuteBuild(config, readRepo, engine);
                     break;
 
-                case Command.CloneSlide:
-                    ExecuteCloneSlide(config, readRepo, writeRepo);
+                case Command.CreateSlideDeck:
+                    ExecuteCreateSlideDeck(config, writeRepo);
                     break;
 
-                case Command.CloneSlideDeck:
-                    ExecuteCloneSlideDeck(config, readRepo, writeRepo);
+                case Command.CreateSlide:
+                    ExecuteCreateSlide(config, writeRepo);
                     break;
 
                 case Command.CreateContentItem:
                     ExecuteCreateContentItem(config, writeRepo);
                     break;
 
+                case Command.ExportContentItem: // TODO: Implement ExportContentItem command
+                    throw new NotImplementedException();
+
+                case Command.CloneSlideDeck:
+                    ExecuteCloneSlideDeck(config, readRepo, writeRepo);
+                    break;
+
+                case Command.CloneSlide:
+                    ExecuteCloneSlide(config, readRepo, writeRepo);
+                    break;
+
+                case Command.CloneContentItem: // TODO: Implement CloneContentItem command
+                    throw new NotImplementedException();
+
                 default:
                     throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
             }
+        }
+
+        private static void ExecuteCreateSlide(Configuration config, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Validate inputs
+            // TODO: Respect --SkipOutput switch
+            // TODO: Create ContentItem as background content
+
+            var contentItem = new LiquidVictor.Entities.ContentItem()
+            {
+                Id = Guid.NewGuid(),
+                ContentType = GetContentType(config.ContentPath),
+                Title = config.Title,
+                FileName = System.IO.Path.GetFileName(config.ContentPath),
+                Content = System.IO.File.ReadAllBytes(config.ContentPath)
+            };
+
+            var contentItems = new List<KeyValuePair<int, LiquidVictor.Entities.ContentItem>>()
+            {
+                new KeyValuePair<int,LiquidVictor.Entities.ContentItem>(0, contentItem)
+            };
+
+            var slide = new LiquidVictor.Entities.Slide()
+            {
+                Id = Guid.NewGuid(),
+                BackgroundContent  = null,
+                ContentItems = contentItems,
+                Layout = LiquidVictor.Enumerations.Layout.FullPage,
+                NeverFullScreen = false,
+                Notes = null,
+                Title = config.Title,
+                TransitionIn = LiquidVictor.Enumerations.Transition.PresentationDefault,
+                TransitionOut = LiquidVictor.Enumerations.Transition.PresentationDefault
+            };
+
+            writeRepo.SaveSlide(slide);
+            Console.WriteLine($"Slide {slide.Id} ('{slide.Title}') written to {config.SourceRepoPath}");
         }
 
         private static void ExecuteCreateContentItem(Configuration config, ISlideDeckWriteRepository writeRepo)
