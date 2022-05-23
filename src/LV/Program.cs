@@ -1,6 +1,7 @@
 ﻿using LiquidVictor.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LV
@@ -13,59 +14,73 @@ namespace LV
 
         static void Main(string[] args)
         {
-            // TODO: Convert to using connection strings for source and target
-            // LV.exe [SourceRepoType] [SourceRepoLocation] [SlideDeckId] [TargetType] [TargetTemplateLocation] [TargetLocation]
-
-            //Console.WriteLine();
-            //for (int i = 0; i < args.Length; i++)
-            //{
-            //    Console.WriteLine($"{i}: {args[i]}");
-            //}
-            //Console.WriteLine();
+            // TODO: Add configurable default values for all config items
 
             var (command, config) = args.Parse();
 
-            var source = GetSourceRepository(args[0], args[1]);
-            var target = GetTargetRepository(args[0], args[1]); // TODO: Is args[1] the right parameter?
-            var engine = GetEngine(args[3], args[4], config);
-
+            var readRepo = GetReadRepository(config);
+            var writeRepo = GetWriteRepository(config);
+            var engine = GetEngine(config);
 
             switch (command)
             {
+                case Command.CreateSlideDeck:
+                    ExecuteCreateSlideDeck(config, writeRepo);
+                    break;
+
                 case Command.Build:
-                    var slideDeck = source.GetSlideDeck(config.SlideDeckId);
-                    if (config.SkipOutput)
-                    {
-                        engine.CompilePresentation(slideDeck);
-                        Console.WriteLine($"Presentation '{slideDeck.Title}' successfully compiled");
-                    }
-                    else
-                    {
-                        engine.CreatePresentation(config.OutputPath, slideDeck);
-                        Console.WriteLine($"Presentation '{slideDeck.Title}' written to {config.OutputPath}");
-                    }
+                    ExecuteBuild(config, readRepo, engine);
                     break;
 
                 case Command.CloneSlide:
-                    // TODO: Validate inputs
-                    var slide = source.GetSlide(config.SlideId);
-                    
-                    var newSlide = slide.Clone();
-                    newSlide.Id = Guid.NewGuid();
-
-                    target.SaveSlide(newSlide);
-                    Console.WriteLine($"Slide {newSlide.Id} ('{newSlide.Title}') written to {config.OutputPath}");
+                    ExecuteCloneSlide(config, readRepo, writeRepo);
                     break;
 
                 default:
-                    throw new NotImplementedException($"The '({command})' feature has not yet been implemented");
+                    throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
             }
         }
 
-        private static IPresentationBuilder GetEngine(string engineType, string engineParameters, Configuration config)
+        private static void ExecuteCreateSlideDeck(Configuration config, ISlideDeckWriteRepository writeRepo)
+        {
+            var slideDeck = new LiquidVictor.Entities
+                .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>());
+            writeRepo.SaveSlideDeck(slideDeck);
+            Console.WriteLine($"Slide Deck {slideDeck.Id} ('{slideDeck.Title}') written to {config.SourceRepoPath}");
+        }
+
+        private static void ExecuteCloneSlide(Configuration config, ISlideDeckReadRepository readRepo, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Validate inputs
+            var slide = readRepo.GetSlide(config.SlideId);
+
+            var newSlide = slide.Clone();
+            newSlide.Id = Guid.NewGuid();
+
+            writeRepo.SaveSlide(newSlide);
+            Console.WriteLine($"Slide {newSlide.Id} ('{newSlide.Title}') written to {config.SourceRepoPath}");
+        }
+
+        private static void ExecuteBuild(Configuration config, ISlideDeckReadRepository readRepo, IPresentationBuilder engine)
+        {
+            // TODO: Validate Inputs
+            var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
+            if (config.SkipOutput)
+            {
+                engine.CompilePresentation(slideDeck);
+                Console.WriteLine($"Presentation '{slideDeck.Title}' successfully compiled");
+            }
+            else
+            {
+                engine.CreatePresentation(config.PresentationPath, slideDeck);
+                Console.WriteLine($"Presentation '{slideDeck.Title}' written to {config.PresentationPath}");
+            }
+        }
+
+        private static IPresentationBuilder GetEngine(Configuration config)
         {
             IPresentationBuilder result = null;
-            switch (engineType.ToLower())
+            switch (config.OutputEngineType.ToLower())
             {
                 case "reveal":
                 case "revealjs":
@@ -74,43 +89,43 @@ namespace LV
                         BuildTitleSlide = config.BuildTitleSlide,
                         MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
                     };
-                    result = new LiquidVictor.Output.RevealJs.Generator.Engine(engineParameters, builderOptions);
+                    result = new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(engineType), $"Invalid Presentation Builder '{engineType};");
+                    throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
             }
 
             return result;
         }
 
-        private static ISlideDeckReadRepository GetSourceRepository(string repoType, string repoParameter)
+        private static ISlideDeckReadRepository GetReadRepository(Configuration config)
         {
             ISlideDeckReadRepository result = null;
-            switch (repoType.ToLower())
+            switch (config.SourceRepoType.ToLower())
             {
                 case "postgres":
                 case "postgresql":
                     result = new LiquidVictor.Data.Postgres.SlideDeckReadRepository();
                     break;
                 default:
-                    result = new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(repoParameter);
+                    result = new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(config.SourceRepoPath);
                     break;
             }
 
             return result;
         }
 
-        private static ISlideDeckWriteRepository GetTargetRepository(string repoType, string repoParameter)
+        private static ISlideDeckWriteRepository GetWriteRepository(Configuration config)
         {
             ISlideDeckWriteRepository result = null;
-            switch (repoType.ToLower())
+            switch (config.SourceRepoType.ToLower())
             {
                 case "postgres":
                 case "postgresql":
-                    result = new LiquidVictor.Data.Postgres.SlideDeckWriteRepository(repoParameter);
+                    result = new LiquidVictor.Data.Postgres.SlideDeckWriteRepository(config.SourceRepoPath);
                     break;
                 default:
-                    result = new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(repoParameter);
+                    result = new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(config.SourceRepoPath);
                     break;
             }
 

@@ -12,12 +12,22 @@ namespace LV
 
         public bool SkipOutput { get; set; } = false;
 
-        public string OutputPath { get; set; } = string.Empty;
-
         public Guid SlideDeckId { get; set; } = Guid.Empty;
 
         public Guid SlideId { get; set; } = Guid.Empty;
 
         public Guid ContentItemId { get; set; } = Guid.Empty;
+
+        public string SourceRepoType { get; set; } = string.Empty;
+
+        public string SourceRepoPath { get; set; } = string.Empty;
+
+        public string OutputEngineType { get; set; } = string.Empty;
+
+        public string TemplatePath { get; set; } = string.Empty;
+
+        public string PresentationPath { get; set; } = string.Empty;
+
+        public string Title { get; set; } = string.Empty;
     }
 }
