@@ -10,14 +10,26 @@ namespace LV
     {
         static void Main(string[] args)
         {
-            // TODO: Add configurable default values for all config items
+            const string defaultConfigPath = @"defaults.json";
 
-            var (command, config) = args.Parse();
+            Command command;
+            Configuration config;
+
+            string executionFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string fullConfigPath = System.IO.Path.Combine(executionFolder, defaultConfigPath);
+            if (System.IO.File.Exists(fullConfigPath))
+            {
+                var defaults = new ConfigurationBuilder()
+                    .AddJsonFile(defaultConfigPath, false)
+                    .Build();
+                (command, config) = args.Parse(defaults);
+            }
+            else
+                (command, config) = args.Parse();
 
             var readRepo = GetReadRepository(config);
             var writeRepo = GetWriteRepository(config);
             var engine = GetEngine(config);
-
 
             try
             {
@@ -156,9 +168,8 @@ namespace LV
             // Load a slide deck from a source repository
             // and build it into a RevealJS presentation
 
-            // TODO: Validate other Inputs
-            if (config.SlideDeckId == Guid.Empty)
-                throw new ArgumentException("A valid Slide Deck must be specified");
+            config.SlideDeckId.ValidateNotNullOrEmpty("A valid Slide Deck must be specified");
+            config.PresentationPath.ValidateNotNullOrEmpty("A valid Presentation Path must be specified");
 
             var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
             if (config.SkipOutput)

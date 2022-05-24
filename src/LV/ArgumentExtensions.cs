@@ -1,23 +1,29 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading;
 
 namespace LV
 {
     internal static class ArgumentExtensions
     {
-        internal static (Command, Configuration) Parse(this string[] args, Configuration defaults = null)
+        internal static (Command, Configuration) Parse(this string[] args, IConfiguration defaults = null)
         {
+            const string defaultSourceRepoPath = @"..\..\..\..\..\Sample\Input\";
+            const string defaultTemplatePath = @"..\..\..\..\..\Templates\RevealJS\";
+            const string defaultOutputEngineType = "RevealJS";
+            const string defaultSourceRepoType = "jsonFileSystem";
+
             var command = Command.Help;
-            var config = defaults ?? new Configuration()
+            var config = new Configuration()
             {
-                BuildTitleSlide = true,
-                MakeSoloImagesFullScreen = false,
-                OutputEngineType = "RevealJS",
-                PresentationPath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Sample\Output\"),
-                SkipOutput = false,
-                SourceRepoPath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Sample\Input\"),
-                SourceRepoType = "jsonFileSystem",
-                TemplatePath = System.IO.Path.GetFullPath(@"..\..\..\..\..\Templates\RevealJS\")
+                BuildTitleSlide = defaults?.GetValue<bool>("BuildTitleSlide") ?? true,
+                MakeSoloImagesFullScreen = defaults?.GetValue<bool>("MakeSoloImagesFullScreen") ?? false,
+                OutputEngineType = defaults?.GetValue<string>("OutputEngineType") ?? defaultOutputEngineType,
+                PresentationPath = defaults?.GetValue<string>("PresentationPath") ?? string.Empty,
+                SkipOutput = defaults?.GetValue<bool>("SkipOutput") ?? false,
+                SourceRepoPath = System.IO.Path.GetFullPath(defaults?.GetValue<string>("SourceRepoPath") ?? defaultSourceRepoPath),
+                SourceRepoType = defaults?.GetValue<string>("SourceRepoType") ?? defaultSourceRepoType,
+                TemplatePath = System.IO.Path.GetFullPath(defaults?.GetValue<string>("TemplatePath") ?? defaultTemplatePath)
             };
 
             for (int i = 0; i < args.Length; i++)
@@ -61,5 +67,18 @@ namespace LV
 
             return (command, config);
         }
+
+        internal static void ValidateNotNullOrEmpty(this string item, string message)
+        {
+            if (string.IsNullOrWhiteSpace(item))
+                throw new ArgumentException(message);
+        }
+
+        internal static void ValidateNotNullOrEmpty(this Guid item, string message)
+        {
+            if (item == Guid.Empty)
+                throw new ArgumentException(message);
+        }
+
     }
 }
