@@ -20,6 +20,11 @@ namespace LiquidVictor.Data.Hardcoded
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Guid> GetSlideDeckIds()
+        {
+            throw new NotImplementedException();
+        }
+
         public SlideDeck GetSlideDeck(Guid id)
         {
             var slides = new List<KeyValuePair<int, Slide>>();

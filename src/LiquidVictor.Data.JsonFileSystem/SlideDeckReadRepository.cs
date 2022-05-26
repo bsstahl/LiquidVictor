@@ -14,6 +14,12 @@ namespace LiquidVictor.Data.JsonFileSystem
             _repositoryPath = repositoryPath;
         }
 
+        public IEnumerable<Guid> GetSlideDeckIds()
+        {
+            var slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
+            return slideDeckPath.GetFileIds();
+        }
+
         public Entities.SlideDeck GetSlideDeck(Guid id)
         {
             var slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");

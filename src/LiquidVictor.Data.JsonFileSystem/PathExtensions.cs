@@ -6,19 +6,33 @@ namespace LiquidVictor.Data.JsonFileSystem
 {
     internal static class PathExtensions
     {
-        internal static string FindFileWithId(this string path, Guid Id)
+        internal static string FindFileWithId(this string path, Guid id)
         {
             string result = string.Empty;
             var jsonFiles = System.IO.Directory.EnumerateFiles(path, "*.json");
             foreach (var jsonFile in jsonFiles)
             {
-                if (string.IsNullOrEmpty(result))
+                string currentFileId = System.IO.File.ReadAllText(jsonFile).ParseId();
+                if (currentFileId.Equals(id.ToString()))
                 {
-                    var json = System.IO.File.ReadAllText(jsonFile);
-                    var item = Newtonsoft.Json.Linq.JObject.Parse(json);
-                    if (item.Value<string>("Id").Equals(Id.ToString()))
-                        result = jsonFile;
+                    result = !string.IsNullOrEmpty(result) 
+                        ? throw new InvalidOperationException($"Multiple Slide Decks have Id={id}") 
+                        : jsonFile;
                 }
+            }
+
+            return result;
+        }
+
+        internal static IEnumerable<Guid> GetFileIds(this string path)
+        {
+            var result = new List<Guid>();
+
+            var jsonFiles = System.IO.Directory.EnumerateFiles(path, "*.json");
+            foreach (var jsonFile in jsonFiles)
+            {
+                string id = System.IO.File.ReadAllText(jsonFile).ParseId();
+                result.Add(Guid.Parse(id));
             }
 
             return result;

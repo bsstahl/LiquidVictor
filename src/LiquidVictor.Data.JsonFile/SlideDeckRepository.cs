@@ -28,6 +28,11 @@ namespace LiquidVictor.Data.JsonFile
             System.IO.File.WriteAllText(fullPath, json);
         }
 
+        public IEnumerable<Guid> GetSlideDeckIds()
+        {
+            throw new NotImplementedException();
+        }
+
         public void SaveSlide(Slide slide)
         {
             // TODO: Refactor from SaveSlideDeck

@@ -69,8 +69,8 @@ namespace LV
                         throw new NotImplementedException("CloneContentItem command not yet implemented");
 
                     case Command.ValidateSourceRepo: // TODO: Implement ValidateSourceRepo command
-                        // Verifies that all SlideDecks have unique IDs
-                        throw new NotImplementedException();
+                        ExecuteValidateSourceRepo(config, readRepo);
+                        break;
 
                     case Command.FindOrphans: // TODO: Implement FindOrphans command
                         throw new NotImplementedException();
@@ -83,6 +83,25 @@ namespace LV
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }        
+        }
+
+        private static void ExecuteValidateSourceRepo(Configuration config, ISlideDeckReadRepository readRepo)
+        {
+            // Verifies that all SlideDecks have unique IDs
+            var slideDeckIds = readRepo.GetSlideDeckIds();
+            var validSlideDecks = new Dictionary<Guid, string>();
+            foreach (var id in slideDeckIds)
+            {
+                // TODO: Add additional validations
+                var slideDeck = readRepo.GetSlideDeck(id);
+                validSlideDecks.Add(id, slideDeck.Title);
+            }
+
+            Console.WriteLine("Valid Slide Decks:");
+            foreach (var slideDeck in validSlideDecks)
+            {
+                Console.WriteLine($"{slideDeck.Key} - {slideDeck.Value}");
+            }
         }
 
         private static void ExecuteCreateSlide(Configuration config, ISlideDeckWriteRepository writeRepo)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,11 @@ namespace LiquidVictor.Data.Postgres
         public Entities.Slide GetSlide(Guid id)
         {
             // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetSlideDeckIds()
+        {
             throw new NotImplementedException();
         }
 

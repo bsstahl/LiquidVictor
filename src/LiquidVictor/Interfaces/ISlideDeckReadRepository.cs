@@ -10,5 +10,6 @@ namespace LiquidVictor.Interfaces
         SlideDeck GetSlideDeck(Guid id);
         Slide GetSlide(Guid id);
         ContentItem GetContentItem(Guid id);
+        IEnumerable<Guid> GetSlideDeckIds();
     }
 }
