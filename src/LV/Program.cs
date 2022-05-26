@@ -15,7 +15,7 @@ namespace LV
             Command command;
             Configuration config;
 
-            string executionFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string executionFolder = System.IO.Path.GetDirectoryName(AppContext.BaseDirectory);
             string fullConfigPath = System.IO.Path.Combine(executionFolder, defaultConfigPath);
             if (System.IO.File.Exists(fullConfigPath))
             {
