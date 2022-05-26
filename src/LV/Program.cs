@@ -68,6 +68,13 @@ namespace LV
                     case Command.CloneContentItem: // TODO: Implement CloneContentItem command
                         throw new NotImplementedException("CloneContentItem command not yet implemented");
 
+                    case Command.ValidateSourceRepo: // TODO: Implement ValidateSourceRepo command
+                        // Verifies that all SlideDecks have unique IDs
+                        throw new NotImplementedException();
+
+                    case Command.FindOrphans: // TODO: Implement FindOrphans command
+                        throw new NotImplementedException();
+
                     default:
                         throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
                 }

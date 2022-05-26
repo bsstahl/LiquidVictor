@@ -16,6 +16,8 @@ namespace LV
         CloneSlideDeck,
         CloneSlide,
         CloneContentItem,
+        ValidateSourceRepo,
+        FindOrphans,
         Help
     }
 }
