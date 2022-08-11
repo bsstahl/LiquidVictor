@@ -6,7 +6,7 @@ namespace LV
 {
     internal static class ConfigurationExtensions
     {
-        internal static void ExecuteValidateSourceRepo(this Configuration config, ISlideDeckReadRepository readRepo)
+        internal static void ExecuteValidateSourceRepo(this Configuration _, ISlideDeckReadRepository readRepo)
         {
             // Verifies that all SlideDecks have unique IDs
             var slideDeckIds = readRepo.GetSlideDeckIds();
@@ -129,6 +129,30 @@ namespace LV
                 engine.CreatePresentation(config.PresentationPath, slideDeck);
                 Console.WriteLine($"Presentation '{slideDeck.Title}' written to {config.PresentationPath}");
             }
+        }
+
+        internal static void ExecuteHelp(this Configuration config)
+        {                     
+            // TODO: Implement Help command
+            throw new NotImplementedException("Help command not yet implemented");
+        }
+
+        internal static void ExecuteExportContentItem(this Configuration config, ISlideDeckReadRepository readRepo, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Implement ExportContentItem command
+            throw new NotImplementedException("ExportContentItem command not yet implemented");
+        }
+
+        internal static void ExecuteCloneContentItem(this Configuration config, ISlideDeckReadRepository readRepo, ISlideDeckWriteRepository writeRepo)
+        {
+            // TODO: Implement CloneContentItem command
+            throw new NotImplementedException("CloneContentItem command not yet implemented");
+        }
+
+        internal static void ExecuteFindOrphans(this Configuration config, ISlideDeckReadRepository readRepo)
+        {
+            // TODO: Implement FindOrphans command
+            throw new NotImplementedException();
         }
 
         private static string GetContentType(string sourceFilePath)

@@ -9,8 +9,9 @@ namespace LV
         {
             switch (command)
             {
-                case Command.Help: // TODO: Implement Help command
-                    throw new NotImplementedException("Help command not yet implemented");
+                case Command.Help:
+                    config.ExecuteHelp();
+                    break;
 
                 case Command.Build:
                     config.ExecuteBuild(readRepo, engine);
@@ -28,8 +29,9 @@ namespace LV
                     config.ExecuteCreateContentItem(writeRepo);
                     break;
 
-                case Command.ExportContentItem: // TODO: Implement ExportContentItem command
-                    throw new NotImplementedException("ExportContentItem command not yet implemented");
+                case Command.ExportContentItem:
+                    config.ExecuteExportContentItem(readRepo, writeRepo);
+                    break;
 
                 case Command.CloneSlideDeck:
                     config.ExecuteCloneSlideDeck(readRepo, writeRepo);
@@ -39,15 +41,17 @@ namespace LV
                     config.ExecuteCloneSlide(readRepo, writeRepo);
                     break;
 
-                case Command.CloneContentItem: // TODO: Implement CloneContentItem command
-                    throw new NotImplementedException("CloneContentItem command not yet implemented");
+                case Command.CloneContentItem:
+                    config.ExecuteCloneContentItem(readRepo, writeRepo);
+                    break;
 
-                case Command.ValidateSourceRepo: // TODO: Implement ValidateSourceRepo command
+                case Command.ValidateSourceRepo:
                     config.ExecuteValidateSourceRepo(readRepo);
                     break;
 
-                case Command.FindOrphans: // TODO: Implement FindOrphans command
-                    throw new NotImplementedException();
+                case Command.FindOrphans:
+                    config.ExecuteFindOrphans(readRepo);
+                    break;
 
                 default:
                     throw new NotImplementedException($"The '{command}' feature has not yet been implemented");
