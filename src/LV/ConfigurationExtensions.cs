@@ -1,6 +1,8 @@
-﻿using LiquidVictor.Interfaces;
+﻿using LiquidVictor.Entities;
+using LiquidVictor.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LV
 {
@@ -132,7 +134,7 @@ namespace LV
         }
 
         internal static void ExecuteHelp(this Configuration config)
-        {                     
+        {
             // TODO: Implement Help command
             throw new NotImplementedException("Help command not yet implemented");
         }
@@ -149,10 +151,47 @@ namespace LV
             throw new NotImplementedException("CloneContentItem command not yet implemented");
         }
 
-        internal static void ExecuteFindOrphans(this Configuration config, ISlideDeckReadRepository readRepo)
+        internal static void ExecuteFindOrphans(this Configuration _, ISlideDeckReadRepository readRepo)
         {
-            // TODO: Implement FindOrphans command
-            throw new NotImplementedException();
+            var slideDecks = readRepo.GetSlideDecks();
+            var slides = readRepo.GetSlides();
+            var contentItems = readRepo.GetContentItems();
+
+            var orphanedSlideIds = GetOrphanedSlideIds(slideDecks, slides);
+            foreach (var slideId in orphanedSlideIds)
+            {
+                var slide = slides.Single(s => s.Id == slideId);
+                Console.WriteLine($"Orphaned Slide '{slide.Title}' ({slide.Id})");
+            }
+
+            var orphanedContentItemIds = GetOrphanedContentItemIds(slides, contentItems);
+            foreach (var contentItemId in orphanedContentItemIds)
+            {
+                var contentItem = contentItems.Single(ci => ci.Id == contentItemId);
+                Console.WriteLine($"Orphaned Content Item '{contentItem.Title}' ({contentItem.Id})");
+            }
+        }
+
+        private static IEnumerable<Guid> GetOrphanedSlideIds(IEnumerable<SlideDeck> slideDecks, IEnumerable<Slide> slides)
+        {
+            var slideDeckSlideIds = slideDecks.SelectMany(sd => sd.Slides.Select(s => s.Value.Id));
+            var allSlideIds = slides.Select(s => s.Id);
+            var orphanedSlideIds = allSlideIds.Where(c => !slideDeckSlideIds.Contains(c));
+            return orphanedSlideIds;
+        }
+
+        private static IEnumerable<Guid> GetOrphanedContentItemIds(IEnumerable<Slide> slides, IEnumerable<ContentItem> contentItems)
+        {
+            var slideContentItemIds = slides.SelectMany(s => s.ContentItems.Select(c => c.Value.Id));
+            var slideBackgroundContentIds = slides.Where(s => s.BackgroundContent is not null).Select(s => s.BackgroundContent.Id);
+
+            var usedContentItemIds = slideContentItemIds.ToList();
+            usedContentItemIds.AddRange(slideBackgroundContentIds);
+
+            var allContentItemIds = contentItems.Select(c => c.Id);
+            var orphanedContentItemIds = allContentItemIds.Where(c => !usedContentItemIds.Contains(c));
+
+            return orphanedContentItemIds;
         }
 
         private static string GetContentType(string sourceFilePath)

@@ -14,6 +14,11 @@ namespace LiquidVictor.Data.JsonFile
             _dataPath = dataPath;
         }
 
+        public IEnumerable<SlideDeck> GetSlideDecks()
+        {
+            throw new NotImplementedException();
+        }
+
         public SlideDeck GetSlideDeck(Guid id)
         {
             var fullPath = System.IO.Path.Combine(_dataPath, $"{id}.json");
@@ -54,6 +59,26 @@ namespace LiquidVictor.Data.JsonFile
         public ContentItem GetContentItem(Guid id)
         {
             // TODO: Refactor from GetSlideDeck
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Slide> GetSlides()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ContentItem> GetContentItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetSlideIds()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetContentItemIds()
+        {
             throw new NotImplementedException();
         }
     }

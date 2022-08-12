@@ -14,6 +14,11 @@ namespace LiquidVictor.Data.Postgres
             _context = new Context();
         }
 
+        public IEnumerable<Entities.SlideDeck> GetSlideDecks()
+        {
+            throw new NotImplementedException();
+        }
+
         public SlideDeckReadRepository(string connectionString)
         {
             _context = new Context(connectionString);
@@ -47,6 +52,26 @@ namespace LiquidVictor.Data.Postgres
                 .ThenInclude(sci => sci.ContentItem)
                 .Single(sd => sd.Id == id)
                 .AsEntity();
+        }
+
+        public IEnumerable<Entities.Slide> GetSlides()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Entities.ContentItem> GetContentItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetSlideIds()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetContentItemIds()
+        {
+            throw new NotImplementedException();
         }
     }
 }

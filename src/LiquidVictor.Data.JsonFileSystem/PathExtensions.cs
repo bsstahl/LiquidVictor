@@ -31,8 +31,19 @@ namespace LiquidVictor.Data.JsonFileSystem
             var jsonFiles = System.IO.Directory.EnumerateFiles(path, "*.json");
             foreach (var jsonFile in jsonFiles)
             {
-                string id = System.IO.File.ReadAllText(jsonFile).ParseId();
-                result.Add(Guid.Parse(id));
+                var textId = string.Empty;
+                Guid id = Guid.Empty;
+                var fileName = System.IO.Path.GetFileNameWithoutExtension(jsonFile);
+                if (!Guid.TryParse(fileName, out id))
+                {
+                    textId = System.IO.File.ReadAllText(jsonFile).ParseId();
+                    _ = Guid.TryParse(textId, out id);
+                }
+
+                if (id.Equals(Guid.Empty))
+                    Console.WriteLine($"Unable to parse Id from '{jsonFile}'");
+                else
+                    result.Add(id);
             }
 
             return result;

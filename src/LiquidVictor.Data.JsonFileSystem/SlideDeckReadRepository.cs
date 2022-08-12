@@ -8,22 +8,38 @@ namespace LiquidVictor.Data.JsonFileSystem
     public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
     {
         readonly string _repositoryPath;
+        readonly string _sourceFolderPath;
+        readonly string _slideDeckPath;
+        readonly string _slidesPath;
+        readonly string _contentItemsPath;
 
         public SlideDeckReadRepository(string repositoryPath)
         {
             _repositoryPath = repositoryPath;
+            _sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
+            _slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
+            _contentItemsPath = System.IO.Path.Combine(_sourceFolderPath, "ContentItems");
+            _slidesPath = System.IO.Path.Combine(_sourceFolderPath, "Slides");
         }
 
         public IEnumerable<Guid> GetSlideDeckIds()
         {
-            var slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
-            return slideDeckPath.GetFileIds();
+            return _slideDeckPath.GetFileIds();
+        }
+
+        public IEnumerable<Guid> GetSlideIds()
+        {
+            return _slidesPath.GetFileIds();
+        }
+
+        public IEnumerable<Guid> GetContentItemIds()
+        {
+            return _contentItemsPath.GetFileIds();
         }
 
         public Entities.SlideDeck GetSlideDeck(Guid id)
         {
-            var slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
-            var existingFileName = slideDeckPath.FindFileWithId(id);
+            var existingFileName = _slideDeckPath.FindFileWithId(id);
 
             var slideDeckJson = System.IO.File.ReadAllText(existingFileName);
             var slideDeck = Newtonsoft.Json.JsonConvert.DeserializeObject<SlideDeck>(slideDeckJson);
@@ -57,8 +73,7 @@ namespace LiquidVictor.Data.JsonFileSystem
 
         public Entities.Slide GetSlide(Guid id)
         {
-            var sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
-            var slidePath = System.IO.Path.Combine(sourceFolderPath, $"Slides\\{id}.json");
+            var slidePath = System.IO.Path.Combine(_slidesPath, $"{id}.json");
             var slideJson = System.IO.File.ReadAllText(slidePath);
             var slide = Newtonsoft.Json.JsonConvert.DeserializeObject<Slide>(slideJson);
 
@@ -66,9 +81,17 @@ namespace LiquidVictor.Data.JsonFileSystem
             var contentItems = new List<KeyValuePair<int, Entities.ContentItem>>();
             foreach (var contentItemId in slide.ContentItemIds)
             {
-                var contentItemPair = this.GetContentItemPair(contentItemIndex, Guid.Parse(contentItemId));
-                contentItems.Add(contentItemPair);
-                contentItemIndex++;
+                try
+                {
+                    var contentItemPair = this.GetContentItemPair(contentItemIndex, Guid.Parse(contentItemId));
+                    contentItems.Add(contentItemPair);
+                    contentItemIndex++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unable to load Slide {id} due to error: '{ex.Message}'.");
+                    throw;
+                }   
             }
 
             Guid? backgroundContentItemId = null;
@@ -93,9 +116,7 @@ namespace LiquidVictor.Data.JsonFileSystem
 
         public Entities.ContentItem GetContentItem(Guid id)
         {
-            var sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
-            var contentItemsPath = System.IO.Path.Combine(sourceFolderPath, "ContentItems");
-            var contentItemPath = System.IO.Path.Combine(contentItemsPath, $"{id}.json");
+            var contentItemPath = System.IO.Path.Combine(_contentItemsPath, $"{id}.json");
             var contentItemJson = System.IO.File.ReadAllText(contentItemPath);
             var localContentItem = Newtonsoft.Json.JsonConvert.DeserializeObject<ContentItem>(contentItemJson);
 
@@ -109,6 +130,39 @@ namespace LiquidVictor.Data.JsonFileSystem
             };
 
             return contentItemEntity;
+        }
+
+        public IEnumerable<Entities.SlideDeck> GetSlideDecks()
+        {
+            var result = new List<Entities.SlideDeck>();
+            var slideDeckIds = this.GetSlideDeckIds();
+            foreach (var slideDeckId in slideDeckIds)
+            {
+                result.Add(this.GetSlideDeck(slideDeckId));
+            }
+            return result;
+        }
+
+        public IEnumerable<Entities.Slide> GetSlides()
+        {
+            var result = new List<Entities.Slide>();
+            var slideIds = this.GetSlideIds();
+            foreach (var slideId in slideIds)
+            {
+                result.Add(this.GetSlide(slideId));
+            }
+            return result;
+        }
+
+        public IEnumerable<Entities.ContentItem> GetContentItems()
+        {
+            var result = new List<Entities.ContentItem>();
+            var contentItemIds = this.GetContentItemIds();
+            foreach (var contentItemId in contentItemIds)
+            {
+                result.Add(this.GetContentItem(contentItemId));
+            }
+            return result;
         }
 
     }

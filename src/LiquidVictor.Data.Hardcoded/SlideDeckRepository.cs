@@ -8,6 +8,11 @@ namespace LiquidVictor.Data.Hardcoded
 {
     public class SlideDeckRepository : Interfaces.ISlideDeckReadRepository
     {
+        public IEnumerable<Entities.SlideDeck> GetSlideDecks()
+        {
+            throw new NotImplementedException();
+        }
+
         public ContentItem GetContentItem(Guid id)
         {
             // TODO: Refactor from GetSlideDeck
@@ -52,6 +57,26 @@ namespace LiquidVictor.Data.Hardcoded
                 throw new Exceptions.SlideDeckNotFoundException(id, this.GetType().FullName);
 
             return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", "Printable Version", slides);
+        }
+
+        public IEnumerable<Slide> GetSlides()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ContentItem> GetContentItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetSlideIds()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Guid> GetContentItemIds()
+        {
+            throw new NotImplementedException();
         }
     }
 }

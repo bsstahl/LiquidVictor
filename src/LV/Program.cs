@@ -31,14 +31,16 @@ namespace LV
             var writeRepo = GetWriteRepository(config);
             var engine = GetEngine(config);
 
-            try
-            {
-                command.Execute(config, readRepo, writeRepo, engine);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }        
+            // TODO: Restore
+            command.Execute(config, readRepo, writeRepo, engine);
+            //try
+            //{
+            //    command.Execute(config, readRepo, writeRepo, engine);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"Error: {ex.Message}");
+            //}        
         }
 
         private static IPresentationBuilder GetEngine(Configuration config)

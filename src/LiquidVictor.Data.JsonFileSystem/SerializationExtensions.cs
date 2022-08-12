@@ -25,7 +25,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         internal static string ParseId(this string json)
         {
             var item = Newtonsoft.Json.Linq.JObject.Parse(json);
-            return item.Value<string>("Id");
+            return item.Value<string>("Id") ?? item.Value<string>("id");
         }
 
     }
