@@ -18,8 +18,8 @@ namespace LiquidVictor.Data.JsonFileSystem
             _repositoryPath = repositoryPath;
             _sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
             _slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
-            _contentItemsPath = System.IO.Path.Combine(_sourceFolderPath, "ContentItems");
-            _slidesPath = System.IO.Path.Combine(_sourceFolderPath, "Slides");
+            _contentItemsPath = System.IO.Path.Combine(_repositoryPath, "ContentItems");
+            _slidesPath = System.IO.Path.Combine(_repositoryPath, "Slides");
         }
 
         public IEnumerable<Guid> GetSlideDeckIds()

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28621.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32804.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C920CA5-A0A8-43B3-8E2A-EFA084956250}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.JsonFileSystem", "src\LiquidVictor.Data.JsonFileSystem\LiquidVictor.Data.JsonFileSystem.csproj", "{11743C53-ABCA-4620-AF32-CB025C132574}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVConvert", "src\LVConvert\LVConvert.csproj", "{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Business", "LiquidVictor.Business\LiquidVictor.Business.csproj", "{31E21EA7-B9E1-4EEE-90C9-788707F6F706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

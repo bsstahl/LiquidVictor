@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\LiquidVictor.Business\LiquidVictor.Business.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.JsonFileSystem\LiquidVictor.Data.JsonFileSystem.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.JsonFile\LiquidVictor.Data.JsonFile.csproj" />

@@ -12,12 +12,19 @@ namespace LV
         {
             // Verifies that all SlideDecks have unique IDs
             var slideDeckIds = readRepo.GetSlideDeckIds();
-            var validSlideDecks = new Dictionary<Guid, string>();
+            var allSlideDecks = new Dictionary<Guid, SlideDeck>();
             foreach (var id in slideDeckIds)
             {
-                // TODO: Add additional validations
                 var slideDeck = readRepo.GetSlideDeck(id);
-                validSlideDecks.Add(id, slideDeck.Title);
+                allSlideDecks.Add(id, slideDeck);
+            }
+
+            var validSlideDecks = new Dictionary<Guid, SlideDeck>();
+            foreach (var slideDeck in allSlideDecks)
+            {
+                // TODO: Add additional validations
+
+                validSlideDecks.Add(slideDeck.Key, slideDeck.Value);
             }
 
             Console.WriteLine("Valid Slide Decks:");
