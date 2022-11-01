@@ -5,5 +5,5 @@ namespace LiquidVictor.Interfaces;
 public interface ICommandEngine
 {
     string GetHelp();
-    string BuildPresentation(Guid slideDeckId, bool skipOutput);
+    string BuildPresentation(Guid slideDeckId, string presentationPath);
 }

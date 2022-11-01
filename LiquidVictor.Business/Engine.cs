@@ -17,23 +17,26 @@ public class Engine : ICommandEngine
         _presentationBuilder = presentationBuilder;
     }
 
-    public string BuildPresentation(Guid slideDeckId, bool skipOutput)
+    public string BuildPresentation(Guid slideDeckId, string presentationPath)
     {
         // Load a slide deck from a source repository
         // and build it into a RevealJS presentation
         StringBuilder results = new();
-
+        var skipOutput = string.IsNullOrWhiteSpace(presentationPath);
         var slideDeck = _readRepo.GetSlideDeck(slideDeckId);
         if (skipOutput)
         {
-            engine.CompilePresentation(slideDeck);
+            _presentationBuilder.CompilePresentation(slideDeck);
             Console.WriteLine($"Presentation '{slideDeck.Title}' successfully compiled");
         }
         else
         {
-            engine.CreatePresentation(config.PresentationPath, slideDeck);
-            Console.WriteLine($"Presentation '{slideDeck.Title}' written to {config.PresentationPath}");
+            _presentationBuilder.CreatePresentation(presentationPath, slideDeck);
+            Console.WriteLine($"Presentation '{slideDeck.Title}' written to {presentationPath}");
         }
+
+        // HACK: What should be returned here?
+        return String.Empty;
     }
 
     public string GetHelp()

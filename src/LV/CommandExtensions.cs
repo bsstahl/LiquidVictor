@@ -18,7 +18,7 @@ namespace LV
                 case Command.Build:
                     config.SlideDeckId.ValidateNotNullOrEmpty("A valid Slide Deck must be specified");
                     config.PresentationPath.ValidateNotNullOrEmpty("A valid Presentation Path must be specified");
-                    engine.BuildPresentation(config.SlideDeckId);
+                    engine.BuildPresentation(config.SlideDeckId, config.PresentationPath);
                     break;
 
                 //case Command.CreateSlideDeck:
