@@ -48,25 +48,5 @@ namespace LiquidVictor.Output.RevealJs.Extensions
             return result;
         }
 
-        public static bool IsText(this ContentItem contentItem)
-        {
-            return contentItem.ContentType.ToLower().StartsWith("text");
-        }
-
-        public static IEnumerable<KeyValuePair<int, ContentItem>> TextContentItems(this IEnumerable<KeyValuePair<int, ContentItem>> contentItems)
-        {
-            return contentItems.Where(c => c.Value.IsText());
-        }
-
-        public static IEnumerable<KeyValuePair<int, ContentItem>> ImageContentItems(this IEnumerable<KeyValuePair<int, ContentItem>> contentItems)
-        {
-            return contentItems.Where(c => c.Value.IsImage());
-        }
-
-        public static bool IsImage(this ContentItem contentItem)
-        {
-            return contentItem.ContentType.ToLower().StartsWith("image");
-        }
-
     }
 }

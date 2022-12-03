@@ -29,5 +29,16 @@ namespace LiquidVictor.Output.RevealJs.Extensions
         {
             return $"img/{item.Id.ToString()}{System.IO.Path.GetExtension(item.FileName)}";
         }
+
+        public static bool IsText(this ContentItem contentItem)
+        {
+            return contentItem.ContentType.ToLower().StartsWith("text");
+        }
+
+        public static bool IsImage(this ContentItem contentItem)
+        {
+            return contentItem.ContentType.ToLower().StartsWith("image");
+        }
+
     }
 }

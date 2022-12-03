@@ -38,9 +38,10 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
 
             sb.AppendLine(slideToRender.AsStartSlideSection(_presentationDefaultTransition));
 
-            sb.AppendLine(slideToRender.Title.AsTitle(slideToRender.Id));
-            sb.AppendLine(slideToRender.Id.ToString().AsComment());
             sb.AppendLine(slideToRender.Notes.AsNotesSection(_pipeline));
+            sb.AppendLine(slideToRender.Title.AsTitle(slideToRender.Id));
+            sb.AppendLine(slideToRender.Layout.AsComment());
+            sb.AppendLine(slideToRender.ContentItems.AsComments());
 
             var contentItems = slideToRender.ContentItems
                 .OrderBy(c => c.Key)

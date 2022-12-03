@@ -31,8 +31,9 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
 
-            sb.AppendLine($"<h1>{slide.Title}</h1>");
-            sb.AppendLine(slide.Id.ToString().AsComment());
+            sb.AppendLine(slide.Title.AsTitle(slide.Id));
+            sb.AppendLine(slide.Layout.AsComment());
+            sb.AppendLine(slide.ContentItems.AsComments());
             sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));
 
             var image = slide.ContentItems.ImageContentItems()

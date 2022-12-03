@@ -31,6 +31,7 @@ namespace LiquidVictor.Entities
             {
                 Id = this.Id,
                 Title = this.Title,
+                Layout = this.Layout,
                 TransitionIn = this.TransitionIn,
                 TransitionOut = this.TransitionOut,
                 Notes = this.Notes,

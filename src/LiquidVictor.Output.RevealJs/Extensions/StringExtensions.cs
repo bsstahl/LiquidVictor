@@ -8,10 +8,9 @@ namespace LiquidVictor.Output.RevealJs.Extensions
     {
         public static string AsTitle(this string title, Guid slideId)
         {
-            string result = String.Empty;
-            if (!string.IsNullOrWhiteSpace(title))
-                result = $"<h1 id=\"{slideId}\">{title}</h1>";
-            return result;
+            return string.IsNullOrWhiteSpace(title)
+                ? $"<a id=\"{slideId}\">&nbsp;</a>"
+                : $"<h1 id=\"{slideId}\">{title}</h1>";
         }
 
         public static string AsNotesSection(this string notes, Markdig.MarkdownPipeline pipeline)
@@ -19,9 +18,13 @@ namespace LiquidVictor.Output.RevealJs.Extensions
             return string.IsNullOrWhiteSpace(notes) ? string.Empty : $"<aside class=\"notes\">{Markdig.Markdown.ToHtml(notes, pipeline)}</aside>";
         }
 
-        public static string AsComment(this string comment)
+        public static string AsComment(this string comment, string prefix = null)
         {
-            return string.IsNullOrWhiteSpace(comment) ? string.Empty : $"<!-- {comment} -->";
+            return string.IsNullOrWhiteSpace(comment) 
+                ? string.Empty 
+                : string.IsNullOrWhiteSpace(prefix)
+                    ? $"<!-- {comment} -->"
+                    : $"<!-- {prefix}:{comment} -->";
         }
 
     }

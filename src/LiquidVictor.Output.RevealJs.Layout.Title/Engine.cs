@@ -32,7 +32,9 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
                 .ToArray();
 
             var markdown = new StringBuilder();
-            markdown.AppendLine($"# {slide.Title}");
+            markdown.AppendLine(slide.Title.AsTitle(slide.Id));
+            markdown.AppendLine(slide.Layout.AsComment());
+            markdown.AppendLine(slide.ContentItems.AsComments());
             markdown.AppendLine($"## {textContentItems[0].Value.Content.AsString()}");
 
             string url = textContentItems[2].Value.Content.AsString();
