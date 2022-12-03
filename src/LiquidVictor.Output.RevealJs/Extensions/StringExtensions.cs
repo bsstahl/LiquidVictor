@@ -6,11 +6,11 @@ namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class StringExtensions
     {
-        public static string AsTitle(this string title)
+        public static string AsTitle(this string title, Guid slideId)
         {
             string result = String.Empty;
             if (!string.IsNullOrWhiteSpace(title))
-                result = $"<h1>{title}</h1>";
+                result = $"<h1 id=\"{slideId}\">{title}</h1>";
             return result;
         }
 
