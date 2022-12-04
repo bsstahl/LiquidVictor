@@ -59,7 +59,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.JsonFileS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LVConvert", "src\LVConvert\LVConvert.csproj", "{0F3C4AAD-8308-4365-97A8-9B912FC5BA36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Business", "LiquidVictor.Business\LiquidVictor.Business.csproj", "{31E21EA7-B9E1-4EEE-90C9-788707F6F706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Business", "LiquidVictor.Business\LiquidVictor.Business.csproj", "{31E21EA7-B9E1-4EEE-90C9-788707F6F706}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Strategy", "Strategy", "{18A23E61-4528-4D29-8945-CB94CE398469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Strategy.TableOfContents", "src\LiquidVictor.Strategy.TableOfContents\LiquidVictor.Strategy.TableOfContents.csproj", "{3FE21BBC-B010-40C4-AEC6-447862557CBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,10 @@ Global
 		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31E21EA7-B9E1-4EEE-90C9-788707F6F706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE21BBC-B010-40C4-AEC6-447862557CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE21BBC-B010-40C4-AEC6-447862557CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE21BBC-B010-40C4-AEC6-447862557CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE21BBC-B010-40C4-AEC6-447862557CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,6 +178,8 @@ Global
 		{09DDA944-33D1-4814-906D-B16FB03666BE} = {8C2B728E-3F68-418E-AF07-872A5DD6AB42}
 		{11743C53-ABCA-4620-AF32-CB025C132574} = {5A4A4989-480F-46A9-A7BD-C93B5635EAAF}
 		{0F3C4AAD-8308-4365-97A8-9B912FC5BA36} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{18A23E61-4528-4D29-8945-CB94CE398469} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
+		{3FE21BBC-B010-40C4-AEC6-447862557CBC} = {18A23E61-4528-4D29-8945-CB94CE398469}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}

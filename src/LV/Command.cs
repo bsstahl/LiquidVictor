@@ -18,6 +18,7 @@ namespace LV
         CloneContentItem,
         ValidateSourceRepo,
         FindOrphans,
-        Help
+        Help,
+        TOC
     }
 }

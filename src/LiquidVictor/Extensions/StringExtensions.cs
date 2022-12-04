@@ -6,6 +6,13 @@ namespace LiquidVictor.Extensions
 {
     public static class StringExtensions
     {
+        public static string NullIfEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value)
+                ? null
+                : value;
+        }
+
         public static byte[] AsByteArray(this string content)
         {
             return Encoding.ASCII.GetBytes(content);

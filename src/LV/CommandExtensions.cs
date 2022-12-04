@@ -18,7 +18,18 @@ namespace LV
                 case Command.Build:
                     config.SlideDeckId.ValidateNotNullOrEmpty("A valid Slide Deck must be specified");
                     config.PresentationPath.ValidateNotNullOrEmpty("A valid Presentation Path must be specified");
-                    engine.BuildPresentation(config.SlideDeckId, config.PresentationPath);
+                    var buildOutputPath = (config.SkipOutput || string.IsNullOrEmpty(config.PresentationPath))
+                        ? String.Empty
+                        : config.PresentationPath;
+                    engine.BuildPresentation(config.SlideDeckId, buildOutputPath);
+                    break;
+
+                case Command.TOC:
+                    config.SlideDeckId.ValidateNotNullOrEmpty("A valid Slide Deck must be specified");
+                    var tocOutputFilePath = (config.SkipOutput || string.IsNullOrEmpty(config.PresentationPath))
+                        ? String.Empty
+                        : System.IO.Path.Combine(config.PresentationPath, "TOC.md");
+                    engine.CreateTableOfContents(config.SlideDeckId, tocOutputFilePath);
                     break;
 
                 //case Command.CreateSlideDeck:

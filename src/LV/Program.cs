@@ -35,6 +35,7 @@ namespace LV
                 .AddWriteRepository(config)
                 .AddPresentationBuilder(config)
                 .AddCommandEngine()
+                .AddStrategies()
                 .BuildServiceProvider();
 
             // TODO: Restore

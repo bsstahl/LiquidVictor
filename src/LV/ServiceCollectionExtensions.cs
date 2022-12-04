@@ -12,15 +12,16 @@ public static class ServiceCollectionExtensions
         {
             case "reveal":
             case "revealjs":
-                services.AddTransient<IPresentationBuilder>(c =>
-                {
-                    var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
+                services
+                    .AddTransient<IPresentationBuilder>(c =>
                     {
-                        BuildTitleSlide = config.BuildTitleSlide,
-                        MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
-                    };
-                    return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
-                });
+                        var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
+                        {
+                            BuildTitleSlide = config.BuildTitleSlide,
+                            MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
+                        };
+                        return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
+                    });
                 break;
             default:
                 throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
@@ -57,5 +58,11 @@ public static class ServiceCollectionExtensions
                 break;
         }
         return services;
+    }
+
+    public static IServiceCollection AddStrategies(this IServiceCollection services)
+    {
+        return services
+            .AddTransient<ITableOfContentsStrategy, LiquidVictor.Strategy.TableOfContents.Engine>();
     }
 }

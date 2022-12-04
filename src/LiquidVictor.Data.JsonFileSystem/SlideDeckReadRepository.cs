@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 using LiquidVictor.Interfaces;
 
@@ -40,6 +41,8 @@ namespace LiquidVictor.Data.JsonFileSystem
         public Entities.SlideDeck GetSlideDeck(Guid id)
         {
             var existingFileName = _slideDeckPath.FindFileWithId(id);
+            if (string.IsNullOrEmpty(existingFileName))
+                throw new SlideDeckNotFoundException(id, _slideDeckPath);
 
             var slideDeckJson = System.IO.File.ReadAllText(existingFileName);
             var slideDeck = Newtonsoft.Json.JsonConvert.DeserializeObject<SlideDeck>(slideDeckJson);
