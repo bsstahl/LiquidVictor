@@ -19,6 +19,7 @@ namespace LV
         ValidateSourceRepo,
         FindOrphans,
         Help,
-        TOC
+        TOC,
+        ConvertRepo
     }
 }
