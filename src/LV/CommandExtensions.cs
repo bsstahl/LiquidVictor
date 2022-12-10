@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 
 namespace LV
@@ -13,6 +14,10 @@ namespace LV
             {
                 case Command.Help:
                     Console.WriteLine(engine.GetHelp());
+                    break;
+
+                case Command.ShowConfig:
+                    Console.WriteLine(JsonConvert.SerializeObject(config, Formatting.Indented));
                     break;
 
                 case Command.Build:

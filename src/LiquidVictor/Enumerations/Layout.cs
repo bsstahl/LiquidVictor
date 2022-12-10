@@ -12,6 +12,7 @@ namespace LiquidVictor.Enumerations
         ImageLeft,
         ImageRight,
         ImageWithCaption,
-        MultiColumn
+        MultiColumn,
+        MultiSlide
     }
 }

@@ -24,7 +24,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
             _builderOptions = builderOptions;
         }
 
-        public string Layout(Slide slide)
+        public string Layout(Slide slide, int zeroBasedIndex)
         {
             var sb = new StringBuilder();
 
@@ -39,7 +39,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
             sb.AppendLine(slideToRender.AsStartSlideSection(_presentationDefaultTransition));
 
             sb.AppendLine(slideToRender.Notes.AsNotesSection(_pipeline));
-            sb.AppendLine(slideToRender.Title.AsTitle(slideToRender.Id));
+            sb.AppendLine(slideToRender.Title.AsTitleBlock(slideToRender.Id));
             sb.AppendLine(slideToRender.Layout.AsComment());
             sb.AppendLine(slideToRender.ContentItems.AsComments());
 

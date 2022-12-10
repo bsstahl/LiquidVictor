@@ -49,7 +49,7 @@ namespace LV
                 else if (arg.StartsWith("-outputenginetype:"))
                     config.OutputEngineType = args[i].Substring(18);
                 else if (arg.StartsWith("-templatepath:"))
-                    config.TemplatePath = System.IO.Path.GetFullPath(args[i].Substring(18));
+                    config.TemplatePath = System.IO.Path.GetFullPath(args[i].Substring(14));
                 else if (arg.StartsWith("-presentationpath:"))
                     config.PresentationPath = System.IO.Path.GetFullPath(args[i].Substring(18));
                 else if (arg.StartsWith("-title:"))

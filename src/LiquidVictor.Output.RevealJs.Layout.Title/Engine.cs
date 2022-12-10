@@ -24,7 +24,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
             _builderOptions = builderOptions;
         }
 
-        public string Layout(Slide slide)
+        public string Layout(Slide slide, int zeroBasedIndex)
         {
             var textContentItems = slide.ContentItems
                 .TextContentItems()
@@ -32,7 +32,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
                 .ToArray();
 
             var markdown = new StringBuilder();
-            markdown.AppendLine(slide.Title.AsTitle(slide.Id));
+            markdown.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             markdown.AppendLine(slide.Layout.AsComment());
             markdown.AppendLine(slide.ContentItems.AsComments());
             markdown.AppendLine($"## {textContentItems[0].Value.Content.AsString()}");

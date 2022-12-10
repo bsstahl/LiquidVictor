@@ -25,13 +25,13 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
             _builderOptions = builderOptions;
         }
 
-        public string Layout(Slide slide)
+        public string Layout(Slide slide, int zeroBasedIndex)
         {
             var sb = new StringBuilder();
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
 
-            sb.AppendLine(slide.Title.AsTitle(slide.Id));
+            sb.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             sb.AppendLine(slide.Layout.AsComment());
             sb.AppendLine(slide.ContentItems.AsComments());
             sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));

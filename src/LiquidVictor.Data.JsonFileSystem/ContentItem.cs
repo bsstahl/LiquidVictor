@@ -10,6 +10,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         public string FileName { get; set; }
         public string Title { get; set; }
         public string EncodedContent { get; set; }
+        public string Alignment { get; set; }
 
     }
 }

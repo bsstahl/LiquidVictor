@@ -126,6 +126,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             var contentItemEntity = new Entities.ContentItem()
             {
                 Id = id,
+                Alignment = localContentItem.Alignment,
                 ContentType = localContentItem.ContentType,
                 FileName = localContentItem.FileName,
                 Title = localContentItem.Title,

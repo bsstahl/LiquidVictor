@@ -20,6 +20,7 @@ namespace LV
         FindOrphans,
         Help,
         TOC,
-        ConvertRepo
+        ConvertRepo,
+        ShowConfig
     }
 }

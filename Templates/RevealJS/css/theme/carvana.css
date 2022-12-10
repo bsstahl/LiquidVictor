@@ -39,6 +39,21 @@ body {
   line-height: 1.3;
   font-weight: inherit; }
 
+.reveal .slides section.content-left,
+.reveal .slides > section > section.content-left {
+    text-align:left;
+}
+
+.reveal .slides section.content-center,
+.reveal .slides > section > section.content-center {
+    text-align: center;
+}
+
+.reveal .slides section.content-right,
+.reveal .slides > section > section.content-right {
+    text-align: right;
+}
+
 /*********************************************
  * HEADERS
  *********************************************/

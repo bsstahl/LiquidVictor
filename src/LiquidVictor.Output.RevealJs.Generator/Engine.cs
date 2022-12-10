@@ -46,18 +46,22 @@ namespace LiquidVictor.Output.RevealJs.Generator
             var layoutStrategies = GetLayoutStrategies(pipeline, builderOptions, slideDeck);
             var slideSections = new StringBuilder();
 
+            int slideIndex = 0;
+
             if (builderOptions.BuildTitleSlide)
             {
                 var titleSlide = slideDeck.CreateTitleSlide();
                 var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-                slideSections.AppendLine(titleStrategy.Layout(titleSlide));
+                slideSections.AppendLine(titleStrategy.Layout(titleSlide, slideIndex));
+                slideIndex++;
             }
 
             // Content slides
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
             {
                 images.AddFromSlide(slide.Value);
-                slideSections.AppendLine(slide.Value.GetLayout(layoutStrategies));
+                slideSections.AppendLine(slide.Value.GetLayout(slideIndex, layoutStrategies));
+                slideIndex++;
             }
 
             (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
@@ -95,6 +99,7 @@ namespace LiquidVictor.Output.RevealJs.Generator
             layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, builderOptions);
             layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, builderOptions);
             layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, builderOptions);
+            layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, builderOptions);
             return layoutStrategies;
         }
 

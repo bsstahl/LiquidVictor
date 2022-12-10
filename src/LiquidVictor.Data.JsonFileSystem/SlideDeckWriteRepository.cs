@@ -78,6 +78,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         {
             var ci = new JsonFileSystem.ContentItem()
             {
+                Alignment = contentItem.Alignment,
                 ContentType = contentItem.ContentType,
                 EncodedContent = contentItem.Content.EncodeContent(contentItem.ContentType),
                 FileName = contentItem.FileName,

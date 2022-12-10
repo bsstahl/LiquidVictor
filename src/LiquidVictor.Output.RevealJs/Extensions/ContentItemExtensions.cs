@@ -8,6 +8,17 @@ namespace LiquidVictor.Output.RevealJs.Extensions
 {
     public static class ContentItemExtensions
     {
+        public static string AsStartContentItemSlideSection(this ContentItem item)
+        {
+            var result = "<section ";
+
+            if (!string.IsNullOrWhiteSpace(item.Alignment))
+                result += $"class=\"content-{item.Alignment}\"";
+            
+            result += ">";
+            return result;
+        }
+
         public static void AddFromSlide(this List<ContentItem> images, Slide slideValue)
         {
             if (slideValue.BackgroundContent != null)
