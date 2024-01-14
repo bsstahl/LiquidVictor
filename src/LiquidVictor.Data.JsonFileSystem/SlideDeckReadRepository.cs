@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 using LiquidVictor.Interfaces;
@@ -94,7 +95,7 @@ namespace LiquidVictor.Data.JsonFileSystem
                 {
                     Console.WriteLine($"Unable to load Slide {id} due to error: '{ex.Message}'.");
                     throw;
-                }   
+                }
             }
 
             Guid? backgroundContentItemId = null;
@@ -144,6 +145,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             {
                 result.Add(this.GetSlideDeck(slideDeckId));
             }
+
             return result;
         }
 
@@ -169,5 +171,30 @@ namespace LiquidVictor.Data.JsonFileSystem
             return result;
         }
 
+        internal static (IEnumerable<Guid> SlideDeckIds, IEnumerable<Guid> SlideIds, IEnumerable<Guid> ContentItemIds) FindDuplicateIds(IEnumerable<Entities.SlideDeck> slideDecks)
+        {
+            var slides = slideDecks.SelectMany(d => d.Slides).Select(s => s.Value);
+            var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value);
+
+            var deckIds = slideDecks
+                .GroupBy(d => d.Id)
+                .Select(g => new { Id = g.Key, Count = g.Count() })
+                .Where(c => c.Count > 1)
+                .ToList();
+
+            var slideIds = slides
+                .GroupBy(s => s.Id)
+                .Select(g => new { Id = g.Key, Count = g.Count() })
+                .Where(c => c.Count > 1)
+                .ToList();
+
+            var contentItemIds = contentItems
+                .GroupBy(c => c.Id)
+                .Select(g => new { Id = g.Key, Count = g.Count() })
+                .Where(c => c.Count > 1)
+                .ToList();
+
+            return (Array.Empty<Guid>(), Array.Empty<Guid>(), Array.Empty<Guid>());
+        }
     }
 }

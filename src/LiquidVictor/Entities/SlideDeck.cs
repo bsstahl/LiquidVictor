@@ -12,7 +12,7 @@ namespace LiquidVictor.Entities
         const AspectRatio _defaultAspectRatio = AspectRatio.Widescreen;
         const Transition _defaultTransition = Transition.Slide;
 
-        public Guid Id { get; protected set; }
+        public Guid Id { get; protected internal set; }
         public string Title { get; set; }
         public string SubTitle { get; set; }
         public string Presenter { get; set; }
@@ -23,11 +23,11 @@ namespace LiquidVictor.Entities
 
         public AspectRatio AspectRatio { get; set; }
 
-        public ICollection<KeyValuePair<int, Slide>> Slides { get; protected set; }
+        public ICollection<KeyValuePair<int, Slide>> Slides { get; } = new List<KeyValuePair<int, Slide>>();
 
 
         public SlideDeck()
-            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, null)
+            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, Slide>>())
         { }
 
         public SlideDeck(Guid id, string title, string subTitle, string presenter, string printLinkText, ICollection<KeyValuePair<int, Slide>> slides)
