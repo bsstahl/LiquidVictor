@@ -26,10 +26,21 @@ public class ContentItemBuilder
         return this;
     }
 
+    /// <summary>
+    /// Defines the content of the item. Use this overload for image and other binary types
+    /// </summary>
     public ContentItemBuilder Content(byte[] value)
     {
         _contentItem.Content = value;
         return this;
+    }
+
+    /// <summary>
+    /// Defines the content of the item. Use this overload for text data
+    /// </summary>
+    public ContentItemBuilder Content(string value)
+    {
+        return this.Content(System.Text.Encoding.UTF8.GetBytes(value));
     }
 
     public ContentItemBuilder ContentType(string value)

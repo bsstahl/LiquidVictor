@@ -10,7 +10,7 @@ namespace LiquidVictor.Data.JsonFileSystem
     public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
     {
         readonly string _repositoryPath;
-        readonly string _sourceFolderPath;
+        // readonly string _sourceFolderPath;
         readonly string _slideDeckPath;
         readonly string _slidesPath;
         readonly string _contentItemsPath;
@@ -18,7 +18,7 @@ namespace LiquidVictor.Data.JsonFileSystem
         public SlideDeckReadRepository(string repositoryPath)
         {
             _repositoryPath = repositoryPath;
-            _sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
+            // _sourceFolderPath = System.IO.Path.GetDirectoryName(_repositoryPath);
             _slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
             _contentItemsPath = System.IO.Path.Combine(_repositoryPath, "ContentItems");
             _slidesPath = System.IO.Path.Combine(_repositoryPath, "Slides");
@@ -48,6 +48,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             var slideDeckJson = System.IO.File.ReadAllText(existingFileName);
             var slideDeck = Newtonsoft.Json.JsonConvert.DeserializeObject<SlideDeck>(slideDeckJson);
 
+            slideDeck.FileName = existingFileName;
             var slides = new List<KeyValuePair<int, Entities.Slide>>();
             int slideIndex = 0;
             foreach (var slideId in slideDeck.SlideIds)
@@ -60,7 +61,8 @@ namespace LiquidVictor.Data.JsonFileSystem
             Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
             var slideDeckId = Guid.Parse(slideDeck.Id);
             var slideDeckTransition = slideDeck.GetTransition();
-            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
+            var slideDeckFormat = slideDeck.GetFormat();
+            var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slideDeckFormat, slides);
 
             return result;
         }

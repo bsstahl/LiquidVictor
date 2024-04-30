@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LiquidVictor.Data.JsonFileSystem\LiquidVictor.Data.JsonFileSystem.csproj" />
+    <ProjectReference Include="..\..\src\LiquidVictor\LiquidVictor.csproj" />
     <ProjectReference Include="..\LiquidVictor.Data.Test\LiquidVictor.Data.Test.csproj" />
   </ItemGroup>
 

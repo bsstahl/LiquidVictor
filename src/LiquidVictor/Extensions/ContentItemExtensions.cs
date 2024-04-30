@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace LiquidVictor.Extensions
 {
@@ -23,7 +24,7 @@ namespace LiquidVictor.Extensions
             if (contentType.ToLower().StartsWith("text"))
             {
                 // Unencoded, just convert to byte array
-                result = System.Text.Encoding.UTF8.GetBytes(content);
+                result = Encoding.UTF8.GetBytes(content.Replace("\\r\\n", Environment.NewLine));
             }
             else
             {
@@ -38,8 +39,8 @@ namespace LiquidVictor.Extensions
             string result = string.Empty;
             if (contentType.ToLower().StartsWith("text"))
             {
-                // Unencoded, just convert from byte array
-                result = System.Text.Encoding.UTF8.GetString(content);
+                // Unencoded, just convert from byte array and flatten
+                result = Encoding.UTF8.GetString(content).Replace(Environment.NewLine, "\\r\\n");
             }
             else
             {

@@ -30,7 +30,22 @@ namespace LiquidVictor.Extensions
 
         public static string AsFilename(this string name)
         {
-            return name.Replace(" ", "_");
+            return name?
+                .Replace(" ", "_");
+        }
+
+        public static string Clean(this string value)
+        {
+            return value?
+                .Replace(":", "_")
+                .Replace(",", "_")
+                .Replace(" & ", " and ")
+                .Replace("&", "and")
+                .Replace("_ ", "_")
+                .Replace(" _", "_")
+                .Replace(" - ", "-")
+                .Replace("- ", "-")
+                .Replace("'", "");
         }
 
         public static string AsFileExtension(this string imageFormat)

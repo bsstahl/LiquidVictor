@@ -2,7 +2,8 @@
   "profiles": {
     "LV": {
       "commandName": "Project",
-      "commandLineArgs": "Build -SlideDeckId:6ecd218e-0c3e-4ea5-ab39-5d54ab2818a4 -PresentationPath:\\S\\R\\PnPPresentations\\Websites\\CriticalCsOfMicroservices -TemplatePath:\\s\\r\\LiquidVictor\\Templates\\RevealJS\\ -SourceRepoPath:\\s\\r\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\ --NoTitle"
+      "commandLineArgs": "Build -OutputEngineType:RevealJS -SourceRepoType:yamlFile -SourceRepoPath:\\s\\r\\LiquidVictorDatabases\\YamlFile\\BSStahl -SlideDeckId:7326ee06-c922-4b5a-97e6-9657e59dddb4 -TemplatePath:\\s\\r\\LiquidVictor\\Templates\\RevealJS\\ -PresentationPath:\\S\\Temp\\Presentations\\TestPresentation1 --NoTitle"
     }
   }
 }
+

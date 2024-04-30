@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj" />
     <ProjectReference Include="..\..\src\LiquidVictor\LiquidVictor.csproj" />
   </ItemGroup>
 

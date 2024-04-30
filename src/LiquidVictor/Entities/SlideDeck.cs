@@ -20,8 +20,8 @@ namespace LiquidVictor.Entities
         public string SlideDeckUrl { get; set; }
         public string PrintLinkText { get; set; } = "Printable Version";
         public Transition Transition { get; set; } = Transition.Slide;
-
         public AspectRatio AspectRatio { get; set; }
+        public Format Format { get; set; }
 
         public ICollection<KeyValuePair<int, Slide>> Slides { get; } = new List<KeyValuePair<int, Slide>>();
 
@@ -38,8 +38,16 @@ namespace LiquidVictor.Entities
             : this(id, title, subTitle, presenter, themeName, string.Empty, printLinkText, transition, aspectRatio, slides)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, 
-            string slideDeckUrl, string printLinkText, Transition transition, AspectRatio aspectRatio, 
+        public SlideDeck(Guid id, string title, string subTitle, string presenter,
+            string themeName, string slideDeckUrl, string printLinkText,
+            Transition transition, AspectRatio aspectRatio,
+            ICollection<KeyValuePair<int, Slide>> slides)
+                : this(id, title, subTitle, presenter, themeName, slideDeckUrl, printLinkText, transition, aspectRatio, Format.Session, slides)
+        { }
+
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, 
+            string themeName, string slideDeckUrl, string printLinkText, 
+            Transition transition, AspectRatio aspectRatio, Format format,
             ICollection<KeyValuePair<int, Slide>> slides)
         {
             this.Id = id;
@@ -51,6 +59,7 @@ namespace LiquidVictor.Entities
             this.PrintLinkText = printLinkText;
             this.Transition = transition;
             this.AspectRatio = aspectRatio;
+            this.Format = format;
             this.Slides = slides;
         }
 

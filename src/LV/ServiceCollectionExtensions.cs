@@ -38,6 +38,9 @@ public static class ServiceCollectionExtensions
             case "postgresql":
                 services.AddTransient<ISlideDeckReadRepository, LiquidVictor.Data.Postgres.SlideDeckReadRepository>();
                 break;
+            case "yamlfile":
+                services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckReadRepository(config.SourceRepoPath));
+                break;
             default:
                 services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(config.SourceRepoPath));
                 break;
@@ -52,6 +55,9 @@ public static class ServiceCollectionExtensions
             case "postgres":
             case "postgresql":
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.Postgres.SlideDeckWriteRepository(config.SourceRepoPath));
+                break;
+            case "yamlfile":
+                services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(config.SourceRepoPath));
                 break;
             default:
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(config.SourceRepoPath));

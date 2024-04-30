@@ -1,0 +1,9 @@
+Title: "Test Slide 1"
+Layout: "ImageLeft"
+TransitionIn: "PresentationDefault"
+TransitionOut: "PresentationDefault"
+BackgroundContent: null
+Notes: "My 1st Test Slide"
+ContentItemIds:
+  - "187957ad-8831-4498-89ce-fcd76ecc26aa"
+  - "4f1e0289-fb19-42a5-9cc1-9d343cc8ee12"

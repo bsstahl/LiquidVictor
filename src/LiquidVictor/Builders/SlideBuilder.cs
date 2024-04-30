@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiquidVictor.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,6 +27,51 @@ public class SlideBuilder
             TransitionIn = _slide.TransitionIn,
             TransitionOut = _slide.TransitionOut
         };
+    }
+
+    public SlideBuilder Id(Guid value)
+    {
+        _slide.Id = value;
+        return this;
+    }
+
+    public SlideBuilder Title(string value)
+    {
+        _slide.Title = value;
+        return this;
+    }
+
+    public SlideBuilder Layout(Layout value)
+    {
+        _slide.Layout = value;
+        return this;
+    }
+
+    public SlideBuilder Layout(string value)
+    {
+        return this.Layout((Layout)Enum.Parse(typeof(Layout), value));
+    }
+
+    public SlideBuilder TransitionIn(Transition value)
+    {
+        _slide.TransitionIn = value;
+        return this;
+    }
+
+    public SlideBuilder TransitionIn(string value)
+    {
+        return this.TransitionIn((Transition)Enum.Parse(typeof(Transition), value));
+    }
+
+    public SlideBuilder TransitionOut(Transition value)
+    {
+        _slide.TransitionOut = value;
+        return this;
+    }
+
+    public SlideBuilder TransitionOut(string value)
+    {
+        return this.TransitionOut((Transition)Enum.Parse(typeof(Transition), value));
     }
 
     public SlideBuilder BackgroundContent(ContentItemBuilder value)
@@ -60,30 +106,6 @@ public class SlideBuilder
         return this.ContentItems(key, value);
     }
 
-    //public SlideBuilder ContentItems(IEnumerable<ContentItemBuilder> value)
-    //{
-    //    _contentItemsBuilder.AddRange(value);
-    //    return this;
-    //}
-
-    //public SlideBuilder ContentItems(IEnumerable<Entities.ContentItem> value)
-    //{
-    //    // TODO: Convert to builders and call method above
-    //    throw new NotImplementedException();
-    //}
-
-    public SlideBuilder Id(Guid value)
-    {
-        _slide.Id = value;
-        return this;
-    }
-
-    public SlideBuilder Layout(Enumerations.Layout value)
-    {
-        _slide.Layout = value;
-        return this;
-    }
-
     public SlideBuilder NeverFullScreen(bool value)
     {
         _slide.NeverFullScreen = value;
@@ -93,24 +115,6 @@ public class SlideBuilder
     public SlideBuilder Notes(string value)
     {
         _slide.Notes = value;
-        return this;
-    }
-
-    public SlideBuilder Title(string value)
-    {
-        _slide.Title = value;
-        return this;
-    }
-
-    public SlideBuilder TransitionIn(Enumerations.Transition value)
-    {
-        _slide.TransitionIn = value;
-        return this;
-    }
-
-    public SlideBuilder TransitionOut(Enumerations.Transition value)
-    {
-        _slide.TransitionOut = value;
         return this;
     }
 

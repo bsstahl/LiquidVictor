@@ -68,7 +68,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Output.RevealJ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.JsonFileSystem.Test", "tst\LiquidVictor.Data.JsonFileSystem.Test\LiquidVictor.Data.JsonFileSystem.Test.csproj", "{F79652D7-7ABF-4E3A-9CB8-00673A23FEE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Data.Test", "tst\LiquidVictor.Data.Test\LiquidVictor.Data.Test.csproj", "{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.Test", "tst\LiquidVictor.Data.Test\LiquidVictor.Data.Test.csproj", "{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidVictor.Data.YamlFile", "src\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj", "{34266AEA-EAC4-431C-A4AB-3294F75FE8F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Data.YamlFile.Test", "tst\LiquidVictor.Data.YamlFile.Test\LiquidVictor.Data.YamlFile.Test.csproj", "{4CEC1CBF-EEDE-450F-96A2-F981150594F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LVExport", "src\LVExport\LVExport.csproj", "{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +170,18 @@ Global
 		{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34266AEA-EAC4-431C-A4AB-3294F75FE8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34266AEA-EAC4-431C-A4AB-3294F75FE8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34266AEA-EAC4-431C-A4AB-3294F75FE8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34266AEA-EAC4-431C-A4AB-3294F75FE8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CEC1CBF-EEDE-450F-96A2-F981150594F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CEC1CBF-EEDE-450F-96A2-F981150594F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CEC1CBF-EEDE-450F-96A2-F981150594F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CEC1CBF-EEDE-450F-96A2-F981150594F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +211,9 @@ Global
 		{4C12E3FE-593A-49ED-B876-E785F98332D8} = {317B49EF-4153-4974-A715-BF7DBBEAEF6C}
 		{F79652D7-7ABF-4E3A-9CB8-00673A23FEE6} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
 		{B8CC9B7B-3838-4E21-B4CB-2F5606BEB2E7} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
+		{34266AEA-EAC4-431C-A4AB-3294F75FE8F1} = {5A4A4989-480F-46A9-A7BD-C93B5635EAAF}
+		{4CEC1CBF-EEDE-450F-96A2-F981150594F9} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
+		{5220A01B-AC60-4747-B3DF-2FEE0CCBB26C} = {8C920CA5-A0A8-43B3-8E2A-EFA084956250}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}

@@ -1,0 +1,11 @@
+Id: "64b458e1-be36-4f42-86b0-63f7a9ca1503"
+Title: "Test Deck 1"
+SubTitle: "A Test of Liquid Victor"
+Presenter: "Barry S. Stahl - Mastodon:@bsstahl@cognitiveinheritance.com - Blog:http://www.cognitiveinheritance.com"
+ThemeName: "moon"
+AspectRatio: "Widescreen"
+Transition: "Slide"
+SlideDeckUrl: "https://example.com/TestDeck1"
+SlideIds:
+  # General Tests
+  - "833f8eae-471f-4f6d-9493-eb18dd6d4f5e" # Test Slide 1
