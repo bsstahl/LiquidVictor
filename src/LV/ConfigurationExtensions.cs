@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Interfaces;
+using LiquidVictor.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace LV
             var contentItem = new LiquidVictor.Entities.ContentItem()
             {
                 Id = Guid.NewGuid(),
-                ContentType = GetContentType(config.ContentPath),
+                ContentType = config.ContentPath.GetContentType(),
                 Title = config.Title,
                 FileName = System.IO.Path.GetFileName(config.ContentPath),
                 Content = System.IO.File.ReadAllBytes(config.ContentPath)
@@ -75,7 +76,7 @@ namespace LV
         {
             // TODO: Validate inputs
             // TODO: Respect --SkipOutput switch
-            var contentType = GetContentType(config.ContentPath);
+            var contentType = config.ContentPath.GetContentType();
             var content = System.IO.File.ReadAllBytes(config.ContentPath);
             var contentItemId = Guid.NewGuid();
             var contentItemTitle = config.Title;
@@ -199,31 +200,6 @@ namespace LV
             var orphanedContentItemIds = allContentItemIds.Where(c => !usedContentItemIds.Contains(c));
 
             return orphanedContentItemIds;
-        }
-
-        private static string GetContentType(string sourceFilePath)
-        {
-            string result = string.Empty;
-            string cleanExtension = System.IO.Path.GetExtension(sourceFilePath).ToLower();
-            switch (cleanExtension)
-            {
-                case ".md":
-                    result = "text/markdown";
-                    break;
-                case ".png":
-                    result = "image/png";
-                    break;
-                case ".jpg":
-                case ".jfif":
-                case ".jpeg":
-                    result = "image/jpg";
-                    break;
-                case ".gif":
-                    result = "image/gif";
-                    break;
-            }
-
-            return result;
         }
 
     }

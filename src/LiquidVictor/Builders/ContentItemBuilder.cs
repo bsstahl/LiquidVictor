@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LiquidVictor;
+namespace LiquidVictor.Builders;
 
 public class ContentItemBuilder
 {

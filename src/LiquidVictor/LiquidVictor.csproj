@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -6,8 +6,6 @@
 		<Copyright>GNU General Public License v3.0</Copyright>
 		<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<LangVersion>latest</LangVersion>
 		<AnalysisLevel>latest-all</AnalysisLevel>
 	</PropertyGroup>
@@ -18,5 +16,15 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+
+  <PropertyGroup>
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>3</VersionMinor>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>$(VersionMajor).$(VersionMinor)</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
 
 </Project>

@@ -3,15 +3,34 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>LiquidVictor YAML File Data Store</Title>
+    <Description>Knows how to read and write LiquidVictor presentation resources to/from the file system in YAML format</Description>
+		<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
+    <Copyright>https://github.com/bsstahl/LiquidVictor/blob/master/LICENSE</Copyright>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="LiquidVictor" Version="1.3.0" />
 		<PackageReference Include="YamlDotNet" Version="15.1.2" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
+
+  <PropertyGroup>
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>3</VersionMinor>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>$(VersionMajor).$(VersionMinor)</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
 
 </Project>
