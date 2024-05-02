@@ -34,9 +34,9 @@ namespace LiquidVictor.Entities
                 TransitionIn = this.TransitionIn,
                 TransitionOut = this.TransitionOut,
                 Notes = this.Notes,
-                BackgroundContent = this.BackgroundContent.Clone(createNewId),
+                BackgroundContent = this.BackgroundContent?.Clone(createNewId),
                 NeverFullScreen = this.NeverFullScreen,
-                ContentItems = this.ContentItems.Clone(createNewId)
+                ContentItems = this.ContentItems?.Clone(createNewId)
             };
         }
     }
