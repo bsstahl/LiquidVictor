@@ -8,12 +8,12 @@ namespace LiquidVictor.Extensions
 {
     public static class ContentItemExtensions
     {
-        public static ICollection<KeyValuePair<int, ContentItem>> Clone(this IEnumerable<KeyValuePair<int, ContentItem>> contentItemPairs)
+        public static ICollection<KeyValuePair<int, ContentItem>> Clone(this IEnumerable<KeyValuePair<int, ContentItem>> contentItemPairs, bool createNewId = false)
         {
             var result = new List<KeyValuePair<int, ContentItem>>();
             foreach (var pair in contentItemPairs)
             {
-                result.Add(new KeyValuePair<int, ContentItem>(pair.Key, pair.Value));
+                result.Add(new KeyValuePair<int, ContentItem>(pair.Key, pair.Value.Clone(createNewId)));
             }
             return result;
         }

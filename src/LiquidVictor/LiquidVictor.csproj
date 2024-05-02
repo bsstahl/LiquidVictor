@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 		<Description>Domain layer for the Liquid Victor media tracking and aggregation system</Description>
 		<Copyright>GNU General Public License v3.0</Copyright>
 		<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
 		<AnalysisLevel>latest-all</AnalysisLevel>
+		<Version>1.4.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,15 +17,5 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
-  <PropertyGroup>
-    <VersionMajor>1</VersionMajor>
-    <VersionMinor>3</VersionMinor>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <VersionPrefix>$(VersionMajor).$(VersionMinor)</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
-  </PropertyGroup>
 
 </Project>

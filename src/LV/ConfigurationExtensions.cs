@@ -115,7 +115,7 @@ namespace LV
             // TODO: Respect --SkipOutput switch
             var slideDeck = readRepo.GetSlideDeck(config.SlideDeckId);
 
-            var newSlideDeck = slideDeck.Clone(Guid.NewGuid(), config.Title);
+            var newSlideDeck = slideDeck.Clone(true, false, config.Title);
             writeRepo.SaveSlideDeck(newSlideDeck);
             Console.WriteLine($"Presentation {newSlideDeck.Id} ('{newSlideDeck.Title}') written to {config.SourceRepoPath}");
         }

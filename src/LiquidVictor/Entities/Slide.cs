@@ -24,20 +24,19 @@ namespace LiquidVictor.Entities
 
         public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; set; }
 
-
-        public Slide Clone()
+        public Slide Clone(bool createNewId = false)
         {
             return new Slide()
             {
-                Id = this.Id,
+                Id = createNewId ? Guid.NewGuid() : this.Id,
                 Title = this.Title,
                 Layout = this.Layout,
                 TransitionIn = this.TransitionIn,
                 TransitionOut = this.TransitionOut,
                 Notes = this.Notes,
-                BackgroundContent = this.BackgroundContent,
+                BackgroundContent = this.BackgroundContent.Clone(createNewId),
                 NeverFullScreen = this.NeverFullScreen,
-                ContentItems = this.ContentItems.Clone()
+                ContentItems = this.ContentItems.Clone(createNewId)
             };
         }
     }

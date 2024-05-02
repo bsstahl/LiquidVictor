@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Enumerations;
+using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Entities
 {
@@ -63,11 +64,11 @@ namespace LiquidVictor.Entities
             this.Slides = slides;
         }
 
-        public SlideDeck Clone(Guid? newId = null, string newTitle = "")
+        public SlideDeck Clone(bool createNewId = true, bool createNewChildIds = false, string newTitle = "")
         {
-            var id = newId ?? this.Id;
+            var id = createNewId ? Guid.NewGuid() : this.Id;
             var title = string.IsNullOrEmpty(newTitle) ? this.Title : newTitle;
-            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, this.Slides);
+            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, this.Slides.Clone(createNewChildIds));
         }
     }
 }
