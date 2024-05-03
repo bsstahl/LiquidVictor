@@ -1,4 +1,5 @@
-﻿using LiquidVictor.Enumerations;
+﻿using LiquidVictor.Entities;
+using LiquidVictor.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace LiquidVictor.Builders;
 
 public class SlideBuilder
 {
-    private readonly Entities.Slide _slide = new ();
+    private readonly Entities.Slide _slide = new();
 
     private readonly ContentItemsBuilder _contentItemsBuilder = new();
 
@@ -95,6 +96,18 @@ public class SlideBuilder
     public SlideBuilder ContentItems(int key, ContentItemBuilder value)
     {
         _contentItemsBuilder.Add(key, value);
+        return this;
+    }
+
+    public SlideBuilder ContentItems(ContentItem value)
+    {
+        if (value is null) throw new ArgumentNullException(nameof(value));
+        _contentItemsBuilder.Add(new ContentItemBuilder()
+            .Id(value.Id)
+            .FileName(value.FileName)
+            .Title(value.Title)
+            .ContentType(value.ContentType)
+            .Content(value.Content));
         return this;
     }
 
