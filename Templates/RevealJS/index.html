@@ -38,10 +38,13 @@
         // More info about config & dependencies:
         // - https://github.com/hakimel/reveal.js#configuration
         // - https://github.com/hakimel/reveal.js#dependencies
+
+
         Reveal.initialize({
 			width: {Width},
 			height: {Height},
             transition: '{Transition}',
+            showNotes: window.location.search.match(/print-pdf/gi) ? true : false,
             dependencies: [
                 { src: 'plugin/markdown/marked.js' },
                 { src: 'plugin/markdown/markdown.js' },

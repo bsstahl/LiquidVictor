@@ -1536,9 +1536,9 @@ body {
   .reveal .speaker-notes:focus {
     outline: none; }
   .reveal .speaker-notes:before {
-    content: 'Speaker notes';
-    display: block;
-    margin-bottom: 10px;
+    content: 'Speaker Notes';
+    display: none; /* 'block' to show the label; 'none' to skip the label */
+    margin-bottom: 0px;
     opacity: 0.5; }
 
 .reveal.show-notes {
