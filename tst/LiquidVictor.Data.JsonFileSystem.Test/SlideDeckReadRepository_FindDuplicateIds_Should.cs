@@ -13,7 +13,7 @@ namespace LiquidVictor.Data.JsonFileSystem
             var slideId = Guid.NewGuid();
 
             var slideDecks = new SlideDecksBuilder()
-                .SlideDeck(new SlideDeckBuilder()
+                .Add(new SlideDeckBuilder()
                     .Id(Guid.NewGuid())
                     .Title(string.Empty.GetRandom())
                     .SubTitle(string.Empty.GetRandom())
