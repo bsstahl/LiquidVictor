@@ -1,14 +1,25 @@
 ﻿using LiquidVictor.Enumerations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LiquidVictor.Builders;
 
 public class SlideDeckBuilder
 {
-    private readonly Entities.SlideDeck _slideDeck = new();
+    private readonly Entities.SlideDeck _slideDeck;
 
     private readonly SlidesBuilder _slidesBuilder = new();
+
+    public SlideDeckBuilder()
+        : this(new Entities.SlideDeck())
+    { }
+
+    public SlideDeckBuilder(Entities.SlideDeck value)
+    {
+        _slideDeck = value;
+        value?.Slides.ToList().ForEach(s => _slidesBuilder.Add(s.Value));
+    }
 
     public Entities.SlideDeck Build()
     {
@@ -89,4 +100,10 @@ public class SlideDeckBuilder
         return this;
     }
 
+    public SlideDeckBuilder Slides(IEnumerable<Entities.Slide> value)
+    {
+        return value is null
+            ? throw new ArgumentNullException(nameof(value))
+            : this.Slides(new SlidesBuilder().Add(value));
+    }
 }

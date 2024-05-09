@@ -1,18 +1,28 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace LiquidVictor.Builders;
 
 public class SlideBuilder
 {
-    private readonly Entities.Slide _slide = new();
+    private readonly Entities.Slide _slide;
 
     private readonly ContentItemsBuilder _contentItemsBuilder = new();
 
     private ContentItemBuilder _backgroundContentItemBuilder;
+
+    public SlideBuilder()
+        : this(new Entities.Slide())
+    { }
+
+    public SlideBuilder(Slide value)
+    {
+        _slide = value;
+        value?.ContentItems.ToList().ForEach(ci => _ = this.ContentItems(ci.Key, ci.Value));
+        _backgroundContentItemBuilder = new ContentItemBuilder(value.BackgroundContent);
+    }
 
     public Entities.Slide Build()
     {
@@ -101,14 +111,15 @@ public class SlideBuilder
 
     public SlideBuilder ContentItems(ContentItem value)
     {
-        if (value is null) throw new ArgumentNullException(nameof(value));
-        _contentItemsBuilder.Add(new ContentItemBuilder()
-            .Id(value.Id)
-            .FileName(value.FileName)
-            .Title(value.Title)
-            .ContentType(value.ContentType)
-            .Content(value.Content));
-        return this;
+        var key = _contentItemsBuilder.Any()
+            ? _contentItemsBuilder.Max(b => b.Key) + 1
+            : 0;
+        return this.ContentItems(key, value);
+    }
+
+    public SlideBuilder ContentItems(int key, ContentItem value)
+    {
+        return this.ContentItems(key, new ContentItemBuilder(value));
     }
 
     public SlideBuilder ContentItems(ContentItemBuilder value)

@@ -1,11 +1,20 @@
-﻿using System;
+﻿using LiquidVictor.Entities;
+using System;
 
 namespace LiquidVictor.Builders;
 
 public class ContentItemBuilder
 {
-    private readonly Entities.ContentItem _contentItem 
-        = new Entities.ContentItem();
+    private readonly Entities.ContentItem _contentItem;
+
+    public ContentItemBuilder()
+        : this(new Entities.ContentItem())
+    { }
+
+    public ContentItemBuilder(ContentItem value)
+    {
+        _contentItem = value ?? new ContentItem();
+    }
 
     public Entities.ContentItem Build()
     {

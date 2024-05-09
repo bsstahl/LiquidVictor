@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiquidVictor.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,9 +12,16 @@ public class SlideDecksBuilder
     public IEnumerable<Entities.SlideDeck> Build() 
         => _slideDeckBuilders.Select(sd => sd.Build());
 
-    public SlideDecksBuilder SlideDeck(SlideDeckBuilder value)
+    public SlideDecksBuilder Add(SlideDeckBuilder value)
     {
         _slideDeckBuilders.Add(value);
         return this;
+    }
+
+    public SlideDecksBuilder SlideDeck(SlideDeck value)
+    {
+        return value is null
+            ? throw new ArgumentNullException(nameof(value))
+            : this.Add(new SlideDeckBuilder(value));
     }
 }
