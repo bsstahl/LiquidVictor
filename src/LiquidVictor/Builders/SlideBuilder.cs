@@ -93,8 +93,7 @@ public class SlideBuilder
 
     public SlideBuilder BackgroundContent(Entities.ContentItem value)
     {
-        // TODO: Convert to builder and call method above
-        throw new NotImplementedException();
+        return this.BackgroundContent(new ContentItemBuilder(value));
     }
 
     public SlideBuilder ContentItems(ContentItemsBuilder value)

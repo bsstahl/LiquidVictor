@@ -8,7 +8,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
 		<AnalysisLevel>latest-all</AnalysisLevel>
-		<Version>1.7.1</Version>
+		<Version>1.7.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
