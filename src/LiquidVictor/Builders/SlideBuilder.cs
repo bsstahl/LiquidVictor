@@ -20,7 +20,7 @@ public class SlideBuilder
     public SlideBuilder(Slide value)
     {
         _slide = value;
-        value?.ContentItems.ToList().ForEach(ci => _ = this.ContentItems(ci.Key, ci.Value));
+        value?.ContentItems?.ToList().ForEach(ci => _ = this.ContentItems(ci.Key, ci.Value));
         _backgroundContentItemBuilder = new ContentItemBuilder(value.BackgroundContent);
     }
 
