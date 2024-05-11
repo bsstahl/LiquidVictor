@@ -8,6 +8,7 @@ using LiquidVictor.Extensions;
 using LiquidVictor.Output.RevealJs.Entities;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Output.RevealJs.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
 {
@@ -15,13 +16,13 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
-        readonly BuilderOptions _builderOptions;
+        // readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions _)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
-            _builderOptions = builderOptions;
+            // _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide, int zeroBasedIndex)
@@ -46,8 +47,16 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
 
             var imageContentItems = slide.ContentItems
                 .ImageContentItems().OrderBy(c => c.Key);
+
             foreach (var image in imageContentItems)
-                sb.AppendLine($"<td width=\"60%\"><img alt=\"{image.Value.FileName}\" src=\"{image.Value.RelativePathToImage()}\" /></td>");
+            {
+                sb.AppendLine($"<td style=\"text-align: left;\">");
+                sb.Append("<img");
+                sb.Append($" src=\"{image.Value.RelativePathToImage()}\"");
+                sb.Append($" alt=\"{image.Value.FileName}\"");
+                sb.AppendLine(" />");
+                sb.AppendLine("</td>");
+            }
 
             sb.Append("</tr></table>");
             sb.AppendLine("</section>");

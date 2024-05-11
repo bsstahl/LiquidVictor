@@ -4,7 +4,7 @@ namespace LVExport;
 
 internal class Program
 {
-    static void Main(string[] args)
+    static void Main(string[] _)
     {
         // HACK: Remove hardcoding of dependencies
 

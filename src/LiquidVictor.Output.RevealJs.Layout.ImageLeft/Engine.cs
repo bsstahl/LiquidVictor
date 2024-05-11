@@ -15,13 +15,13 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageLeft
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
-        readonly BuilderOptions _builderOptions;
+        // readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions _)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
-            _builderOptions = builderOptions;
+            // _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide, int zeroBasedIndex)
@@ -38,13 +38,18 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageLeft
             sb.Append("<table><tr>");
 
             var images = slide.ContentItems.ImageContentItems().OrderBy(c => c.Key);
-            sb.AppendLine("<td width=\"60%\">");
+            sb.AppendLine("<td align=\"right\">");
             foreach (var image in images)
-                sb.AppendLine($"<img alt=\"{image.Value.FileName}\" src=\"{image.Value.RelativePathToImage()}\" />");
+            {
+                sb.Append("<img");
+                sb.Append($" src=\"{image.Value.RelativePathToImage()}\"");
+                sb.Append($" alt=\"{image.Value.FileName}\"");
+                sb.AppendLine(" />");
+            }
             sb.AppendLine("</td>");
 
             var textContentItems = slide.ContentItems.TextContentItems().OrderBy(c => c.Key);
-            sb.AppendLine("<td style=\"vertical-align:top;\">");
+            sb.AppendLine("<td style=\"vertical-align:top; text-align: left;\">");
             foreach (var textContentItem in textContentItems)
                 sb.AppendLine(Markdig.Markdown.ToHtml(textContentItem.Value.Content.AsString(), _pipeline));
             sb.AppendLine("</td>");

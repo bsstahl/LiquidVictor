@@ -14,8 +14,7 @@ namespace LiquidVictor.Output.RevealJs.Extensions
             {
                 Id = Guid.NewGuid(),
                 Title = slideDeck.Title,
-                Layout = Enumerations.Layout.Title,
-                ContentItems = new List<KeyValuePair<int, ContentItem>>()
+                Layout = Enumerations.Layout.Title
             };
 
             titleSlide.ContentItems.Add(
@@ -36,7 +35,7 @@ namespace LiquidVictor.Output.RevealJs.Extensions
                     Id = Guid.NewGuid()
                 }));
 
-            string url = slideDeck.SlideDeckUrl ?? " ";
+            string url = slideDeck.SlideDeckUrl.ToString() ?? " ";
             titleSlide.ContentItems.Add(
                 new KeyValuePair<int, ContentItem>(3,
                 new ContentItem()
@@ -64,16 +63,16 @@ namespace LiquidVictor.Output.RevealJs.Extensions
             int width, height;
             switch (deck.AspectRatio)
             {
-                case Enumerations.AspectRatio.Widescreen:
+                case Enumerations.AspectRatio.Widescreen: // 16:9
                     width = 1920;
                     height = 1080;
                     break;
-                case Enumerations.AspectRatio.Standard:
+                case Enumerations.AspectRatio.Standard: // 4:3
                     width = 1024;
                     height = 768;
                     break;
                 default:
-                    throw new NotSupportedException($"Invalid Aspect Ratio {deck.AspectRatio.ToString()}");
+                    throw new NotSupportedException($"Invalid Aspect Ratio {deck.AspectRatio}");
             }
 
             return (width, height);

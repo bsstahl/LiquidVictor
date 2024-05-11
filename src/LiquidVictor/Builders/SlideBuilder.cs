@@ -9,9 +9,9 @@ public class SlideBuilder
 {
     private readonly Entities.Slide _slide;
 
-    private readonly ContentItemsBuilder _contentItemsBuilder = new();
+    private readonly ContentItemsBuilder _contentItemsBuilder = [];
 
-    private ContentItemBuilder _backgroundContentItemBuilder;
+    private ContentItemBuilder? _backgroundContentItemBuilder;
 
     public SlideBuilder()
         : this(new Entities.Slide())
@@ -21,7 +21,8 @@ public class SlideBuilder
     {
         _slide = value;
         value?.ContentItems?.ToList().ForEach(ci => _ = this.ContentItems(ci.Key, ci.Value));
-        _backgroundContentItemBuilder = new ContentItemBuilder(value.BackgroundContent);
+        if (value?.BackgroundContent is not null)
+            _backgroundContentItemBuilder = new ContentItemBuilder(value?.BackgroundContent);
     }
 
     public Entities.Slide Build()
@@ -30,7 +31,7 @@ public class SlideBuilder
         {
             BackgroundContent = _backgroundContentItemBuilder?.Build(),
             ContentItems = _contentItemsBuilder.Build().ToList(),
-            Id = _slide.Id,
+            Id = _slide.Id.Equals(Guid.Empty) ? Guid.NewGuid() : _slide.Id,
             Layout = _slide.Layout,
             NeverFullScreen = _slide.NeverFullScreen,
             Notes = _slide.Notes,

@@ -9,7 +9,7 @@ public class SlideDeckBuilder
 {
     private readonly Entities.SlideDeck _slideDeck;
 
-    private readonly SlidesBuilder _slidesBuilder = new();
+    private readonly SlidesBuilder _slidesBuilder = [];
 
     public SlideDeckBuilder()
         : this(new Entities.SlideDeck())
@@ -23,6 +23,9 @@ public class SlideDeckBuilder
 
     public Entities.SlideDeck Build()
     {
+        _slideDeck.Id = _slideDeck.Id.Equals(Guid.Empty) 
+            ? Guid.NewGuid() 
+            : _slideDeck.Id;
         _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Slides.Add(s));
         return _slideDeck;
     }
@@ -90,7 +93,7 @@ public class SlideDeckBuilder
 
     public SlideDeckBuilder SlideDeckUrl(string value)
     {
-        _slideDeck.SlideDeckUrl = value;
+        _slideDeck.SlideDeckUrl = new Uri(value);
         return this;
     }
 

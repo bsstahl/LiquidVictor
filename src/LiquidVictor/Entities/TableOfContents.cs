@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LiquidVictor.Entities
+namespace LiquidVictor.Entities;
+
+public class TableOfContents(Guid id, string title, string subTitle, string presenter, 
+    Uri? url, IEnumerable<TableOfContentsEntry> entries)
 {
-    public class TableOfContents
-    {
-        public Guid SlideDeckId { get; set; }
-        public string SlideDeckTitle { get; set; } = string.Empty;
-        public string SlideDeckSubTitle { get; set; } = string.Empty;
-        public string SlideDeckPresenter { get; set; } = string.Empty;
-        public string SlideDeckUrl { get; set; } = string.Empty;
-        public IEnumerable<TableOfContentsEntry> Entries { get; set; } = Array.Empty<TableOfContentsEntry>();
-    }
+    public Guid SlideDeckId { get; set; } = id;
+    public string SlideDeckTitle { get; set; } = title;
+    public string SlideDeckSubTitle { get; set; } = subTitle;
+    public string SlideDeckPresenter { get; set; } = presenter;
+
+    public Uri? SlideDeckUrl { get; set; } = url;
+    
+    public IEnumerable<TableOfContentsEntry> Entries { get; set; } = entries;
 }

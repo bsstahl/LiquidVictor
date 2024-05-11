@@ -4,8 +4,7 @@ using LiquidVictor.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 namespace LV;
 
@@ -15,8 +14,8 @@ class Program
     {
         const string defaultConfigPath = @"defaults.json";
 
-        string executionFolder = System.IO.Path.GetDirectoryName(AppContext.BaseDirectory);
-        string fullConfigPath = System.IO.Path.Combine(executionFolder, defaultConfigPath);
+        string executionFolder = Path.GetDirectoryName(AppContext.BaseDirectory) ?? throw new InvalidOperationException($"{nameof(AppContext.BaseDirectory)} is returning a null directory name");
+        string fullConfigPath = Path.Combine(executionFolder, defaultConfigPath);
 
         Command command;
         Configuration config;

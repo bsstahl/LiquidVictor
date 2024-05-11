@@ -104,20 +104,11 @@ namespace LiquidVictor.Data.JsonFileSystem
             if (Guid.TryParse(slide.BackgroundContent, out var parsedValue))
                 backgroundContentItemId = parsedValue;
 
-            var slideResult = new Entities.Slide()
-            {
-                Id = id,
-                Layout = (Enumerations.Layout)Enum.Parse(typeof(Enumerations.Layout), slide.Layout),
-                Notes = slide.Notes,
-                Title = slide.Title,
-                TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
-                TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
-                BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
-                NeverFullScreen = slide.NeverFullScreen,
-                ContentItems = contentItems
-            };
-
-            return slideResult;
+            var slideLayout = (Enumerations.Layout)Enum.Parse(typeof(Enumerations.Layout), slide.Layout);
+            var slideTransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn);
+            var slideTransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut);
+            var slideBackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null;
+            return new Entities.Slide(id, slide.Title, slideLayout, slideTransitionIn, slideTransitionOut, slide.Notes, slideBackgroundContent, slide.NeverFullScreen, contentItems);
         }
 
         public Entities.ContentItem GetContentItem(Guid id)

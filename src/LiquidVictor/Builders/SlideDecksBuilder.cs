@@ -7,7 +7,7 @@ namespace LiquidVictor.Builders;
 
 public class SlideDecksBuilder
 {
-    private readonly List<SlideDeckBuilder> _slideDeckBuilders = new();
+    private readonly List<SlideDeckBuilder> _slideDeckBuilders = [];
 
     public IEnumerable<Entities.SlideDeck> Build() 
         => _slideDeckBuilders.Select(sd => sd.Build());

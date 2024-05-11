@@ -5,14 +5,9 @@ using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.YamlFile;
 
-public class SlideDeckWriteRepository : Interfaces.ISlideDeckWriteRepository
+public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISlideDeckWriteRepository
 {
-    string _sourceFolderPath;
-
-    public SlideDeckWriteRepository(string sourceFolderPath)
-    {
-        _sourceFolderPath = System.IO.Path.GetFullPath(sourceFolderPath);
-    }
+    private readonly string _sourceFolderPath = System.IO.Path.GetFullPath(sourceFolderPath);
 
     public void SaveSlideDeck(Entities.SlideDeck slideDeck)
     {

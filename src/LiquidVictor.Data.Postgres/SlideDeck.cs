@@ -17,6 +17,8 @@ namespace LiquidVictor.Data.Postgres
         private AspectRatio _aspectRatio;
         private string _presenter;
         private string _themeName;
+        private Uri _slideDeckUri; // TODO: Add to dataset
+
 
         [Column("title"), MaxLength(200)]
         public string Title
@@ -53,6 +55,13 @@ namespace LiquidVictor.Data.Postgres
             set => CompareAndUpdate(ref _aspectRatio, value);
         }
 
+        [Column("slidedeckuri")]
+        public Uri SlideDeckUri
+        {
+            get => _slideDeckUri;
+            set => CompareAndUpdate(ref _slideDeckUri, value);
+        }
+
         public ICollection<SlideDeckSlide> SlideDeckSlides { get; set; }
 
 
@@ -60,7 +69,7 @@ namespace LiquidVictor.Data.Postgres
         {
             // TODO: Respect the Transition value from the data store
             var slides = this.SlideDeckSlides.AsEntities();
-            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, "Printable Version", _defaultTransition, this.AspectRatio, slides);
+            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, this.SlideDeckUri, "Printable Version", _defaultTransition, this.AspectRatio, slides);
         }
 
         internal void Update(Context context, Entities.SlideDeck slideDeck)
@@ -104,10 +113,9 @@ namespace LiquidVictor.Data.Postgres
                 if (!associationExists)
                 {
                     // Handle slide already exists but no association
-                    Slide storageSlide = context.Slides.SingleOrDefault(s => s.Id == slide.Value.Id);
-                    if (storageSlide == null)
-                        storageSlide = new Slide();
-
+                    Slide storageSlide = 
+                        context.Slides.SingleOrDefault(s => s.Id == slide.Value.Id) 
+                        ?? new Slide();
                     storageSlide.FromEntity(slide.Value);
 
                     var storageSlideDeckSlide = new SlideDeckSlide()

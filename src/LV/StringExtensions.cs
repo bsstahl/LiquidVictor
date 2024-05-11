@@ -6,20 +6,17 @@ namespace LV
 {
     public static class StringExtensions
     {
-
-        public static (string sourceConnection, string targetConnection, string templateConnection) ParseArguments(this string[] args)
-        {
-            if (args is null)
-                return (null, null, null);
-            else
-                return (args[0], args[1], args[2]);
-        }
-
+        //public static (string sourceConnection, string targetConnection, string templateConnection) ParseArguments(this string[] args)
+        //{
+        //    return args is null 
+        //        ? ((string, string, string))(null, null, null) 
+        //        : ((string sourceConnection, string targetConnection, string templateConnection))(args[0], args[1], args[2]);
+        //}
 
         public static (bool argsAreValid, IEnumerable<string> argumentErrors) ValidateArguments(this string[] args)
         {
             var errors = new List<string>();
-            bool isValid = ((args?.Length == 3) && !args.IsNullOrWhiteSpace());
+            bool isValid = (args?.Length == 3) && !args.IsNullOrWhiteSpace();
 
             if ((args is null) || (args.Length != 3))
                 errors.Add("Usage - PPTail.exe SourceConnectionString TargetConnectionString TemplatePath");
@@ -49,9 +46,9 @@ namespace LV
         public static bool IsNullOrWhiteSpace(this string[] args)
         {
             bool result = false;
-            if (!(args is null))
+            if (args is not null)
                 foreach (var arg in args)
-                    result = (result || string.IsNullOrWhiteSpace(arg));
+                    result = result || string.IsNullOrWhiteSpace(arg);
             return result;
         }
     }

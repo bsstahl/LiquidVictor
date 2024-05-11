@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
-using YamlDotNet.Serialization;
 
 namespace LiquidVictor.Data.YamlFile;
 
@@ -58,7 +57,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
-        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeck.SlideDeckUrl, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
+        Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? null : new Uri(slideDeck.SlideDeckUrl);
+        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
 
         return result;
     }
@@ -109,9 +109,10 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
             TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
-            NeverFullScreen = slide.NeverFullScreen,
-            ContentItems = contentItems
+            NeverFullScreen = slide.NeverFullScreen
         };
+
+        contentItems.ForEach(ci =>  slideResult.ContentItems.Add(ci));
 
         return slideResult;
     }

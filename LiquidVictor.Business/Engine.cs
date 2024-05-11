@@ -6,14 +6,9 @@ using System.Text;
 
 namespace LiquidVictor.Business;
 
-public class Engine : ICommandEngine
+public class Engine(IServiceProvider services) : ICommandEngine
 {
-    readonly IServiceProvider _services;
-
-    public Engine(IServiceProvider services)
-    {
-        _services = services;
-    }
+    readonly IServiceProvider _services = services;
 
     public string BuildPresentation(Guid slideDeckId, string presentationPath)
     {
@@ -22,7 +17,6 @@ public class Engine : ICommandEngine
         var readRepo = _services.GetReadRepo();
         var presentationBuilder = _services.GetPresentationBuilder();
 
-        StringBuilder results = new();
         var skipOutput = string.IsNullOrWhiteSpace(presentationPath);
 
         var slideDeck = readRepo.GetSlideDeck(slideDeckId);

@@ -15,14 +15,14 @@ namespace LiquidVictor.Strategy.TableOfContents
             {
                 Id = Guid.NewGuid(),
                 ContentType = "text/markdown",
-                FileName = null,
+                FileName = string.Empty,
                 Title = "Table of Contents",
                 Content = md.AsByteArray()
             };
 
             var contentItemPair = new KeyValuePair<int, ContentItem>(1, contentItem);
 
-            return new Slide()
+            var slide = new Slide()
             {
                 Id = Guid.NewGuid(),
                 Title = "Table of Contents",
@@ -31,9 +31,12 @@ namespace LiquidVictor.Strategy.TableOfContents
                 TransitionIn = Enumerations.Transition.PresentationDefault,
                 TransitionOut = Enumerations.Transition.PresentationDefault,
                 BackgroundContent = null,
-                Notes = String.Empty,
-                ContentItems = new List<KeyValuePair<int, ContentItem>>() { contentItemPair }
+                Notes = String.Empty
             };
+
+            slide.ContentItems.Add(contentItemPair);
+
+            return slide;
         }
 
         public string GetMarkdown(SlideDeck slideDeck)
@@ -69,15 +72,8 @@ namespace LiquidVictor.Strategy.TableOfContents
                 });
             }
 
-            return new Entities.TableOfContents()
-            {
-                SlideDeckId = slideDeck.Id,
-                SlideDeckTitle = slideDeck.Title,
-                SlideDeckSubTitle = slideDeck.SubTitle,
-                SlideDeckPresenter = slideDeck.Presenter,
-                SlideDeckUrl = slideDeck.SlideDeckUrl,
-                Entries = entries
-            };
+            return new Entities.TableOfContents(slideDeck.Id, slideDeck.Title,
+                slideDeck.SubTitle, slideDeck.Presenter, slideDeck.SlideDeckUrl, entries);
         }
     }
 }

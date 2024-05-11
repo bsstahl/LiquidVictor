@@ -32,16 +32,20 @@ namespace LiquidVictor.Data.Postgres
 
         internal Entities.Slide AsEntity()
         {
-            return new Entities.Slide()
+            var slide =  new Entities.Slide()
             {
                 Id = this.Id,
                 Layout = this.Layout,
                 Notes = this.Notes,
                 Title = this.Title,
                 TransitionIn = this.TransitionIn,
-                TransitionOut = this.TransitionOut,
-                ContentItems = this.SlideContentItems.AsEntities()
+                TransitionOut = this.TransitionOut
             };
+
+            this.SlideContentItems.AsEntities().ToList()
+                .ForEach(ci => slide.ContentItems.Add(ci));
+
+            return slide;
         }
 
         internal void FromEntity(Entities.Slide slide)

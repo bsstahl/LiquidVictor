@@ -6,20 +6,40 @@ namespace LiquidVictor.Test;
 
 public class SlideDeckBuilder_Build_Should
 {
+    private readonly string _lvDataPath;
+    private readonly string _lvTempPath;
+
+    private readonly SlideDeckReadRepository _readRepo;
+    private readonly SlideDeckWriteRepository _writeRepo;
+
+    public SlideDeckBuilder_Build_Should()
+    {
+        var config = new ConfigurationBuilder()
+            .AddUserSecrets<SlideDeckBuilder_Build_Should>()
+            .Build();
+
+        _lvDataPath = config["LVDataPath"];
+        _lvTempPath = Path.Combine(Path.GetTempPath(), "LiquidVictor");
+
+        _readRepo = new SlideDeckReadRepository(_lvDataPath); // Read from the actual data store
+        _writeRepo = new SlideDeckWriteRepository(_lvTempPath); // Write to a temp location
+    }
+
     [Fact]
     public void ReturnAValidSlideDeck()
     {
         string titleContent = $"# {string.Empty.GetRandom()}";
 
         var slide = new SlideBuilder()
-            .Title(string.Empty.GetRandom())
+            .Id(Guid.NewGuid())
+            .Title("Title Slide")
             .Layout("ImageRight")
-            .TransitionIn("PresentationDefault")
+            .TransitionIn("Slide")
             .TransitionOut("PresentationDefault")
             .ContentItems(new ContentItemsBuilder()
                 .Add(new ContentItemBuilder()
                     .Id(Guid.NewGuid())
-                    .Title("Title Slide")
+                    .Title("Title Content")
                     .ContentType("text/markdown")
                     .Content(titleContent)))
             .Build();
@@ -60,15 +80,8 @@ public class SlideDeckBuilder_Build_Should
     }
 
     [Fact]
-    public void AnotherThing()
+    public void ReturnAValidSlideDeckTheIncludesExistingSlides()
     {
-        var config = new ConfigurationBuilder()
-            .AddUserSecrets<SlideDeckBuilder_Build_Should>()
-            .Build();
-
-        var lvDataPath = config["LVDataPath"];
-
-        var buildScriptTemplate = "..\\..\\..\\LiquidVictor\\src\\LV\\bin\\Release\\net6.0\\publish\\LV.exe build -OutputEngineType:RevealJS -SourceRepoType:jsonFileSystem -SourceRepoPath:..\\..\\..\\LiquidVictorDatabases\\JsonFileSystem\\Bsstahl\\ -SlideDeckId:{SlideDeckId} -TemplatePath:..\\..\\..\\LiquidVictor\\Templates\\RevealJS \"-PresentationPath:..\\..\\..\\{PresentationDomain}Presentations\\Presentations\\{PresentationTitle}\\{PresentationTitle} - {PresentationType}\" --NoTitle";
         var titleContentTemplate = "## {PresentationTitle}\r\n\r\n#### {PresentationSubtitle}\r\n\r\n***\r\n\r\n### Barry S. Stahl\r\n\r\n### Solution Architect & Developer\r\n\r\n### [@bsstahl@cognitiveinheritance.com](https://fosstodon.org/@Bsstahl)\r\n\r\n### [https://CognitiveInheritance.com](https://cognitiveinheritance.com)\r\n";
 
         var presentationTitle = string.Empty.GetRandom();
@@ -79,19 +92,15 @@ public class SlideDeckBuilder_Build_Should
 
         var slideDeckUrl = $"https://{presentationTitle}.azurewebsites.net";
 
-        var readRepo = new SlideDeckReadRepository(lvDataPath);
+        var favoritesSlide = _readRepo.GetSlide(Guid.Parse("636059f9-aa9d-4444-b4ec-dd7f62badd98"));
+        var ossSlide = _readRepo.GetSlide(Guid.Parse("23528a73-7bc1-4e39-9f2f-c8b9e2cff982"));
+        var foundationSlide = _readRepo.GetSlide(Guid.Parse("3129a405-82a7-432c-ae55-6f9d2335ab17"));
+        var achievementSlide = _readRepo.GetSlide(Guid.Parse("39c6410c-3913-410b-abab-984014a15d84"));
 
-        var favoritesSlide = readRepo.GetSlide(Guid.Parse("636059f9-aa9d-4444-b4ec-dd7f62badd98"));
-        var ossSlide = readRepo.GetSlide(Guid.Parse("23528a73-7bc1-4e39-9f2f-c8b9e2cff982"));
-        var givecampSlide = readRepo.GetSlide(Guid.Parse("3129a405-82a7-432c-ae55-6f9d2335ab17"));
-        var achievementSlide = readRepo.GetSlide(Guid.Parse("39c6410c-3913-410b-abab-984014a15d84"));
+        var backgroundContentItem = _readRepo.GetContentItem(Guid.Parse("19ae31f8-078b-4bd3-8411-0222b6a09c25"));
+        var spacerContentItem = _readRepo.GetContentItem(Guid.Parse("685060d8-4205-4db9-b44d-9610a7729e7d"));
 
-        var backgroundContentItem = readRepo.GetContentItem(Guid.Parse("19ae31f8-078b-4bd3-8411-0222b6a09c25"));
-        var spacerContentItem = readRepo.GetContentItem(Guid.Parse("685060d8-4205-4db9-b44d-9610a7729e7d"));
-
-        var presentationId = Guid.NewGuid();
         var slideDeck = new SlideDeckBuilder()
-            .Id(presentationId)
             .Title(presentationTitle)
             .SubTitle(presentationSubtitle)
             .Presenter("Liquid Victor")
@@ -100,10 +109,6 @@ public class SlideDeckBuilder_Build_Should
             .Transition("Slide")
             .SlideDeckUrl(slideDeckUrl)
             .Slides(new SlidesBuilder()
-                .Add(new SlideBuilder(favoritesSlide))
-                .Add(new SlideBuilder(ossSlide))
-                .Add(new SlideBuilder(givecampSlide))
-                .Add(new SlideBuilder(achievementSlide))
                 .Add(new SlideBuilder()
                     .Layout("ImageRight")
                     .TransitionIn("PresentationDefault")
@@ -111,17 +116,44 @@ public class SlideDeckBuilder_Build_Should
                     .BackgroundContent(backgroundContentItem)
                     .ContentItems(new ContentItemsBuilder()
                         .Add(new ContentItemBuilder()
-                            .Id(Guid.NewGuid())
                             .Title("Title Slide")
                             .ContentType("text/markdown")
                             .Content(titleContent))
-                        .Add(new ContentItemBuilder(spacerContentItem)))
-            ))
+                        .Add(new ContentItemBuilder(spacerContentItem))))
+                .Add(new SlideBuilder(favoritesSlide))
+                .Add(new SlideBuilder(ossSlide))
+                .Add(new SlideBuilder(foundationSlide))
+                .Add(new SlideBuilder(achievementSlide)))
             .Build();
 
         Assert.NotNull(slideDeck);
-        //var writeRepo = new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(MyExtensions.LVDataPath);
-        //writeRepo.SaveSlideDeck(slideDeck);
 
+        _writeRepo.SaveSlideDeck(slideDeck);
+    }
+
+    [Fact]
+    public void SuccessfullySaveANewSlide()
+    {
+        var contentItemTitle = string.Empty.GetRandom();
+
+        var contentItemBuilder = new ContentItemBuilder()
+            .FileName($"http://example.com/{string.Empty.GetRandom()}")
+            .Title(contentItemTitle)
+            .ContentType("text/markdown")
+            .Content($"# {string.Empty.GetRandom()}");
+
+        var slideTitle = $"# {contentItemTitle}";
+        string notes = string.Empty.GetRandom();
+
+        var slideLayout = Enum.GetNames<Enumerations.Layout>().GetRandom();
+
+        var slide = new SlideBuilder()
+            .Title(slideTitle)
+            .Layout(slideLayout)
+            .Notes(notes)
+            .ContentItems(contentItemBuilder)
+            .Build();
+
+        _writeRepo.SaveSlide(slide);
     }
 }

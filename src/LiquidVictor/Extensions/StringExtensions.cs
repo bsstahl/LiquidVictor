@@ -6,7 +6,7 @@ namespace LiquidVictor.Extensions
 {
     public static class StringExtensions
     {
-        public static string NullIfEmpty(this string value)
+        public static string? NullIfEmpty(this string value)
         {
             return string.IsNullOrEmpty(value)
                 ? null
@@ -31,7 +31,7 @@ namespace LiquidVictor.Extensions
         public static string AsFilename(this string name)
         {
             return name?
-                .Replace(" ", "_");
+                .Replace(" ", "_") ?? string.Empty;
         }
 
         public static string Clean(this string value)
@@ -45,16 +45,15 @@ namespace LiquidVictor.Extensions
                 .Replace(" _", "_")
                 .Replace(" - ", "-")
                 .Replace("- ", "-")
-                .Replace("'", "");
+                .Replace("'", "") ?? string.Empty;
         }
 
         public static string AsFileExtension(this string imageFormat)
         {
             var result = string.Empty;
-
-            if (imageFormat.ToLower().Equals("image/jpg") || imageFormat.ToLower().Equals("image/jpeg"))
+            imageFormat ??= string.Empty;
+            if (imageFormat.Equals("image/jpg", StringComparison.OrdinalIgnoreCase) || imageFormat.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase))
                 result = "jpg";
-
             return result;
         }
 

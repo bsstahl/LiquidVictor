@@ -3,18 +3,14 @@ using System;
 
 namespace LiquidVictor.Builders;
 
-public class ContentItemBuilder
+public class ContentItemBuilder(ContentItem? value)
 {
-    private readonly Entities.ContentItem _contentItem;
+    private readonly Entities.ContentItem _contentItem 
+        = value ?? new ContentItem();
 
     public ContentItemBuilder()
         : this(new Entities.ContentItem())
     { }
-
-    public ContentItemBuilder(ContentItem value)
-    {
-        _contentItem = value ?? new ContentItem();
-    }
 
     public Entities.ContentItem Build()
     {
@@ -24,7 +20,9 @@ public class ContentItemBuilder
             Content = _contentItem.Content,
             ContentType = _contentItem.ContentType,
             FileName = _contentItem.FileName,
-            Id = _contentItem.Id,
+            Id = _contentItem.Id.Equals(Guid.Empty) 
+                ? Guid.NewGuid() 
+                : _contentItem.Id,
             Title = _contentItem.Title
         };
     }
