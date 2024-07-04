@@ -8,7 +8,7 @@
 		<Description>Knows how to read and write LiquidVictor presentation resources to/from the file system in YAML format</Description>
 		<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
 		<Copyright>https://github.com/bsstahl/LiquidVictor/blob/master/LICENSE</Copyright>
-		<Version>1.8.0</Version>
+		<Version>1.8.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
