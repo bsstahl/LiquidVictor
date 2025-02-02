@@ -8,13 +8,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.32" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\LiquidVictor.Business\LiquidVictor.Business.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.JsonFileSystem\LiquidVictor.Data.JsonFileSystem.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.JsonFile\LiquidVictor.Data.JsonFile.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.Postgres\LiquidVictor.Data.Postgres.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj" />
-		<ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
+		<ProjectReference Include="..\LiquidVictor.Output.Powerpoint.Generator\LiquidVictor.Output.Powerpoint.Generator.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Strategy.TableOfContents\LiquidVictor.Strategy.TableOfContents.csproj" />
 		<ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />

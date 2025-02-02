@@ -1,325 +1,155 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
-using P = DocumentFormat.OpenXml.Presentation;
-using D = DocumentFormat.OpenXml.Drawing;
-using LiquidVictor.Interfaces;
-using LiquidVictor.Output.Powerpoint.Extensions;
 using LiquidVictor.Entities;
+using LiquidVictor.Interfaces;
+using LiquidVictor.Output.Powerpoint.Entities;
+using LiquidVictor.Output.Powerpoint.Interfaces;
+using LiquidVictor.Output.Powerpoint.Layout;
 
 namespace LiquidVictor.Output.Powerpoint.Generator
 {
     public class Engine : IPresentationBuilder
     {
-        public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
+        private readonly ILayoutStrategy[] _layoutStrategies;
+        private readonly BuilderOptions _builderOptions;
+
+        public Engine(BuilderOptions builderOptions)
         {
-            // Create a presentation at a specified file path. The presentation document type is pptx, by default.
-            PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);
-            PresentationPart presentationPart = presentationDoc.AddPresentationPart();
-            presentationPart.Presentation = new Presentation();
+            _builderOptions = builderOptions;
+            _layoutStrategies = CreateLayoutStrategies();
+        }
 
-            SlideMasterIdList slideMasterIdList1 = new SlideMasterIdList(new SlideMasterId() { Id = (UInt32Value)2147483648U, RelationshipId = "rId1" });
-            SlideIdList slideIdList1 = new SlideIdList(new SlideId() { Id = (UInt32Value)256U, RelationshipId = "rId2" });
-            SlideSize slideSize1 = new SlideSize() { Cx = 9144000, Cy = 6858000, Type = SlideSizeValues.Screen4x3 };
-            NotesSize notesSize1 = new NotesSize() { Cx = 6858000, Cy = 9144000 };
-            DefaultTextStyle defaultTextStyle1 = new DefaultTextStyle();
+        public Engine() : this(new BuilderOptions())
+        {
+        }
 
-            presentationPart.Presentation.Append(slideMasterIdList1, slideIdList1, slideSize1, notesSize1, defaultTextStyle1);
+        private ILayoutStrategy[] CreateLayoutStrategies()
+        {
+            var strategies = new ILayoutStrategy[Enum.GetValues(typeof(LiquidVictor.Enumerations.Layout)).Length];
+            strategies[(int)LiquidVictor.Enumerations.Layout.Title] = new TitleLayoutStrategy();
+            strategies[(int)LiquidVictor.Enumerations.Layout.FullPage] = new FullPageLayoutStrategy(_builderOptions);
+            strategies[(int)LiquidVictor.Enumerations.Layout.FullPageFragments] = new FullPageLayoutStrategy(_builderOptions); // Use FullPage for fragments since animations aren't fully supported
+            strategies[(int)LiquidVictor.Enumerations.Layout.ImageLeft] = new ImageLeftLayoutStrategy();
+            strategies[(int)LiquidVictor.Enumerations.Layout.ImageRight] = new ImageRightLayoutStrategy();
+            strategies[(int)LiquidVictor.Enumerations.Layout.ImageWithCaption] = new ImageWithCaptionLayoutStrategy();
+            strategies[(int)LiquidVictor.Enumerations.Layout.MultiColumn] = new MultiColumnLayoutStrategy();
+            strategies[(int)LiquidVictor.Enumerations.Layout.MultiSlide] = new MultiSlideLayoutStrategy();
+            return strategies;
+        }
 
-            foreach (var slide in slideDeck.Slides)
+        private CompiledPresentation CompilePresentationInternal(SlideDeck slideDeck)
+        {
+            var compiled = new CompiledPresentation
             {
-                presentationPart.AppendSlide(slide.Value.Title, slide.Value.ContentItems);
+                SlideMasterIdList = new SlideMasterIdList(new SlideMasterId() { Id = (UInt32Value)2147483648U, RelationshipId = "rId1" }),
+                SlideIdList = new SlideIdList(),
+                SlideSize = new SlideSize() { Cx = 9144000, Cy = 6858000, Type = SlideSizeValues.Screen4x3 },
+                NotesSize = new NotesSize() { Cx = 6858000, Cy = 9144000 },
+                DefaultTextStyle = new DefaultTextStyle()
+            };
+
+            uint slideId = 256;
+
+            // Add title slide if enabled and title exists
+            if ((_builderOptions?.BuildTitleSlide ?? true) && slideDeck.Title != null)
+            {
+                var titleSlide = new LiquidVictor.Entities.Slide
+                {
+                    Title = slideDeck.Title,
+                    Layout = LiquidVictor.Enumerations.Layout.Title
+                };
+
+                if (!string.IsNullOrEmpty(slideDeck.Presenter))
+                {
+                    titleSlide.ContentItems.Add(new KeyValuePair<int, ContentItem>(1, new ContentItem 
+                    { 
+                        Title = slideDeck.Presenter,
+                        ContentType = "text/plain"
+                    }));
+                }
+
+                compiled.Slides.Add(new CompiledSlide
+                {
+                    Id = slideId++,
+                    Layout = LiquidVictor.Enumerations.Layout.Title,
+                    Slide = titleSlide
+                });
             }
 
-            // Close the presentation handle.
-            presentationDoc.Close();
+            // Add content slides
+            foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
+            {
+                var layout = slide.Value.Layout;
+
+                // Check if we should make solo images full screen
+                if (_builderOptions?.MakeSoloImagesFullScreen == true && 
+                    slide.Value.ContentItems.Count == 1 && 
+                    slide.Value.ContentItems.First().Value?.ContentType.StartsWith("image/") == true)
+                {
+                    layout = LiquidVictor.Enumerations.Layout.FullPage;
+                }
+
+                compiled.Slides.Add(new CompiledSlide
+                {
+                    Id = slideId++,
+                    Layout = layout,
+                    Slide = slide.Value
+                });
+            }
+
+            return compiled;
         }
 
         public void CompilePresentation(SlideDeck slideDeck)
         {
-            throw new NotImplementedException();
+            // This method exists to satisfy the interface
+            // The actual compilation work is done in CompilePresentationInternal
+            CompilePresentationInternal(slideDeck);
         }
 
-        //public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
-        //{
-        //    // Create a presentation at a specified file path. The presentation document type is pptx, by default.
-        //    PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);
-        //    PresentationPart presentationPart = presentationDoc.AddPresentationPart();
-        //    presentationPart.Presentation = new Presentation();
+        public void CreatePresentation(string filepath, SlideDeck slideDeck)
+        {
+            // Ensure the filepath has .pptx extension
+            if (!filepath.EndsWith(".pptx", StringComparison.OrdinalIgnoreCase))
+            {
+                filepath = Path.ChangeExtension(filepath, ".pptx");
+            }
 
-        //    CreatePresentationParts(presentationPart);
+            var compiled = CompilePresentationInternal(slideDeck);
 
-        //    foreach (var slide in slideDeck.Slides)
-        //    {
-        //        presentationDoc.InsertNewSlide(slide.Key, slide.Value.Title);
-        //    }
+            using (PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation))
+            {
+                PresentationPart presentationPart = presentationDoc.AddPresentationPart();
+                presentationPart.Presentation = new Presentation();
 
-        //    //Close the presentation handle
-        //    presentationDoc.Close();
-        //}
+                // Add presentation structure
+                presentationPart.Presentation.Append(
+                    compiled.SlideMasterIdList,
+                    compiled.SlideIdList,
+                    compiled.SlideSize,
+                    compiled.NotesSize,
+                    compiled.DefaultTextStyle
+                );
 
-        //private void CreatePresentationParts(PresentationPart presentationPart)
-        //{
-        //    SlideMasterIdList slideMasterIdList1 = new SlideMasterIdList(new SlideMasterId() { Id = (UInt32Value)2147483648U, RelationshipId = "rId1" });
+                // Create slides
+                foreach (var compiledSlide in compiled.Slides)
+                {
+                    SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
+                    var layoutStrategy = _layoutStrategies[(int)compiledSlide.Layout] ?? _layoutStrategies[(int)LiquidVictor.Enumerations.Layout.FullPage];
+                    layoutStrategy.Layout(slidePart, compiledSlide.Slide);
 
-        //    SlideIdList slideIdList1 = new SlideIdList(new SlideId() { Id = (UInt32Value)256U, RelationshipId = "rId2" });
-        //    // SlideIdList slideIdList1 = new SlideIdList();
-
-        //    SlideSize slideSize1 = new SlideSize() { Cx = 9144000, Cy = 6858000, Type = SlideSizeValues.Screen4x3 };
-        //    NotesSize notesSize1 = new NotesSize() { Cx = 6858000, Cy = 9144000 };
-        //    DefaultTextStyle defaultTextStyle1 = new DefaultTextStyle();
-
-        //    presentationPart.Presentation.Append(slideMasterIdList1, slideIdList1, slideSize1, notesSize1, defaultTextStyle1);
-
-        //    SlidePart slidePart1 = CreateSlidePart(presentationPart);
-        //    SlideLayoutPart slideLayoutPart1 = CreateSlideLayoutPart(slidePart1);
-        //    SlideMasterPart slideMasterPart1 = CreateSlideMasterPart(slideLayoutPart1);
-        //    ThemePart themePart1 = CreateTheme(slideMasterPart1);
-
-        //    slideMasterPart1.AddPart(slideLayoutPart1, "rId1");
-        //    presentationPart.AddPart(slideMasterPart1, "rId1");
-        //    presentationPart.AddPart(themePart1, "rId5");
-        //}
-
-        //private SlidePart CreateSlidePart(PresentationPart presentationPart, string presentationTitle)
-        //{
-        //    SlidePart slidePart1 = presentationPart.AddNewPart<SlidePart>("rId2");
-        //    slidePart1.Slide = new Slide(
-        //            new CommonSlideData(
-        //                new ShapeTree(
-        //                    new P.NonVisualGroupShapeProperties(
-        //                        new P.NonVisualDrawingProperties() { Id = (UInt32Value)1U, Name = "" },
-        //                        new P.NonVisualGroupShapeDrawingProperties(),
-        //                        new ApplicationNonVisualDrawingProperties()),
-        //                    new GroupShapeProperties(new TransformGroup()),
-        //                    new P.Shape(
-        //                        new P.NonVisualShapeProperties(
-        //                            new P.NonVisualDrawingProperties() { Id = (UInt32Value)2U, Name = "Title 1" },
-        //                            new P.NonVisualShapeDrawingProperties(new ShapeLocks() { NoGrouping = true }),
-        //                            new ApplicationNonVisualDrawingProperties(new PlaceholderShape())),
-        //                        new P.ShapeProperties(),
-        //                        new P.TextBody(
-        //                            new BodyProperties(),
-        //                            new ListStyle(),
-        //                            new Paragraph(new EndParagraphRunProperties() { Language = "en-US" }))))),
-        //            new ColorMapOverride(new MasterColorMapping()));
-        //    return slidePart1;
-        //}
-
-        //private SlideLayoutPart CreateSlideLayoutPart(SlidePart slidePart1)
-        //{
-        //    SlideLayoutPart slideLayoutPart1 = slidePart1.AddNewPart<SlideLayoutPart>("rId1");
-        //    SlideLayout slideLayout = new SlideLayout(
-        //    new CommonSlideData(new ShapeTree(
-        //      new P.NonVisualGroupShapeProperties(
-        //      new P.NonVisualDrawingProperties() { Id = (UInt32Value)1U, Name = "" },
-        //      new P.NonVisualGroupShapeDrawingProperties(),
-        //      new ApplicationNonVisualDrawingProperties()),
-        //      new GroupShapeProperties(new TransformGroup()),
-        //      new P.Shape(
-        //      new P.NonVisualShapeProperties(
-        //        new P.NonVisualDrawingProperties() { Id = (UInt32Value)2U, Name = "" },
-        //        new P.NonVisualShapeDrawingProperties(new ShapeLocks() { NoGrouping = true }),
-        //        new ApplicationNonVisualDrawingProperties(new PlaceholderShape())),
-        //      new P.ShapeProperties(),
-        //      new P.TextBody(
-        //        new BodyProperties(),
-        //        new ListStyle(),
-        //        new Paragraph(new EndParagraphRunProperties()))))),
-        //    new ColorMapOverride(new MasterColorMapping()));
-        //    slideLayoutPart1.SlideLayout = slideLayout;
-        //    return slideLayoutPart1;
-        //}
-
-        //private SlideMasterPart CreateSlideMasterPart(SlideLayoutPart slideLayoutPart1)
-        //{
-        //    SlideMasterPart slideMasterPart1 = slideLayoutPart1.AddNewPart<SlideMasterPart>("rId1");
-        //    SlideMaster slideMaster = new SlideMaster(
-        //    new CommonSlideData(new ShapeTree(
-        //      new P.NonVisualGroupShapeProperties(
-        //      new P.NonVisualDrawingProperties() { Id = (UInt32Value)1U, Name = "" },
-        //      new P.NonVisualGroupShapeDrawingProperties(),
-        //      new ApplicationNonVisualDrawingProperties()),
-        //      new GroupShapeProperties(new TransformGroup()),
-        //      new P.Shape(
-        //      new P.NonVisualShapeProperties(
-        //        new P.NonVisualDrawingProperties() { Id = (UInt32Value)2U, Name = "Title Placeholder 1" },
-        //        new P.NonVisualShapeDrawingProperties(new ShapeLocks() { NoGrouping = true }),
-        //        new ApplicationNonVisualDrawingProperties(new PlaceholderShape() { Type = PlaceholderValues.Title })),
-        //      new P.ShapeProperties(),
-        //      new P.TextBody(
-        //        new BodyProperties(),
-        //        new ListStyle(),
-        //        new Paragraph())))),
-        //    new P.ColorMap() { Background1 = D.ColorSchemeIndexValues.Light1, Text1 = D.ColorSchemeIndexValues.Dark1, Background2 = D.ColorSchemeIndexValues.Light2, Text2 = D.ColorSchemeIndexValues.Dark2, Accent1 = D.ColorSchemeIndexValues.Accent1, Accent2 = D.ColorSchemeIndexValues.Accent2, Accent3 = D.ColorSchemeIndexValues.Accent3, Accent4 = D.ColorSchemeIndexValues.Accent4, Accent5 = D.ColorSchemeIndexValues.Accent5, Accent6 = D.ColorSchemeIndexValues.Accent6, Hyperlink = D.ColorSchemeIndexValues.Hyperlink, FollowedHyperlink = D.ColorSchemeIndexValues.FollowedHyperlink },
-        //    new SlideLayoutIdList(new SlideLayoutId() { Id = (UInt32Value)2147483649U, RelationshipId = "rId1" }),
-        //    new TextStyles(new TitleStyle(), new BodyStyle(), new OtherStyle()));
-        //    slideMasterPart1.SlideMaster = slideMaster;
-
-        //    return slideMasterPart1;
-        //}
-
-        //private ThemePart CreateTheme(SlideMasterPart slideMasterPart1)
-        //{
-        //    ThemePart themePart1 = slideMasterPart1.AddNewPart<ThemePart>("rId5");
-        //    D.Theme theme1 = new D.Theme() { Name = "Office Theme" };
-
-        //    D.ThemeElements themeElements1 = new D.ThemeElements(
-        //    new D.ColorScheme(
-        //      new D.Dark1Color(new D.SystemColor() { Val = D.SystemColorValues.WindowText, LastColor = "000000" }),
-        //      new D.Light1Color(new D.SystemColor() { Val = D.SystemColorValues.Window, LastColor = "FFFFFF" }),
-        //      new D.Dark2Color(new D.RgbColorModelHex() { Val = "1F497D" }),
-        //      new D.Light2Color(new D.RgbColorModelHex() { Val = "EEECE1" }),
-        //      new D.Accent1Color(new D.RgbColorModelHex() { Val = "4F81BD" }),
-        //      new D.Accent2Color(new D.RgbColorModelHex() { Val = "C0504D" }),
-        //      new D.Accent3Color(new D.RgbColorModelHex() { Val = "9BBB59" }),
-        //      new D.Accent4Color(new D.RgbColorModelHex() { Val = "8064A2" }),
-        //      new D.Accent5Color(new D.RgbColorModelHex() { Val = "4BACC6" }),
-        //      new D.Accent6Color(new D.RgbColorModelHex() { Val = "F79646" }),
-        //      new D.Hyperlink(new D.RgbColorModelHex() { Val = "0000FF" }),
-        //      new D.FollowedHyperlinkColor(new D.RgbColorModelHex() { Val = "800080" }))
-        //    { Name = "Office" },
-        //      new D.FontScheme(
-        //      new D.MajorFont(
-        //      new D.LatinFont() { Typeface = "Calibri" },
-        //      new D.EastAsianFont() { Typeface = "" },
-        //      new D.ComplexScriptFont() { Typeface = "" }),
-        //      new D.MinorFont(
-        //      new D.LatinFont() { Typeface = "Calibri" },
-        //      new D.EastAsianFont() { Typeface = "" },
-        //      new D.ComplexScriptFont() { Typeface = "" }))
-        //      { Name = "Office" },
-        //      new D.FormatScheme(
-        //      new D.FillStyleList(
-        //      new D.SolidFill(new D.SchemeColor() { Val = D.SchemeColorValues.PhColor }),
-        //      new D.GradientFill(
-        //        new D.GradientStopList(
-        //        new D.GradientStop(new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //          new D.SaturationModulation() { Val = 300000 })
-        //        { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 },
-        //        new D.GradientStop(new D.SchemeColor(new D.Tint() { Val = 37000 },
-        //         new D.SaturationModulation() { Val = 300000 })
-        //        { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 35000 },
-        //        new D.GradientStop(new D.SchemeColor(new D.Tint() { Val = 15000 },
-        //         new D.SaturationModulation() { Val = 350000 })
-        //        { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 100000 }
-        //        ),
-        //        new D.LinearGradientFill() { Angle = 16200000, Scaled = true }),
-        //      new D.NoFill(),
-        //      new D.PatternFill(),
-        //      new D.GroupFill()),
-        //      new D.LineStyleList(
-        //      new D.Outline(
-        //        new D.SolidFill(
-        //        new D.SchemeColor(
-        //          new D.Shade() { Val = 95000 },
-        //          new D.SaturationModulation() { Val = 105000 })
-        //        { Val = D.SchemeColorValues.PhColor }),
-        //        new D.PresetDash() { Val = D.PresetLineDashValues.Solid })
-        //      {
-        //          Width = 9525,
-        //          CapType = D.LineCapValues.Flat,
-        //          CompoundLineType = D.CompoundLineValues.Single,
-        //          Alignment = D.PenAlignmentValues.Center
-        //      },
-        //      new D.Outline(
-        //        new D.SolidFill(
-        //        new D.SchemeColor(
-        //          new D.Shade() { Val = 95000 },
-        //          new D.SaturationModulation() { Val = 105000 })
-        //        { Val = D.SchemeColorValues.PhColor }),
-        //        new D.PresetDash() { Val = D.PresetLineDashValues.Solid })
-        //      {
-        //          Width = 9525,
-        //          CapType = D.LineCapValues.Flat,
-        //          CompoundLineType = D.CompoundLineValues.Single,
-        //          Alignment = D.PenAlignmentValues.Center
-        //      },
-        //      new D.Outline(
-        //        new D.SolidFill(
-        //        new D.SchemeColor(
-        //          new D.Shade() { Val = 95000 },
-        //          new D.SaturationModulation() { Val = 105000 })
-        //        { Val = D.SchemeColorValues.PhColor }),
-        //        new D.PresetDash() { Val = D.PresetLineDashValues.Solid })
-        //      {
-        //          Width = 9525,
-        //          CapType = D.LineCapValues.Flat,
-        //          CompoundLineType = D.CompoundLineValues.Single,
-        //          Alignment = D.PenAlignmentValues.Center
-        //      }),
-        //      new D.EffectStyleList(
-        //      new D.EffectStyle(
-        //        new D.EffectList(
-        //        new D.OuterShadow(
-        //          new D.RgbColorModelHex(
-        //          new D.Alpha() { Val = 38000 })
-        //          { Val = "000000" })
-        //        { BlurRadius = 40000L, Distance = 20000L, Direction = 5400000, RotateWithShape = false })),
-        //      new D.EffectStyle(
-        //        new D.EffectList(
-        //        new D.OuterShadow(
-        //          new D.RgbColorModelHex(
-        //          new D.Alpha() { Val = 38000 })
-        //          { Val = "000000" })
-        //        { BlurRadius = 40000L, Distance = 20000L, Direction = 5400000, RotateWithShape = false })),
-        //      new D.EffectStyle(
-        //        new D.EffectList(
-        //        new D.OuterShadow(
-        //          new D.RgbColorModelHex(
-        //          new D.Alpha() { Val = 38000 })
-        //          { Val = "000000" })
-        //        { BlurRadius = 40000L, Distance = 20000L, Direction = 5400000, RotateWithShape = false }))),
-        //      new D.BackgroundFillStyleList(
-        //      new D.SolidFill(new D.SchemeColor() { Val = D.SchemeColorValues.PhColor }),
-        //      new D.GradientFill(
-        //        new D.GradientStopList(
-        //        new D.GradientStop(
-        //          new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //            new D.SaturationModulation() { Val = 300000 })
-        //          { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 },
-        //        new D.GradientStop(
-        //          new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //            new D.SaturationModulation() { Val = 300000 })
-        //          { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 },
-        //        new D.GradientStop(
-        //          new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //            new D.SaturationModulation() { Val = 300000 })
-        //          { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 }),
-        //        new D.LinearGradientFill() { Angle = 16200000, Scaled = true }),
-        //      new D.GradientFill(
-        //        new D.GradientStopList(
-        //        new D.GradientStop(
-        //          new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //            new D.SaturationModulation() { Val = 300000 })
-        //          { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 },
-        //        new D.GradientStop(
-        //          new D.SchemeColor(new D.Tint() { Val = 50000 },
-        //            new D.SaturationModulation() { Val = 300000 })
-        //          { Val = D.SchemeColorValues.PhColor })
-        //        { Position = 0 }),
-        //        new D.LinearGradientFill() { Angle = 16200000, Scaled = true })))
-        //      { Name = "Office" });
-
-        //    theme1.Append(themeElements1);
-        //    theme1.Append(new D.ObjectDefaults());
-        //    theme1.Append(new D.ExtraColorSchemeList());
-
-        //    themePart1.Theme = theme1;
-        //    return themePart1;
-
-        //}
+                    compiled.SlideIdList.Append(new SlideId() 
+                    { 
+                        Id = (UInt32Value)compiledSlide.Id, 
+                        RelationshipId = presentationPart.GetIdOfPart(slidePart) 
+                    });
+                }
+            }
+        }
     }
 }

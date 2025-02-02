@@ -1,28 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>af4e5408-cde4-4984-9d8b-ba9ad1de64b2</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <Compile Remove="Migrations\20181229190347_FixForeignKeys.cs" />
-    <Compile Remove="Migrations\20181229192031_AddAlternateUniqueConstraints.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.32" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" />
+    <PackageReference Include="System.Text.Json" Version="6.0.11" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
   </ItemGroup>
-
 </Project>

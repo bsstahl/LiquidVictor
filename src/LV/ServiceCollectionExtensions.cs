@@ -10,21 +10,34 @@ public static class ServiceCollectionExtensions
     {
         switch (config.OutputEngineType.ToLower())
         {
-            case "reveal":
-            case "revealjs":
-                services
-                    .AddTransient<IPresentationBuilder>(c =>
+            case "powerpoint":
+            case "pptx":
+            case "ppt":
+                services.AddTransient<IPresentationBuilder>(c =>
+                {
+                    var builderOptions = new LiquidVictor.Output.Powerpoint.Entities.BuilderOptions()
                     {
-                        var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
-                        {
-                            BuildTitleSlide = config.BuildTitleSlide,
-                            MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
-                        };
-                        return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
-                    });
-                break;
-            default:
-                throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
+                        BuildTitleSlide = config.BuildTitleSlide,
+                        MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
+                    };
+                    return new LiquidVictor.Output.Powerpoint.Generator.Engine(builderOptions);
+                });
+        break;
+            case "reveal":
+        case "revealjs":
+            services
+                .AddTransient<IPresentationBuilder>(c =>
+                {
+                    var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
+                    {
+                        BuildTitleSlide = config.BuildTitleSlide,
+                        MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
+                    };
+                    return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
+                });
+            break;
+        default:
+            throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
         }
 
         return services;

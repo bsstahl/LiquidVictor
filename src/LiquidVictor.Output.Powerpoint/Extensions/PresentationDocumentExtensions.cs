@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
@@ -13,7 +10,7 @@ namespace LiquidVictor.Output.Powerpoint.Extensions
 {
     public static class PresentationDocumentExtensions
     {
-        public static void AppendSlide(this PresentationPart presentationPart, string titleText, IEnumerable<KeyValuePair<int, Entities.ContentItem>> contentItems)
+        public static void AppendSlide(this PresentationPart presentationPart, string titleText, IEnumerable<KeyValuePair<int, LiquidVictor.Entities.ContentItem>> contentItems)
         {
             SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
             slidePart.Slide = new Slide(
