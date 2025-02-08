@@ -6,21 +6,13 @@
 
     <title>{PresentationTitle}</title>
 
-    <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/{ThemeName}.css">
-    <link rel="stylesheet" href="css/headers.css">
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/{ThemeName}.css">
 
     <!-- Theme used for syntax highlighting of code -->
-    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
 
-    <!-- Printing and PDF exports -->
-    <script>
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
-        document.getElementsByTagName('head')[0].appendChild(link);
-    </script>
 </head>
 <body>
     <div class="reveal">
@@ -31,27 +23,28 @@
         <div class="footer-right">{Presenter}</div>
     </div>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.js"></script>
+    <script src="dist/reveal.js"></script>
+
+    <!-- Plugins -->
+    <script src="plugin/highlight/highlight.js"></script> 
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/search/search.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
 
     <script>
-        // More info about config & dependencies:
-        // - https://github.com/hakimel/reveal.js#configuration
-        // - https://github.com/hakimel/reveal.js#dependencies
-
+        // More info about initialization & config:
+        // - https://revealjs.com/initialization/
+        // - https://revealjs.com/config/
 
         Reveal.initialize({
+            hash: true,
 			width: {Width},
 			height: {Height},
             transition: '{Transition}',
             showNotes: window.location.search.match(/print-pdf/gi) ? true : false,
-            dependencies: [
-                { src: 'plugin/markdown/marked.js' },
-                { src: 'plugin/markdown/markdown.js' },
-                { src: 'plugin/notes/notes.js', async: true },
-				{ src: 'plugin/zoom-js/zoom.js', async: true },
-                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
-            ]
+            plugins: [RevealHighlight, RevealMarkdown, RevealSearch, RevealNotes, RevealMath, RevealZoom ]
         });
     </script>
 </body>
