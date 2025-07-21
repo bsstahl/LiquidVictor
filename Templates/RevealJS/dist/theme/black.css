@@ -357,3 +357,40 @@ section.has-light-background, section.has-light-background h1, section.has-light
     background-color: var(--r-background-color);
   }
 }
+
+
+/*********************************************
+ * FOOTER
+ *********************************************/
+
+/* Footer styling */
+.reveal .footer-left,
+.reveal .footer-right {
+    position: fixed;
+    bottom: 10px;
+    font-size: 0.5em;
+    z-index: 10;
+    color: #999;
+    font-family: var(--r-main-font);
+}
+
+.reveal .footer-left {
+    left: 20px;
+}
+
+.reveal .footer-right {
+    right: 20px;
+}
+
+/* Hide footer on first slide */
+.reveal .slides > section:first-child ~ .footer-left,
+.reveal .slides > section:first-child ~ .footer-right {
+    display: none;
+}
+
+/* Custom CSS presentation title page */
+
+/* Target only the links in the first slide */
+section[data-background*="c21d06e5-4469-4358-893f-140a5e800278"] h3 a {
+    font-size: 0.85em;
+}
