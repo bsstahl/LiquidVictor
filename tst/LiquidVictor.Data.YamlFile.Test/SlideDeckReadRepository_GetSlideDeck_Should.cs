@@ -3,6 +3,8 @@ namespace LiquidVictor.Data.YamlFile.Test;
 public class SlideDeckReadRepository_GetSlideDeck_Should
 {
     [Fact]
+    [Trait("Category", "Integration")]
+    [Trait("Status", "Incomplete")]
     public void ReturnTheSampleSlideDeck()
     {
         var repoPath = Path.GetFullPath(@".\TestRepo");

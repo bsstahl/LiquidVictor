@@ -7,6 +7,8 @@ namespace LiquidVictor.Data.JsonFileSystem
     public class SlideDeckReadRepository_FindDuplicateIds_Should
     {
         [Fact]
+        [Trait("Category", "Integration")]
+        [Trait("Status", "Incomplete")]
         public void DoAThing()
         {
             var contentItemId = Guid.NewGuid();

@@ -26,6 +26,7 @@ public class SlideDeckBuilder_Build_Should
     }
 
     [Fact]
+    [Trait("Category", "Unit")]
     public void ReturnAValidSlideDeck()
     {
         string titleContent = $"# {string.Empty.GetRandom()}";
@@ -80,6 +81,7 @@ public class SlideDeckBuilder_Build_Should
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public void ReturnAValidSlideDeckTheIncludesExistingSlides()
     {
         var titleContentTemplate = "## {PresentationTitle}\r\n\r\n#### {PresentationSubtitle}\r\n\r\n***\r\n\r\n### Barry S. Stahl\r\n\r\n### Solution Architect & Developer\r\n\r\n### [@bsstahl@cognitiveinheritance.com](https://fosstodon.org/@Bsstahl)\r\n\r\n### [https://CognitiveInheritance.com](https://cognitiveinheritance.com)\r\n";
@@ -132,6 +134,7 @@ public class SlideDeckBuilder_Build_Should
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public void SuccessfullySaveANewSlide()
     {
         var contentItemTitle = string.Empty.GetRandom();

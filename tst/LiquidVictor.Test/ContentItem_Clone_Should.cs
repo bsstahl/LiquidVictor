@@ -3,6 +3,7 @@ namespace LiquidVictor.Test
     public class ContentItem_Clone_Should
     {
         [Theory]
+        [Trait("Category", "Unit")]
         [InlineData(true)]
         [InlineData(false)]
         public void ReturnANewContentItemFromAMinimalSource(bool createNewId)

@@ -99,7 +99,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
         string result = _sourceFolderPath.FindFileWithId(slideDeck.Id);
         if (string.IsNullOrWhiteSpace(result))
         {
-            var fullTitle = $"{slideDeck.Title} {slideDeck.SubTitle}".Trim();
+            var fullTitle = $"{slideDeck.Title}-{slideDeck.SubTitle}".Trim();
             result = $"{fullTitle}-{slideDeck.Format}".Clean();
             var filePath = System.IO.Path.Combine(_sourceFolderPath, $"{result}.yaml");
             if (File.Exists(filePath))

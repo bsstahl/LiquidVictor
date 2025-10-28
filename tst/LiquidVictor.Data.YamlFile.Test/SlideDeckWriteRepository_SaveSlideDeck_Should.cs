@@ -7,6 +7,8 @@ namespace LiquidVictor.Data.YamlFile.Test;
 public class SlideDeckWriteRepository_SaveSlideDeck_Should
 {
     [Fact]
+    [Trait("Category", "Integration")]
+    [Trait("Status", "Incomplete")]
     public void WriteTheSampleSlideDeck()
     {
         // Create Slide Deck
