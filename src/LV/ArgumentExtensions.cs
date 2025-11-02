@@ -56,6 +56,8 @@ internal static class ArgumentExtensions
                 config.Title = args[i][7..];
             else if (arg.StartsWith("-contentpath:"))
                 config.ContentPath = System.IO.Path.GetFullPath(args[i][13..]);
+            else if (arg.StartsWith("-format:"))
+                config.Format = args[i][8..];
             else
             {
                 if (Enum.TryParse<Command>(args[i], true, out var commandResult))

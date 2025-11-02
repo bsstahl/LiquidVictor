@@ -54,7 +54,7 @@ namespace LiquidVictor.Entities
         public string PrintLinkText { get; set; } = printLinkText;
         public Transition Transition { get; set; } = transition;
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
-        public Format Format { get; set; } = format;
+        // public Format Format { get; set; } = format;
 
         public ICollection<KeyValuePair<int, Slide>> Slides { get; } = slides;
 

@@ -10,5 +10,7 @@ public enum Format
     Workshop = 5,       // 4 hours up to 1 day 
     LongWorkshop = 6,   // Muliple days
     Keynote = 7,        // Keynote addresses
-    Reference = 8       // Website or other reference documentation
+    Reference = 8,      // Website or other reference documentation
+
+    AllSlides = 99      // All slides regardless of format
 }

@@ -29,6 +29,11 @@ class Program
         else
             (command, config) = args.Parse();
 
+        if (string.IsNullOrWhiteSpace(config.Format))
+            config.Format = LiquidVictor.Enumerations.Format.AllSlides.ToString();
+        else if (!Enum.TryParse<LiquidVictor.Enumerations.Format>(config.Format, true, out var formatResult))
+            throw new ArgumentException($"Unknown format '{config.Format}'");
+
         var services = new ServiceCollection()
             .AddReadRepository(config)
             .AddWriteRepository(config)

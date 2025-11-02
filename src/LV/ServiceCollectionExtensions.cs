@@ -18,7 +18,8 @@ public static class ServiceCollectionExtensions
                         var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
                         {
                             BuildTitleSlide = config.BuildTitleSlide,
-                            MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
+                            MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen,
+                            Format = Enum.Parse<LiquidVictor.Enumerations.Format>(config.Format)
                         };
                         return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
                     });

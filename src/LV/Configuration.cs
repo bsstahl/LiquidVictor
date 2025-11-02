@@ -32,5 +32,7 @@ namespace LV
 
         public string ContentPath { get; set; } = string.Empty;
 
+        public string Format { get; set; } = string.Empty;
+
     }
 }

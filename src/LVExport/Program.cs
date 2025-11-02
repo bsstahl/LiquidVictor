@@ -19,8 +19,8 @@ internal class Program
         {
             target.SaveSlideDeck(slideDeck);
 
-            var fullTitle = $"{slideDeck.Title} {slideDeck.SubTitle}".Trim();
-            var filename = $"{fullTitle}-{slideDeck.Format}.yaml".Clean();
+            var fullTitle = $"{slideDeck.Title}-{slideDeck.SubTitle}".Trim();
+            var filename = $"{fullTitle}.yaml".Clean();
             Console.WriteLine(filename);
         }
     }
