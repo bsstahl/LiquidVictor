@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
+using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.Postgres
 {
@@ -62,73 +64,75 @@ namespace LiquidVictor.Data.Postgres
             set => CompareAndUpdate(ref _slideDeckUri, value);
         }
 
-        public ICollection<SlideDeckSlide> SlideDeckSlides { get; set; }
+        // public ICollection<SlideDeckSlide> SlideDeckSlides { get; set; }
+        public IOrderedEnumerable<IncludeBlock> Includes {  get; }
 
 
-        internal Entities.SlideDeck AsEntity()
-        {
-            // TODO: Respect the Transition value from the data store
-            var slides = this.SlideDeckSlides.AsEntities();
-            return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, this.SlideDeckUri, "Printable Version", _defaultTransition, this.AspectRatio, slides);
-        }
+        //internal Entities.SlideDeck AsEntity()
+        //{
+        //    // TODO: Respect the Transition value from the data store
+        //    return new Entities.SlideDeck(this.Id, this.Title, this.SubTitle, this.Presenter, this.ThemeName, this.SlideDeckUri, "Printable Version", _defaultTransition, this.AspectRatio, this.Includes);
+        //}
 
         internal void Update(Context context, Entities.SlideDeck slideDeck)
         {
-            this.FromEntity(slideDeck);
+            throw new NotImplementedException();
 
-            // Update any Slides that are still being used
-            // and make a list of those that need to be deleted
-            var removalSlideDeckSlides = new List<SlideDeckSlide>();
-            foreach (var storageSlideDeckSlide in this.SlideDeckSlides)
-            {
-                var slideExistsInUpdate = slideDeck.Slides.Any(s => 
-                    s.Value.Id == storageSlideDeckSlide.SlideId
-                    && s.Key == storageSlideDeckSlide.SortOrder);
+            //this.FromEntity(slideDeck);
 
-                if (!slideExistsInUpdate)
-                    removalSlideDeckSlides.Add(storageSlideDeckSlide);
-                else
-                {
-                    var slide = slideDeck.Slides.SingleOrDefault(s =>
-                        s.Value.Id == storageSlideDeckSlide.SlideId
-                        && s.Key == storageSlideDeckSlide.SortOrder);
+            //// Update any Slides that are still being used
+            //// and make a list of those that need to be deleted
+            //var removalSlideDeckSlides = new List<SlideDeckSlide>();
+            //foreach (var storageSlideDeckSlide in this.SlideDeckSlides)
+            //{
+            //    var slideExistsInUpdate = slideDeck.Slides.Any(s => 
+            //        s.Value.Id == storageSlideDeckSlide.SlideId
+            //        && s.Key == storageSlideDeckSlide.SortOrder);
 
-                    storageSlideDeckSlide.Slide.FromEntity(slide.Value);
-                }
-            }
+            //    if (!slideExistsInUpdate)
+            //        removalSlideDeckSlides.Add(storageSlideDeckSlide);
+            //    else
+            //    {
+            //        var slide = slideDeck.Slides.SingleOrDefault(s =>
+            //            s.Value.Id == storageSlideDeckSlide.SlideId
+            //            && s.Key == storageSlideDeckSlide.SortOrder);
 
-            // Delete the associations for slides no longer used in this deck
-            foreach (var storageSlideDeckSlide in removalSlideDeckSlides)
-            {
-                this.SlideDeckSlides.Remove(storageSlideDeckSlide);
-            }
+            //        storageSlideDeckSlide.Slide.FromEntity(slide.Value);
+            //    }
+            //}
 
-            // Add any new slides/associations
-            foreach (var slide in slideDeck.Slides)
-            {
-                var associationExists = this.SlideDeckSlides.Any(sds =>
-                    sds.SlideId == slide.Value.Id
-                    && sds.SortOrder == slide.Key);
+            //// Delete the associations for slides no longer used in this deck
+            //foreach (var storageSlideDeckSlide in removalSlideDeckSlides)
+            //{
+            //    this.SlideDeckSlides.Remove(storageSlideDeckSlide);
+            //}
 
-                if (!associationExists)
-                {
-                    // Handle slide already exists but no association
-                    Slide storageSlide = 
-                        context.Slides.SingleOrDefault(s => s.Id == slide.Value.Id) 
-                        ?? new Slide();
-                    storageSlide.FromEntity(slide.Value);
+            //// Add any new slides/associations
+            //foreach (var slide in slideDeck.Slides)
+            //{
+            //    var associationExists = this.SlideDeckSlides.Any(sds =>
+            //        sds.SlideId == slide.Value.Id
+            //        && sds.SortOrder == slide.Key);
 
-                    var storageSlideDeckSlide = new SlideDeckSlide()
-                    {
-                        Id = Guid.NewGuid(),
-                        LastModifiedDate = DateTime.UtcNow,
-                        Slide = storageSlide,
-                        SortOrder = slide.Key
-                    };
+            //    if (!associationExists)
+            //    {
+            //        // Handle slide already exists but no association
+            //        Slide storageSlide = 
+            //            context.Slides.SingleOrDefault(s => s.Id == slide.Value.Id) 
+            //            ?? new Slide();
+            //        storageSlide.FromEntity(slide.Value);
 
-                    this.SlideDeckSlides.Add(storageSlideDeckSlide);
-                }
-            }
+            //        var storageSlideDeckSlide = new SlideDeckSlide()
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            LastModifiedDate = DateTime.UtcNow,
+            //            Slide = storageSlide,
+            //            SortOrder = slide.Key
+            //        };
+
+            //        this.SlideDeckSlides.Add(storageSlideDeckSlide);
+            //    }
+            //}
         }
 
         internal void FromEntity(Entities.SlideDeck slideDeck)

@@ -1,4 +1,5 @@
 ﻿using LiquidVictor.Extensions;
+using LiquidVictor.Interfaces;
 
 namespace LVExport;
 
@@ -8,11 +9,11 @@ internal class Program
     {
         // HACK: Remove hardcoding of dependencies
 
-        var sourcePath = "C:\\s\\r\\LiquidVictorDatabases\\JsonFileSystem\\BSStahl";
+        // var sourcePath = "C:\\s\\r\\LiquidVictorDatabases\\JsonFileSystem\\BSStahl";
         var targetPath = "C:\\s\\r\\LiquidVictorDatabases\\YamlFile\\BSStahl";
 
-        var source = new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(sourcePath);
-        var target = new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(targetPath);
+        ISlideDeckReadRepository source = null!; // new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(sourcePath);
+        ISlideDeckWriteRepository target = new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(targetPath);
 
         var slideDecks = source.GetSlideDecks();
         foreach (var slideDeck in slideDecks)

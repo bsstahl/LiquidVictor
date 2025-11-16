@@ -1,9 +1,11 @@
-﻿using LiquidVictor.Builders;
+﻿using System.Diagnostics.CodeAnalysis;
+using LiquidVictor.Builders;
 using LiquidVictor.Data.YamlFile;
 using Microsoft.Extensions.Configuration;
 
 namespace LiquidVictor.Test;
 
+[ExcludeFromCodeCoverage]
 public class SlideDeckBuilder_Build_Should
 {
     private readonly string _lvDataPath;

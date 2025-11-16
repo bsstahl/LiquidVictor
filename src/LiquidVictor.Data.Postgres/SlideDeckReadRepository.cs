@@ -43,15 +43,17 @@ namespace LiquidVictor.Data.Postgres
 
         public Entities.SlideDeck GetSlideDeck(Guid id)
         {
+            throw new NotImplementedException();
+
             // TODO: Throw custom error if not found
 
-            return _context.SlideDecks
-                .Include(sd => sd.SlideDeckSlides)
-                .ThenInclude(sds => sds.Slide)
-                .ThenInclude(s => s.SlideContentItems)
-                .ThenInclude(sci => sci.ContentItem)
-                .Single(sd => sd.Id == id)
-                .AsEntity();
+            //return _context.SlideDecks
+            //    .Include(sd => sd.SlideDeckSlides)
+            //    .ThenInclude(sds => sds.Slide)
+            //    .ThenInclude(s => s.SlideContentItems)
+            //    .ThenInclude(sci => sci.ContentItem)
+            //    .Single(sd => sd.Id == id)
+            //    .AsEntity();
         }
 
         public IEnumerable<Entities.Slide> GetSlides()

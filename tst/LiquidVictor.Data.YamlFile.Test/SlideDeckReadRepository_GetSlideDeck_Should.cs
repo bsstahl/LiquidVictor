@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace LiquidVictor.Data.YamlFile.Test;
 
+[ExcludeFromCodeCoverage]
 public class SlideDeckReadRepository_GetSlideDeck_Should
 {
     [Fact]

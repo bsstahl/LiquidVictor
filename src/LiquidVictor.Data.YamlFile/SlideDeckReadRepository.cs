@@ -58,7 +58,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
         Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? null : new Uri(slideDeck.SlideDeckUrl);
-        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
+        var includes = slides.Select(s => new Entities.IncludeBlock(s.Value)).OrderBy(s => 0);
+        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes);
 
         return result;
     }
@@ -138,14 +139,15 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
 
     public IEnumerable<Entities.SlideDeck> GetSlideDecks()
     {
-        var result = new List<Entities.SlideDeck>();
-        var slideDeckIds = this.GetSlideDeckIds();
-        foreach (var slideDeckId in slideDeckIds)
-        {
-            result.Add(this.GetSlideDeck(slideDeckId));
-        }
+        throw new NotImplementedException();
+        //var result = new List<Entities.SlideDeck>();
+        //var slideDeckIds = this.GetSlideDeckIds();
+        //foreach (var slideDeckId in slideDeckIds)
+        //{
+        //    result.Add(this.GetSlideDeck(slideDeckId));
+        //}
 
-        return result;
+        //return result;
     }
 
     public IEnumerable<Entities.Slide> GetSlides()

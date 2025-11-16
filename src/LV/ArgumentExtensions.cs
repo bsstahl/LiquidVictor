@@ -1,11 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading;
 
 namespace LV;
 
 internal static class ArgumentExtensions
 {
+    private static T? GetValueOrDefault<T>(this IConfiguration? config, string key, T? defaultValue)
+    {
+        if (config is null)
+            return defaultValue;
+
+        var value = config[key];
+        return string.IsNullOrEmpty(value) ? defaultValue : (T)Convert.ChangeType(value, typeof(T));
+    }
+
     internal static (Command, Configuration) Parse(this string[] args, IConfiguration? defaults = null)
     {
         const string defaultSourceRepoPath = @"..\..\..\..\..\Sample\Input\";
@@ -16,14 +23,14 @@ internal static class ArgumentExtensions
         var command = Command.Help;
         var config = new Configuration()
         {
-            BuildTitleSlide = defaults?.GetValue<bool>("BuildTitleSlide") ?? true,
-            MakeSoloImagesFullScreen = defaults?.GetValue<bool>("MakeSoloImagesFullScreen") ?? false,
-            OutputEngineType = defaults?.GetValue<string>("OutputEngineType") ?? defaultOutputEngineType,
-            PresentationPath = defaults?.GetValue<string>("PresentationPath") ?? string.Empty,
-            SkipOutput = defaults?.GetValue<bool>("SkipOutput") ?? false,
-            SourceRepoPath = System.IO.Path.GetFullPath(defaults?.GetValue<string>("SourceRepoPath") ?? defaultSourceRepoPath),
-            SourceRepoType = defaults?.GetValue<string>("SourceRepoType") ?? defaultSourceRepoType,
-            TemplatePath = System.IO.Path.GetFullPath(defaults?.GetValue<string>("TemplatePath") ?? defaultTemplatePath)
+            BuildTitleSlide = defaults.GetValueOrDefault("BuildTitleSlide", true),
+            MakeSoloImagesFullScreen = defaults.GetValueOrDefault("MakeSoloImagesFullScreen", false),
+            OutputEngineType = defaults.GetValueOrDefault("OutputEngineType", defaultOutputEngineType),
+            PresentationPath = defaults.GetValueOrDefault("PresentationPath", string.Empty),
+            SkipOutput = defaults.GetValueOrDefault("SkipOutput", false),
+            SourceRepoPath = Path.GetFullPath(defaults.GetValueOrDefault("SourceRepoPath", defaultSourceRepoPath)),
+            SourceRepoType = defaults.GetValueOrDefault("SourceRepoType", defaultSourceRepoType),
+            TemplatePath = Path.GetFullPath(defaults.GetValueOrDefault("TemplatePath", defaultTemplatePath))
         };
 
         for (int i = 0; i < args.Length; i++)
@@ -45,17 +52,17 @@ internal static class ArgumentExtensions
             else if (arg.StartsWith("-sourcerepotype:"))
                 config.SourceRepoType = args[i][16..];
             else if (arg.StartsWith("-sourcerepopath:"))
-                config.SourceRepoPath = System.IO.Path.GetFullPath(args[i][16..]);
+                config.SourceRepoPath = Path.GetFullPath(args[i][16..]);
             else if (arg.StartsWith("-outputenginetype:"))
                 config.OutputEngineType = args[i][18..];
             else if (arg.StartsWith("-templatepath:"))
-                config.TemplatePath = System.IO.Path.GetFullPath(args[i][14..]);
+                config.TemplatePath = Path.GetFullPath(args[i][14..]);
             else if (arg.StartsWith("-presentationpath:"))
-                config.PresentationPath = System.IO.Path.GetFullPath(args[i][18..]);
+                config.PresentationPath = Path.GetFullPath(args[i][18..]);
             else if (arg.StartsWith("-title:"))
                 config.Title = args[i][7..];
             else if (arg.StartsWith("-contentpath:"))
-                config.ContentPath = System.IO.Path.GetFullPath(args[i][13..]);
+                config.ContentPath = Path.GetFullPath(args[i][13..]);
             else
             {
                 if (Enum.TryParse<Command>(args[i], true, out var commandResult))

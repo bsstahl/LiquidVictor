@@ -91,8 +91,9 @@ internal static class ConfigurationExtensions
     {
         // TODO: Validate inputs
         // TODO: Respect --SkipOutput switch
+        var includes = (new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>()).AsIncludeBlocks();
         var slideDeck = new LiquidVictor.Entities
-            .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>());
+            .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, includes);
         writeRepo.SaveSlideDeck(slideDeck);
         Console.WriteLine($"Slide Deck {slideDeck.Id} ('{slideDeck.Title}') written to {config.SourceRepoPath}");
     }

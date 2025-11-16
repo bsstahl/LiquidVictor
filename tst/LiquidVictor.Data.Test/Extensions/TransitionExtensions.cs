@@ -2,6 +2,7 @@
 
 namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class TransitionExtensions
 {
     public static Transition GetRandom(this Transition _)

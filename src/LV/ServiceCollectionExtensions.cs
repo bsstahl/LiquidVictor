@@ -42,8 +42,7 @@ public static class ServiceCollectionExtensions
                 services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckReadRepository(config.SourceRepoPath));
                 break;
             default:
-                services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(config.SourceRepoPath));
-                break;
+                throw new NotSupportedException($"Invalid Source Repository Type '{config.SourceRepoType};");
         }
         return services;
     }
@@ -60,8 +59,7 @@ public static class ServiceCollectionExtensions
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(config.SourceRepoPath));
                 break;
             default:
-                services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(config.SourceRepoPath));
-                break;
+                throw new NotSupportedException($"Invalid Target Repository Type '{config.SourceRepoType};");
         }
         return services;
     }

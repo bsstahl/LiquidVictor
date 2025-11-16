@@ -1,9 +1,11 @@
 using LiquidVictor.Enumerations;
 using TestHelperExtensions;
 using LiquidVictor.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LiquidVictor.Data.YamlFile.Test;
 
+[ExcludeFromCodeCoverage]
 public class SlideDeckWriteRepository_SaveSlideDeck_Should
 {
     [Fact]

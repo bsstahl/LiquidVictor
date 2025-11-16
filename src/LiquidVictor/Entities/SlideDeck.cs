@@ -1,45 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LiquidVictor.Enumerations;
-using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Entities
 {
     public class SlideDeck(Guid id, string title, string subTitle, string presenter,
          string themeName, Uri? slideDeckUrl, string printLinkText,
          Transition transition, AspectRatio aspectRatio, Format format,
-         ICollection<KeyValuePair<int, Slide>> slides)
+         IOrderedEnumerable<IncludeBlock> includes)
     {
         const string _defaultThemeName = "Black";
         const AspectRatio _defaultAspectRatio = AspectRatio.Widescreen;
         const Transition _defaultTransition = Transition.Slide;
 
         public SlideDeck()
-            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, [])
+            : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, Array.Empty<IncludeBlock>().OrderBy(i => 0))
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string printLinkText, ICollection<KeyValuePair<int, Slide>> slides)
-            : this(id, title, subTitle, presenter, _defaultThemeName, printLinkText, _defaultTransition, _defaultAspectRatio, slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string printLinkText, IOrderedEnumerable<IncludeBlock> includes)
+            : this(id, title, subTitle, presenter, _defaultThemeName, printLinkText, _defaultTransition, _defaultAspectRatio, includes)
         { }
 
-        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, string printLinkText, Transition transition, AspectRatio aspectRatio, ICollection<KeyValuePair<int, Slide>> slides)
-            : this(id, title, subTitle, presenter, themeName, null, printLinkText, transition, aspectRatio, slides)
+        public SlideDeck(Guid id, string title, string subTitle, string presenter, string themeName, string printLinkText, Transition transition, AspectRatio aspectRatio, IOrderedEnumerable<IncludeBlock> includes)
+            : this(id, title, subTitle, presenter, themeName, null, printLinkText, transition, aspectRatio, includes)
         { }
 
         public SlideDeck(Guid id, string title, string subTitle, string presenter,
             string themeName, Uri? slideDeckUrl, string printLinkText,
             Transition transition, AspectRatio aspectRatio,
-            ICollection<KeyValuePair<int, Slide>> slides)
+            IOrderedEnumerable<IncludeBlock> includes)
                 : this(id, title, subTitle, presenter, themeName, slideDeckUrl, 
-                      printLinkText, transition, aspectRatio, Format.Session, slides)
+                      printLinkText, transition, aspectRatio, Format.Session, includes)
         { }
 
         public SlideDeck(Guid id, string title, string subTitle, string presenter,
          string themeName, string slideDeckUrl, string printLinkText,
          Transition transition, AspectRatio aspectRatio, Format format,
-         ICollection<KeyValuePair<int, Slide>> slides)
+         IOrderedEnumerable<IncludeBlock> includes)
             : this(id, title, subTitle, presenter, themeName, new Uri(slideDeckUrl), printLinkText,
-                  transition, aspectRatio, format, slides)
+                  transition, aspectRatio, format, includes)
         { }
 
 
@@ -56,15 +56,35 @@ namespace LiquidVictor.Entities
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
         public Format Format { get; set; } = format;
 
-        public ICollection<KeyValuePair<int, Slide>> Slides { get; } = slides;
+        internal IncludeBlockCollection Includes { get; } = new IncludeBlockCollection(includes);
 
-
+        public ICollection<KeyValuePair<int, Slide>> Slides 
+        { 
+            get 
+            {
+                var i = 0;
+                var result = new List<KeyValuePair<int, Slide>>();
+                foreach (var includeBlock in this.Includes)
+                    foreach (var slide in includeBlock.Slides)
+                    {
+                        result.Add(new KeyValuePair<int, Slide>(i, slide));
+                        i++;
+                    }
+                return result;
+            } 
+        }
 
         public SlideDeck Clone(bool createNewId = true, bool createNewChildIds = false, string newTitle = "")
         {
             var id = createNewId ? Guid.NewGuid() : this.Id;
             var title = string.IsNullOrEmpty(newTitle) ? this.Title : newTitle;
-            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, this.Slides.Clone(createNewChildIds));
+
+            // Clone includes and produce an IOrderedEnumerable<IncludeBlock> preserving original order
+            var includesClone = this.Includes
+                .Select(i => i.Clone(createNewChildIds))
+                .OrderBy(i => 0); // stable OrderBy with constant key preserves original order
+
+            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone);
         }
     }
 }

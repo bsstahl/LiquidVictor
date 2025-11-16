@@ -60,20 +60,22 @@ namespace LiquidVictor.Data.Postgres
 
         internal void UpdateSlideDeck(Entities.SlideDeck slideDeck)
         {
-            var storageSlideDeck = this.SlideDecks
-                .Include(sd => sd.SlideDeckSlides)
-                .ThenInclude(sds => sds.Slide)
-                .ThenInclude(s => s.SlideContentItems)
-                .ThenInclude(sci => sci.ContentItem)
-                .SingleOrDefault(s => s.Id == slideDeck.Id);
+            throw new NotImplementedException();
 
-            if (storageSlideDeck == null)
-            {
-                storageSlideDeck = new SlideDeck();
-                this.SlideDecks.Add(storageSlideDeck);
-            }
+            //var storageSlideDeck = this.SlideDecks
+            //    .Include(sd => sd.SlideDeckSlides)
+            //    .ThenInclude(sds => sds.Slide)
+            //    .ThenInclude(s => s.SlideContentItems)
+            //    .ThenInclude(sci => sci.ContentItem)
+            //    .SingleOrDefault(s => s.Id == slideDeck.Id);
 
-            storageSlideDeck.Update(this, slideDeck);
+            //if (storageSlideDeck == null)
+            //{
+            //    storageSlideDeck = new SlideDeck();
+            //    this.SlideDecks.Add(storageSlideDeck);
+            //}
+
+            //storageSlideDeck.Update(this, slideDeck);
         }
     }
 }
