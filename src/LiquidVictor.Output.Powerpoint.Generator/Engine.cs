@@ -37,7 +37,7 @@ namespace LiquidVictor.Output.Powerpoint.Generator
             }
 
             // Close the presentation handle.
-            presentationDoc.Close();
+            presentationDoc.Dispose();
         }
 
         public void CompilePresentation(SlideDeck slideDeck)

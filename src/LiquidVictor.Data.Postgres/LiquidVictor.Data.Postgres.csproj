@@ -6,6 +6,10 @@
     <UserSecretsId>af4e5408-cde4-4984-9d8b-ba9ad1de64b2</UserSecretsId>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <AnalysisMode>all</AnalysisMode>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

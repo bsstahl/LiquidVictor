@@ -9,31 +9,23 @@ internal class SlideDeck
     const Transition _defaultTransition = Enumerations.Transition.Slide;
     const Format _defaultFormat = Enumerations.Format.Session;
 
-    public string Id { get; set; }
-    public string Title { get; set; }
-    public string SubTitle { get; set; }
-    public string Presenter { get; set; }
-    public string ThemeName { get; set; }
-    public string AspectRatio { get; set; }
-    public string PrintLinkText { get; set; }
-    public string Transition { get; set; }
-    public string SlideDeckUrl { get; set; }
-    public string Format { get; set; }
-    public ChildId[] SlideIds { get; set; }
+    public string Id { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string SubTitle { get; set; } = string.Empty;
+    public string Presenter { get; set; } = string.Empty;
+    public string ThemeName { get; set; } = string.Empty;
+    public string AspectRatio { get; set; } = string.Empty;
+    public string PrintLinkText { get; set; } = string.Empty;
+    public string Transition { get; set; } = string.Empty;
+    public string SlideDeckUrl { get; set; } = string.Empty;
+    public string Format { get; set; } = string.Empty;
+    public ChildId[] SlideIds { get; set; } = [];
 
-    internal Transition GetTransition()
-    {
-        Transition result = _defaultTransition;
-        Enum.TryParse<Enumerations.Transition>(this.Transition, out result);
-        return result;
-    }
+    internal Transition GetTransition() => Enum.TryParse<Enumerations.Transition>(this.Transition, out var result) 
+        ? result  : _defaultTransition;
 
-    internal Format GetFormat()
-    {
-        Format result = _defaultFormat;
-        Enum.TryParse<Enumerations.Format>(this.Format, out result);
-        return result;
-    }
+    internal Format GetFormat() => Enum.TryParse<Enumerations.Format>(this.Format, out var result) 
+        ? result : _defaultFormat;
 
     public static SlideDeck Parse(string yaml)
     {

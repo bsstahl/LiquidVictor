@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using LiquidVictor.Extensions;
+﻿using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.YamlFile;
 
@@ -11,6 +8,8 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
 
     public void SaveSlideDeck(Entities.SlideDeck slideDeck)
     {
+        ArgumentNullException.ThrowIfNull(slideDeck, nameof(slideDeck));
+
         var sd = new SlideDeck()
         {
             Id = slideDeck.Id.ToString(),
@@ -22,11 +21,11 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             Title = slideDeck.Title,
             Transition = slideDeck.Transition.ToString(),
             Format = slideDeck.Format.ToString(),
-            SlideDeckUrl = slideDeck.SlideDeckUrl.ToString(),
+            SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
             SlideIds = slideDeck.Slides.OrderBy(s => s.Key).Select(s => new ChildId(s.Value.Id, s.Value.Title)).ToArray()
         };
 
-        var slideDeckFileName = GetSlideDeckFileName(slideDeck);
+        var slideDeckFileName = this.GetSlideDeckFileName(slideDeck);
         string slideDeckPath = System.IO.Path.Combine(_sourceFolderPath, $"SlideDecks\\{slideDeckFileName}.yaml");
 
         // Create folder structure if necessary
@@ -42,38 +41,42 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             this.SaveSlide(s.Value);
     }
 
-    public void SaveSlide(Entities.Slide s)
+    public void SaveSlide(Entities.Slide slide)
     {
+        ArgumentNullException.ThrowIfNull(slide, nameof(slide));
+
         string slidesPath = System.IO.Path.Combine(_sourceFolderPath, "Slides");
         if (!System.IO.Directory.Exists(slidesPath))
             System.IO.Directory.CreateDirectory(slidesPath);
 
-        var slide = new Slide()
+        var newSlide = new Slide()
         {
-            BackgroundContent = s.BackgroundContent?.Id.ToString(),
-            Layout = s.Layout.ToString(),
-            NeverFullScreen = s.NeverFullScreen,
-            Notes = s.Notes,
-            Title = s.Title,
-            TransitionIn = s.TransitionIn.ToString(),
-            TransitionOut = s.TransitionOut.ToString(),
-            ContentItemIds = s.ContentItems.OrderBy(ci => ci.Key).Select(ci => new ChildId(ci.Value.Id, ci.Value.Title)).ToArray()
+            BackgroundContent = slide.BackgroundContent?.Id.ToString() ?? string.Empty,
+            Layout = slide.Layout.ToString(),
+            NeverFullScreen = slide.NeverFullScreen,
+            Notes = slide.Notes,
+            Title = slide.Title,
+            TransitionIn = slide.TransitionIn.ToString(),
+            TransitionOut = slide.TransitionOut.ToString(),
+            ContentItemIds = slide.ContentItems.OrderBy(ci => ci.Key).Select(ci => new ChildId(ci.Value.Id, ci.Value.Title)).ToArray()
         };
 
         // Write slide file
-        string slidePath = System.IO.Path.Combine(slidesPath, $"{s.Id}.yaml");
-        File.WriteAllText(slidePath, slide.ToString());
+        string slidePath = System.IO.Path.Combine(slidesPath, $"{slide.Id}.yaml");
+        File.WriteAllText(slidePath, newSlide.ToString());
 
         // Write ContentItems
-        foreach (var ci in s.ContentItems)
-            SaveContentItem(ci.Value);
+        foreach (var ci in slide.ContentItems)
+            this.SaveContentItem(ci.Value);
 
         if (slide.BackgroundContent is not null)
-            SaveContentItem(s.BackgroundContent);
+            this.SaveContentItem(slide.BackgroundContent);
     }
 
     public void SaveContentItem(Entities.ContentItem contentItem)
     {
+        ArgumentNullException.ThrowIfNull(contentItem, nameof(contentItem));
+
         var ci = new ContentItem()
         {
             Alignment = contentItem.Alignment,

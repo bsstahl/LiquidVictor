@@ -5,7 +5,7 @@ namespace LiquidVictor.Output.Hardcoded;
 
 public class Engine : IPresentationBuilder
 {
-    public SlideDeck SlideDeck { get; private set; }
+    public SlideDeck SlideDeck { get; private set; } = new SlideDeck();
 
     public void CompilePresentation(SlideDeck slideDeck)
     {

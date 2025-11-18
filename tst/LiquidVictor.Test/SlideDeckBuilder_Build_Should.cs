@@ -20,7 +20,7 @@ public class SlideDeckBuilder_Build_Should
             .AddUserSecrets<SlideDeckBuilder_Build_Should>()
             .Build();
 
-        _lvDataPath = config["LVDataPath"];
+        _lvDataPath = config["LVDataPath"] ?? throw new ArgumentNullException("config[\"LVDataPath\"]");
         _lvTempPath = Path.Combine(Path.GetTempPath(), "LiquidVictor");
 
         _readRepo = new SlideDeckReadRepository(_lvDataPath); // Read from the actual data store

@@ -40,7 +40,7 @@ namespace LiquidVictor.Strategy.TableOfContents
         }
 
         public string GetMarkdown(SlideDeck slideDeck)
-            => GetMarkdown(slideDeck, false);
+            => this.GetMarkdown(slideDeck, false);
 
         public string GetMarkdown(SlideDeck slideDeck, bool prettyPrint)
         {
@@ -50,16 +50,18 @@ namespace LiquidVictor.Strategy.TableOfContents
             foreach (var entry in toc.Entries.OrderBy(s => s.SlideIndexInDeck))
             {
                 var title = entry.Title.NullIfEmpty() ?? entry.SlideId.ToString();
-                sb.AppendLine($"* [{title}](#{entry.SlideId})");
+                sb.AppendLine(FormattableString.Invariant($"* [{title}](#{entry.SlideId})"));
             }
 
             return prettyPrint
                 ? sb.ToString()
-                : sb.ToString().Replace("\r\n", "\\r\\n");
+                : sb.ToString().Replace("\r\n", "\\r\\n", StringComparison.OrdinalIgnoreCase);
         }
 
         public Entities.TableOfContents GetTableOfContents(Entities.SlideDeck slideDeck)
         {
+            ArgumentNullException.ThrowIfNull(slideDeck, nameof(slideDeck));
+
             var entries = new List<Entities.TableOfContentsEntry>();
             foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
             {

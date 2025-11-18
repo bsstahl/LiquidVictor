@@ -50,7 +50,7 @@ public class Engine(IServiceProvider services) : ICommandEngine
         if (skipOutput)
         {
             var contentDetail = tocSlide.ContentItems.First().Value.Content.AsString();
-            Console.WriteLine(contentDetail.Replace("\\r\\n", "\r\n"));
+            Console.WriteLine(contentDetail.Replace("\\r\\n", "\r\n", StringComparison.OrdinalIgnoreCase));
         }
         else
         {

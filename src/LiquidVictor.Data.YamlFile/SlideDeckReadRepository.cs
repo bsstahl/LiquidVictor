@@ -54,10 +54,10 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             slideIndex++;
         }
 
-        Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
+        var aspectRatio = Enum.Parse<Enumerations.AspectRatio>(slideDeck.AspectRatio);
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
-        Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? null : new Uri(slideDeck.SlideDeckUrl);
+        Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? new Uri("about:blank") : new Uri(slideDeck.SlideDeckUrl);
         var includes = slides.Select(s => new Entities.IncludeBlock(s.Value)).OrderBy(s => 0);
         var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes);
 
@@ -104,11 +104,11 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var slideResult = new Entities.Slide()
         {
             Id = id,
-            Layout = (Enumerations.Layout)Enum.Parse(typeof(Enumerations.Layout), slide.Layout),
+            Layout = Enum.Parse<Enumerations.Layout>(slide.Layout),
             Notes = slide.Notes,
             Title = slide.Title,
-            TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
-            TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
+            TransitionIn = Enum.Parse<Enumerations.Transition>(slide.TransitionIn),
+            TransitionOut = Enum.Parse<Enumerations.Transition>(slide.TransitionOut),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
             NeverFullScreen = slide.NeverFullScreen
         };
@@ -174,6 +174,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
 
     internal static (IEnumerable<Guid> SlideDeckIds, IEnumerable<Guid> SlideIds, IEnumerable<Guid> ContentItemIds) FindDuplicateIds(IEnumerable<Entities.SlideDeck> slideDecks)
     {
+#pragma warning disable CA1851 // Possible multiple enumerations of 'IEnumerable' collection
         var slides = slideDecks.SelectMany(d => d.Slides).Select(s => s.Value);
         var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value);
 
@@ -194,6 +195,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             .Select(g => new { Id = g.Key, Count = g.Count() })
             .Where(c => c.Count > 1)
             .ToList();
+#pragma warning restore CA1851 // Possible multiple enumerations of 'IEnumerable' collection
 
         return (Array.Empty<Guid>(), Array.Empty<Guid>(), Array.Empty<Guid>());
     }

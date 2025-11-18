@@ -61,7 +61,7 @@ public class SlideBuilder
 
     public SlideBuilder Layout(string value)
     {
-        return this.Layout((Layout)Enum.Parse(typeof(Layout), value));
+        return this.Layout(Enum.Parse<Layout>(value));
     }
 
     public SlideBuilder TransitionIn(Transition value)
@@ -72,7 +72,7 @@ public class SlideBuilder
 
     public SlideBuilder TransitionIn(string value)
     {
-        return this.TransitionIn((Transition)Enum.Parse(typeof(Transition), value));
+        return this.TransitionIn(Enum.Parse<Transition>(value));
     }
 
     public SlideBuilder TransitionOut(Transition value)
@@ -83,7 +83,7 @@ public class SlideBuilder
 
     public SlideBuilder TransitionOut(string value)
     {
-        return this.TransitionOut((Transition)Enum.Parse(typeof(Transition), value));
+        return this.TransitionOut(Enum.Parse<Transition>(value));
     }
 
     public SlideBuilder BackgroundContent(ContentItemBuilder value)

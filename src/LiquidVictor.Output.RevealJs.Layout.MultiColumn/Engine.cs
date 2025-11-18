@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -26,6 +27,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
@@ -43,7 +46,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
                 if (contentItem.Value.IsText())
                     sb.AppendLine(Markdig.Markdown.ToHtml(contentItem.Value.Content.AsString(), _pipeline));
                 else if (contentItem.Value.IsImage())
-                    sb.AppendLine($"<img alt=\"{contentItem.Value.FileName}\" src=\"{contentItem.Value.RelativePathToImage()}\" />");
+                    sb.AppendLine(CultureInfo.CurrentCulture, $"<img alt=\"{contentItem.Value.FileName}\" src=\"{contentItem.Value.RelativePathToImage()}\" />");
                 else
                     throw new NotSupportedException("Only Text and Image content is currently supported");
                 sb.AppendLine("</td>");

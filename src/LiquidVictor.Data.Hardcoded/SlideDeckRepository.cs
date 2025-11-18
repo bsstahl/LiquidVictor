@@ -154,7 +154,7 @@ namespace LiquidVictor.Data.Hardcoded
                 includeBlocks.Add(new IncludeBlock(slide2.Single()));
             }
             else
-                throw new Exceptions.SlideDeckNotFoundException(id, this.GetType().FullName);
+                throw new Exceptions.SlideDeckNotFoundException(id, this.GetType().FullName ?? string.Empty);
 
             return new SlideDeck(id, "Demo Presentation", "A Liquid Victor Demonstration", "Joe Presenter (@joep)", "Printable Version", includeBlocks.OrderBy(i => includeBlocks.IndexOf(i)));
         }

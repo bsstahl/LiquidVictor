@@ -9,6 +9,7 @@ using LiquidVictor.Output.RevealJs.Interfaces;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Enumerations;
 using LiquidVictor.Output.RevealJs.Entities;
+using System.Globalization;
 
 namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
 {
@@ -27,6 +28,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
@@ -43,10 +46,10 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageWithCaption
                 .OrderBy(c => c.Key).FirstOrDefault();
 
             if (image.HasValue())
-                sb.AppendLine($"<img alt=\"{image.Value.FileName}\" src=\"{image.Value.RelativePathToImage()}\" />");
+                sb.AppendLine(CultureInfo.CurrentCulture, $"<img alt=\"{image.Value.FileName}\" src=\"{image.Value.RelativePathToImage()}\" />");
 
             if (caption.HasValue())
-                sb.AppendLine($"<h2>{Markdig.Markdown.ToHtml(caption.Value.Content.AsString(), _pipeline)}</h2>");
+                sb.AppendLine(CultureInfo.CurrentCulture, $"<h2>{Markdig.Markdown.ToHtml(caption.Value.Content.AsString(), _pipeline)}</h2>");
 
             sb.AppendLine("</section>");
 

@@ -2,13 +2,14 @@ using LiquidVictor.Enumerations;
 using TestHelperExtensions;
 using LiquidVictor.Builders;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace LiquidVictor.Data.YamlFile.Test;
 
 [ExcludeFromCodeCoverage]
 public class SlideDeckWriteRepository_SaveSlideDeck_Should
 {
-    [Fact]
+    [Fact(Skip = "Incomplete Test")]
     [Trait("Category", "Integration")]
     [Trait("Status", "Incomplete")]
     public void WriteTheSampleSlideDeck()

@@ -4,9 +4,13 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net10.0</TargetFramework>
 		<UserSecretsId>af4e5408-cde4-4984-9d8b-ba9ad1de64b2</UserSecretsId>
-		<Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <AnalysisMode>all</AnalysisMode>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -21,6 +25,21 @@
 		<ProjectReference Include="..\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Strategy.TableOfContents\LiquidVictor.Strategy.TableOfContents.csproj" />
 		<ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Messages.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Messages.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Messages.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

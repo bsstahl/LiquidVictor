@@ -3,7 +3,7 @@ using LiquidVictor.Interfaces;
 
 namespace LVExport;
 
-internal class Program
+sealed internal class Program
 {
     static void Main(string[] _)
     {
@@ -13,7 +13,7 @@ internal class Program
         var targetPath = "C:\\s\\r\\LiquidVictorDatabases\\YamlFile\\BSStahl";
 
         ISlideDeckReadRepository source = null!; // new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(sourcePath);
-        ISlideDeckWriteRepository target = new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(targetPath);
+        var target = new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(targetPath);
 
         var slideDecks = source.GetSlideDecks();
         foreach (var slideDeck in slideDecks)

@@ -4,14 +4,14 @@ namespace LiquidVictor.Data.YamlFile;
 
 internal class Slide
 {
-    public string Title { get; set; }
-    public string Layout { get; set; }
-    public string TransitionIn { get; set; }
-    public string TransitionOut { get; set; }
-    public string Notes { get; set; }
-    public string BackgroundContent { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Layout { get; set; } = string.Empty;
+    public string TransitionIn { get; set; } = string.Empty;
+    public string TransitionOut { get; set; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
+    public string BackgroundContent { get; set; } = string.Empty;
     public bool NeverFullScreen { get; set; }
-    public ChildId[] ContentItemIds { get; set; }
+    public ChildId[] ContentItemIds { get; set; } = [];
 
 
     public override string ToString()

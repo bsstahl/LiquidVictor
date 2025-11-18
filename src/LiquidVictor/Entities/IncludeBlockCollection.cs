@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace LiquidVictor.Entities;
 
-namespace LiquidVictor.Entities;
-
-internal class IncludeBlockCollection: List<IncludeBlock>
+sealed internal class IncludeBlockCollection: List<IncludeBlock>
 {
     internal IncludeBlockCollection()
     { }

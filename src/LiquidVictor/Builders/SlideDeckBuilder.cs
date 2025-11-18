@@ -69,7 +69,7 @@ public class SlideDeckBuilder
 
     public SlideDeckBuilder AspectRatio(string value)
     {
-        AspectRatio aspectRatio = (AspectRatio)Enum.Parse(typeof(AspectRatio), value);
+        AspectRatio aspectRatio = (AspectRatio)Enum.Parse<AspectRatio>(value);
         return this.AspectRatio(aspectRatio);
     }
 
@@ -81,7 +81,7 @@ public class SlideDeckBuilder
 
     public SlideDeckBuilder Transition(string value)
     {
-        var transition = (Transition)Enum.Parse(typeof(Transition), value);
+        var transition = Enum.Parse<Transition>(value);
         return this.Transition(transition);
     }
 

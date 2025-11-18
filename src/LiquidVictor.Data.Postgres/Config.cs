@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace LiquidVictor.Data.Postgres;
 
-namespace LiquidVictor.Data.Postgres
+public class Config
 {
-    public class Config
-    {
-        public string Db { get; set; }
-    }
+    public string Db { get; set; } = string.Empty;
 }
