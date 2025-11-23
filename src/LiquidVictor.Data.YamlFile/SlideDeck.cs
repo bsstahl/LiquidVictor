@@ -1,5 +1,4 @@
 ﻿using LiquidVictor.Enumerations;
-using System;
 using YamlDotNet.Serialization;
 
 namespace LiquidVictor.Data.YamlFile;
@@ -19,7 +18,11 @@ internal class SlideDeck
     public string Transition { get; set; } = string.Empty;
     public string SlideDeckUrl { get; set; } = string.Empty;
     public string Format { get; set; } = string.Empty;
+
+    [Obsolete]
     public ChildId[] SlideIds { get; set; } = [];
+    public Include[] Includes { get; set; } = [];
+
 
     internal Transition GetTransition() => Enum.TryParse<Enumerations.Transition>(this.Transition, out var result) 
         ? result  : _defaultTransition;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LiquidVictor.Entities;
+﻿using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
-using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.Hardcoded
 {
@@ -178,5 +174,9 @@ namespace LiquidVictor.Data.Hardcoded
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Guid> GetIncludeBlockIds() => throw new NotImplementedException();
+        public IEnumerable<IncludeBlock> GetIncludeBlocks() => throw new NotImplementedException();
+        public IncludeBlock GetIncludeBlock(Guid id) => throw new NotImplementedException();
     }
 }

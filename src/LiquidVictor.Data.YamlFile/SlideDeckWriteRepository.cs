@@ -22,7 +22,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             Transition = slideDeck.Transition.ToString(),
             Format = slideDeck.Format.ToString(),
             SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
-            SlideIds = slideDeck.Slides.OrderBy(s => s.Key).Select(s => new ChildId(s.Value.Id, s.Value.Title)).ToArray()
+            // SlideIds = slideDeck.Slides.OrderBy(s => s.Key).Select(s => new ChildId(s.Value.Id, s.Value.Title)).ToArray()
         };
 
         var slideDeckFileName = this.GetSlideDeckFileName(slideDeck);

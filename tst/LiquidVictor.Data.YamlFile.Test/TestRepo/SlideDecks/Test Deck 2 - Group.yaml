@@ -1,0 +1,15 @@
+Id: "96e4a094-bcee-4622-83ab-42833a103e21"
+Title: "Test Deck 2"
+SubTitle: "A Test of Liquid Victor Include Groups"
+Presenter: "Doc Grouper"
+ThemeName: "black"
+AspectRatio: "Widescreen"
+Transition: "Slide"
+SlideDeckUrl: "https://example.com/TestDeck2"
+Includes:
+  - Id: 21d8ebda-d9cc-4c21-9ab3-42e5578ffbb8
+    IncludeType: block
+  - Id: 1b7c1c6b-1d43-46ee-87dc-dc9f5fbd6e5b
+    IncludeType: slide
+  - Id: f7c791f5-36f9-46e0-92dc-97af0e23dd38
+    IncludeType: block

@@ -1,4 +1,6 @@
-﻿namespace LiquidVictor.Data.Postgres;
+﻿using LiquidVictor.Entities;
+
+namespace LiquidVictor.Data.Postgres;
 
 public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository, IDisposable
 {
@@ -94,4 +96,9 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository, IDis
         this.Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+    // TODO: Add include blocks to Postgres Repository
+    public IEnumerable<Guid> GetIncludeBlockIds() => throw new NotImplementedException();
+    public IEnumerable<IncludeBlock> GetIncludeBlocks() => throw new NotImplementedException();
+    public IncludeBlock GetIncludeBlock(Guid id) => throw new NotImplementedException();
 }

@@ -13,17 +13,17 @@ public class IncludeBlock
     public IncludeBlock()
     { }
 
-    public IncludeBlock(Slide slide)
+    public IncludeBlock(Entities.Slide slide)
     {
         this.AddSlide(slide);
     }
 
-    public IncludeBlock(IOrderedEnumerable<Slide> slides)
+    public IncludeBlock(IOrderedEnumerable<Entities.Slide> slides)
     {
         this.AddSlides(slides);
     }
 
-    internal void AddSlide(Slide slide)
+    internal void AddSlide(Entities.Slide slide)
     {
         _slides.Add(slide);
     }
