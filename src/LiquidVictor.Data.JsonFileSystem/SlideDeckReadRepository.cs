@@ -166,28 +166,28 @@ namespace LiquidVictor.Data.JsonFileSystem
 
         internal static (IEnumerable<Guid> SlideDeckIds, IEnumerable<Guid> SlideIds, IEnumerable<Guid> ContentItemIds) FindDuplicateIds(IEnumerable<Entities.SlideDeck> slideDecks)
         {
-            var slides = slideDecks.SelectMany(d => d.Slides).Select(s => s.Value);
-            var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value);
+            // Materialize the collections up front to avoid re-evaluating lazy enumerables,
+            // which could cause multiple builder calls and spurious duplicate detections.
+            var deckList = slideDecks.ToList();
+            var slides = deckList.SelectMany(d => d.Slides).Select(s => s.Value).ToList();
+            var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value).ToList();
 
-            var deckIds = slideDecks
+            var duplicateDeckIds = deckList
                 .GroupBy(d => d.Id)
-                .Select(g => new { Id = g.Key, Count = g.Count() })
-                .Where(c => c.Count > 1)
-                .ToList();
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
 
-            var slideIds = slides
+            var duplicateSlideIds = slides
                 .GroupBy(s => s.Id)
-                .Select(g => new { Id = g.Key, Count = g.Count() })
-                .Where(c => c.Count > 1)
-                .ToList();
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
 
-            var contentItemIds = contentItems
+            var duplicateContentItemIds = contentItems
                 .GroupBy(c => c.Id)
-                .Select(g => new { Id = g.Key, Count = g.Count() })
-                .Where(c => c.Count > 1)
-                .ToList();
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
 
-            return (Array.Empty<Guid>(), Array.Empty<Guid>(), Array.Empty<Guid>());
+            return (duplicateDeckIds, duplicateSlideIds, duplicateContentItemIds);
         }
     }
 }
