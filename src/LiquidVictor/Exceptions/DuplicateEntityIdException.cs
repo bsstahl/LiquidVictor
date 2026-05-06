@@ -11,24 +11,32 @@ namespace LiquidVictor.Exceptions;
 public class DuplicateEntityIdException : Exception
 {
     public DuplicateEntityIdException(string entityType, IEnumerable<Guid> duplicateIds)
+        : this(entityType, duplicateIds?.ToList() ?? [])
+    { }
+
+    public DuplicateEntityIdException(string entityType, IEnumerable<Guid> duplicateIds, Exception innerException)
+        : this(entityType, duplicateIds?.ToList() ?? [], innerException)
+    { }
+
+    private DuplicateEntityIdException(string entityType, IReadOnlyCollection<Guid> duplicateIds)
         : base(CreateMessage(entityType, duplicateIds))
     {
         EntityType = entityType;
-        DuplicateIds = duplicateIds.ToList();
+        DuplicateIds = duplicateIds;
     }
 
-    public DuplicateEntityIdException(string entityType, IEnumerable<Guid> duplicateIds, Exception innerException)
+    private DuplicateEntityIdException(string entityType, IReadOnlyCollection<Guid> duplicateIds, Exception innerException)
         : base(CreateMessage(entityType, duplicateIds), innerException)
     {
         EntityType = entityType;
-        DuplicateIds = duplicateIds.ToList();
+        DuplicateIds = duplicateIds;
     }
 
     /// <summary>The entity type (e.g., "Slide", "ContentItem", "SlideDeck") that has duplicate IDs.</summary>
     public string EntityType { get; }
 
     /// <summary>The IDs that appear more than once within the entity type space.</summary>
-    public IEnumerable<Guid> DuplicateIds { get; }
+    public IReadOnlyCollection<Guid> DuplicateIds { get; }
 
     private static string CreateMessage(string entityType, IEnumerable<Guid> duplicateIds)
     {

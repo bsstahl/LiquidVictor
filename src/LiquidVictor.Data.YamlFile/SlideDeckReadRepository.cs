@@ -193,6 +193,6 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             .Where(g => g.Count() > 1)
             .Select(g => g.Key);
 
-        return (duplicateDeckIds, duplicateSlideIds, duplicateContentItemIds);
+        return (duplicateDeckIds.ToList(), duplicateSlideIds.ToList(), duplicateContentItemIds.ToList());
     }
 }
