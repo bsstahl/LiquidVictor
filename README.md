@@ -35,7 +35,7 @@ Slide content written in Markdown can include LaTeX mathematical expressions usi
   $$
   ```
 
-LaTeX is rendered in the browser by [MathJax](https://www.mathjax.org/), which is bundled with the RevealJS template. See [docs/latex-support.md](docs/latex-support.md) for a comprehensive guide including more examples and links to LaTeX documentation.
+LaTeX is rendered in the browser by [MathJax](https://www.mathjax.org/) through the RevealJS math support. In the default configuration, MathJax is loaded from a CDN rather than bundled locally, so viewing rendered math requires network access unless you reconfigure it. See [docs/latex-support.md](docs/latex-support.md) for a comprehensive guide including more examples and links to LaTeX documentation.
 
 
 Prototypes and contribution guidelines are forthcoming.
