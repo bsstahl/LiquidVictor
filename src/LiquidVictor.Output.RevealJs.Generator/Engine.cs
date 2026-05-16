@@ -38,6 +38,11 @@ namespace LiquidVictor.Output.RevealJs.Generator
 
         private (IEnumerable<ContentItem>, string) BuildContent(SlideDeck slideDeck, BuilderOptions builderOptions)
         {
+            // UseAdvancedExtensions includes UseMathematics(), which enables LaTeX rendering
+            // via $...$ (inline) and $$\n...\n$$ (display) delimiters.
+            // The resulting HTML uses \(...\) and \[...\] notation, which is processed
+            // by the MathJax plugin bundled in the RevealJS template.
+            // See docs/latex-support.md for usage examples and documentation.
             var pipeline = new MarkdownPipelineBuilder()
                              .UseAdvancedExtensions()
                              .Build();
