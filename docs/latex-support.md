@@ -10,7 +10,7 @@ LiquidVictor uses two complementary libraries for LaTeX rendering:
 
 1. **[Markdig](https://github.com/xoofx/markdig)** — A fast, powerful Markdown processor for .NET. Its mathematics extension (included via `UseAdvancedExtensions()`) converts LaTeX delimiters in Markdown content into HTML `<span>` and `<div>` elements with MathJax-compatible notation.
 
-2. **[MathJax](https://www.mathjax.org/)** — A JavaScript engine bundled in the RevealJS template (`plugin/math/math.js`). MathJax reads the notation inserted by Markdig and renders it as high-quality, scalable mathematical typography in the browser.
+2. **[MathJax](https://www.mathjax.org/)** — A JavaScript engine used by the bundled RevealJS math plugin (`plugin/math/math.js`). The bundled file is the RevealMath plugin, which loads MathJax from a CDN by default; MathJax then reads the notation inserted by Markdig and renders it as high-quality, scalable mathematical typography in the browser. This means initial math rendering requires network access unless MathJax is configured to be served locally.
 
 ### Processing Pipeline
 
