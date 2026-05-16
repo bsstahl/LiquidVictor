@@ -41,9 +41,10 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("text/markdown", markdown.ContentType);
         Assert.True(string.IsNullOrEmpty(markdown.FileName));
         Assert.True(string.IsNullOrEmpty(markdown.Title));
+        var markdownContent = Encoding.UTF8.GetString(markdown.Content).Replace("\r\n", Environment.NewLine);
         Assert.Equal(
-            "* This is some test content\r\n* It should be shown as bullet-points\r\n* Remember to Manifest Asynchrony\r\n",
-            Encoding.UTF8.GetString(markdown.Content));
+            $"* This is some test content{Environment.NewLine}* It should be shown as bullet-points{Environment.NewLine}* Remember to Manifest Asynchrony{Environment.NewLine}",
+            markdownContent);
 
         Assert.True(contentItems.TryGetValue(Guid.Parse("187957ad-8831-4498-89ce-fcd76ecc26aa"), out var image));
         Assert.Equal("image/jpg", image.ContentType);
