@@ -10,7 +10,6 @@ namespace LiquidVictor.Data.JsonFileSystem
         [Trait("Category", "Unit")]
         public void ReturnTheDuplicateSlideId_WhenTwoSlidesInADeckShareAnId()
         {
-            var contentItemId = Guid.NewGuid();
             var slideId = Guid.NewGuid();
 
             var slideDecks = new SlideDecksBuilder()
@@ -25,15 +24,13 @@ namespace LiquidVictor.Data.JsonFileSystem
                             .UseRandomValues()
                             .Id(slideId)
                             .ContentItems(new ContentItemBuilder()
-                                .UseRandomValues()
-                                .Id(contentItemId)))
+                                .UseRandomValues()))
                         .Add(new SlideBuilder()
                             .UseRandomValues()
                             .ContentItems(new ContentItemBuilder()
                                     .UseRandomValues())
                             .ContentItems(new ContentItemBuilder()
-                                    .UseRandomValues()
-                                    .Id(contentItemId)))
+                                    .UseRandomValues()))
                         .Add(new SlideBuilder()
                             .UseRandomValues()
                             .Id(slideId)
@@ -46,6 +43,7 @@ namespace LiquidVictor.Data.JsonFileSystem
 
             Assert.Single(results.SlideIds);
             Assert.Contains(slideId, results.SlideIds);
+            Assert.Empty(results.ContentItemIds);
         }
 
         [Fact]
@@ -53,7 +51,6 @@ namespace LiquidVictor.Data.JsonFileSystem
         public void ReturnTheDuplicateContentItemId_WhenTwoContentItemsInADeckShareAnId()
         {
             var contentItemId = Guid.NewGuid();
-            var slideId = Guid.NewGuid();
 
             var slideDecks = new SlideDecksBuilder()
                 .Add(new SlideDeckBuilder()
@@ -65,7 +62,6 @@ namespace LiquidVictor.Data.JsonFileSystem
                     .Slides(new SlidesBuilder()
                         .Add(new SlideBuilder()
                             .UseRandomValues()
-                            .Id(slideId)
                             .ContentItems(new ContentItemBuilder()
                                 .UseRandomValues()
                                 .Id(contentItemId)))
@@ -78,7 +74,6 @@ namespace LiquidVictor.Data.JsonFileSystem
                                     .Id(contentItemId)))
                         .Add(new SlideBuilder()
                             .UseRandomValues()
-                            .Id(slideId)
                             .ContentItems(new ContentItemBuilder()
                                 .UseRandomValues())
                             .ContentItems(new ContentItemBuilder()
@@ -88,6 +83,7 @@ namespace LiquidVictor.Data.JsonFileSystem
 
             Assert.Single(results.ContentItemIds);
             Assert.Contains(contentItemId, results.ContentItemIds);
+            Assert.Empty(results.SlideIds);
         }
 
         [Fact]
