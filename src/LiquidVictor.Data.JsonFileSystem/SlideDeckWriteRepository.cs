@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
+using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.JsonFileSystem
@@ -18,6 +19,12 @@ namespace LiquidVictor.Data.JsonFileSystem
 
         public void SaveSlideDeck(Entities.SlideDeck slideDeck)
         {
+            var duplicates = SlideDeckReadRepository.FindDuplicateIds(new[] { slideDeck });
+            if (duplicates.SlideIds.Any())
+                throw new DuplicateEntityIdException("Slide", duplicates.SlideIds);
+            if (duplicates.ContentItemIds.Any())
+                throw new DuplicateEntityIdException("ContentItem", duplicates.ContentItemIds);
+
             var sd = new JsonFileSystem.SlideDeck()
             {
                 Id = slideDeck.Id.ToString(),

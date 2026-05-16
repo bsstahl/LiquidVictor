@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.YamlFile;
@@ -11,6 +12,12 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
 
     public void SaveSlideDeck(Entities.SlideDeck slideDeck)
     {
+        var duplicates = SlideDeckReadRepository.FindDuplicateIds(new[] { slideDeck });
+        if (duplicates.SlideIds.Any())
+            throw new DuplicateEntityIdException("Slide", duplicates.SlideIds);
+        if (duplicates.ContentItemIds.Any())
+            throw new DuplicateEntityIdException("ContentItem", duplicates.ContentItemIds);
+
         var sd = new SlideDeck()
         {
             Id = slideDeck.Id.ToString(),
