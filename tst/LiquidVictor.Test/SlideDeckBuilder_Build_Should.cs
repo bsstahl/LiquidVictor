@@ -245,7 +245,7 @@ public class SlideDeckBuilder_Build_Should
         public Slide? LastSavedSlide { get; private set; }
 
         public void SaveSlideDeck(SlideDeck slideDeck) =>
-            throw new NotSupportedException("Fake write repository does not provide slide-deck saves for this test.");
+            throw new NotSupportedException("Fake write repository does not provide SlideDeck saves for this test.");
 
         public void SaveSlide(Slide slide)
         {
@@ -253,6 +253,6 @@ public class SlideDeckBuilder_Build_Should
         }
 
         public void SaveContentItem(ContentItem contentItem) =>
-            throw new NotSupportedException("Fake write repository does not provide content-item saves for this test.");
+            throw new NotSupportedException("Fake write repository does not provide ContentItem saves for this test.");
     }
 }
