@@ -57,7 +57,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
     [Trait("Category", "Integration")]
     public void ReturnTheSampleSlideDeckWithSlideGroups()
     {
-        var repoPath = Path.GetFullPath(@".\TestRepo");
+        var repoPath = Path.Combine(AppContext.BaseDirectory, "TestRepo");
         var slideDeckId = Guid.Parse("96e4a094-bcee-4622-83ab-42833a103e21");
 
         var repo = new SlideDeckReadRepository(repoPath);

@@ -9,7 +9,7 @@ namespace LiquidVictor.Data.YamlFile.Test;
 
 public class SlideDeckWriteRepository_SaveSlideDeck_Should
 {
-    [Fact(Skip = "Incomplete Test")]
+    [Fact]
     [Trait("Category", "Integration")]
     public void WriteTheSampleSlideDeck()
     {
