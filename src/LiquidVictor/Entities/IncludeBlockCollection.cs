@@ -12,11 +12,11 @@ sealed internal class IncludeBlockCollection: List<IncludeBlock>
 
     internal void Add(Slide slide)
     {
-        throw new NotImplementedException(); 
+        this.Add(new IncludeBlock(slide));
     }
 
     internal void Add(IOrderedEnumerable<Slide> slides)
     {
-        throw new NotImplementedException();
+        this.Add(new IncludeBlock(slides));
     }
 }

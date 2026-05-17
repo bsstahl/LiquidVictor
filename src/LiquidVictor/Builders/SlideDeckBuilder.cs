@@ -26,7 +26,7 @@ public class SlideDeckBuilder
         _slideDeck.Id = _slideDeck.Id.Equals(Guid.Empty) 
             ? Guid.NewGuid() 
             : _slideDeck.Id;
-        _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Slides.Add(s));
+        _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Includes.Add(s.Value));
         return _slideDeck;
     }
 
