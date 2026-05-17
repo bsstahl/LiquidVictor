@@ -18,6 +18,13 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
         if (duplicates.ContentItemIds.Any())
             throw new DuplicateEntityIdException("ContentItem", duplicates.ContentItemIds);
 
+        if (!System.IO.Directory.Exists(_sourceFolderPath))
+            System.IO.Directory.CreateDirectory(_sourceFolderPath);
+
+        var slideDecksPath = System.IO.Path.Combine(_sourceFolderPath, "SlideDecks");
+        if (!System.IO.Directory.Exists(slideDecksPath))
+            System.IO.Directory.CreateDirectory(slideDecksPath);
+
         var sd = new SlideDeck()
         {
             Id = slideDeck.Id.ToString(),
@@ -34,11 +41,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
         };
 
         var slideDeckFileName = GetSlideDeckFileName(slideDeck);
-        string slideDeckPath = System.IO.Path.Combine(_sourceFolderPath, $"SlideDecks\\{slideDeckFileName}.yaml");
-
-        // Create folder structure if necessary
-        if (!System.IO.Directory.Exists(_sourceFolderPath))
-            System.IO.Directory.CreateDirectory(_sourceFolderPath);
+        string slideDeckPath = System.IO.Path.Combine(slideDecksPath, $"{slideDeckFileName}.yaml");
 
         // Write SlideDeck file
         File.WriteAllText(slideDeckPath, sd.ToString());
@@ -103,15 +106,25 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
     {
         // If the slide deck already exists (per the id), use that filename
         // otherwise, use a filename generated from the title and format of the presentation
-        string result = _sourceFolderPath.FindFileWithId(slideDeck.Id);
-        if (string.IsNullOrWhiteSpace(result))
+        var slideDecksPath = System.IO.Path.Combine(_sourceFolderPath, "SlideDecks");
+        var existingFilePath = System.IO.Directory.Exists(slideDecksPath)
+            ? slideDecksPath.FindFileWithId(slideDeck.Id)
+            : string.Empty;
+
+        string result;
+        if (string.IsNullOrWhiteSpace(existingFilePath))
         {
             var fullTitle = $"{slideDeck.Title}-{slideDeck.SubTitle}".Trim();
             result = $"{fullTitle}-{slideDeck.Format}".Clean();
-            var filePath = System.IO.Path.Combine(_sourceFolderPath, $"{result}.yaml");
+            var filePath = System.IO.Path.Combine(slideDecksPath, $"{result}.yaml");
             if (File.Exists(filePath))
                 throw new InvalidOperationException($"SlideDeck already exists at '{filePath}'");
         }
+        else
+        {
+            result = System.IO.Path.GetFileNameWithoutExtension(existingFilePath);
+        }
+
         return result;
     }
 
