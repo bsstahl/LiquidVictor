@@ -1,22 +1,11 @@
 using LiquidVictor.Builders;
 using LiquidVictor.Entities;
 using LiquidVictor.Interfaces;
-using LiquidVictor.Data.YamlFile;
 
 namespace LiquidVictor.Test;
 
 public class SlideDeckBuilder_Build_Should
 {
-    private readonly string _lvTempPath;
-
-    private readonly SlideDeckWriteRepository _writeRepo;
-
-    public SlideDeckBuilder_Build_Should()
-    {
-        _lvTempPath = Path.Combine(Path.GetTempPath(), "LiquidVictor");
-        _writeRepo = new SlideDeckWriteRepository(_lvTempPath); // Write to a temp location
-    }
-
     [Fact]
     [Trait("Category", "Unit")]
     public void ReturnAValidSlideDeck()
@@ -127,9 +116,11 @@ public class SlideDeckBuilder_Build_Should
     }
 
     [Fact]
-    [Trait("Category", "Integration")]
+    [Trait("Category", "Unit")]
     public void SuccessfullySaveANewSlide()
     {
+        var writeRepo = new FakeSlideDeckWriteRepository();
+
         var contentItemTitle = string.Empty.GetRandom();
 
         var contentItemBuilder = new ContentItemBuilder()
@@ -150,7 +141,10 @@ public class SlideDeckBuilder_Build_Should
             .ContentItems(contentItemBuilder)
             .Build();
 
-        _writeRepo.SaveSlide(slide);
+        writeRepo.SaveSlide(slide);
+
+        Assert.NotNull(writeRepo.LastSavedSlide);
+        Assert.Equal(slide.Id, writeRepo.LastSavedSlide!.Id);
     }
 
     private sealed class FakeSlideDeckReadRepository : ISlideDeckReadRepository
@@ -244,5 +238,21 @@ public class SlideDeckBuilder_Build_Should
         public IEnumerable<SlideDeck> GetSlideDecks() => throw new NotSupportedException("Fake read repository does not provide slide decks for this test.");
         public IEnumerable<Slide> GetSlides() => _slides.Values;
         public IEnumerable<ContentItem> GetContentItems() => _contentItems.Values;
+    }
+
+    private sealed class FakeSlideDeckWriteRepository : ISlideDeckWriteRepository
+    {
+        public Slide? LastSavedSlide { get; private set; }
+
+        public void SaveSlideDeck(SlideDeck slideDeck) =>
+            throw new NotSupportedException("Fake write repository does not provide slide-deck saves for this test.");
+
+        public void SaveSlide(Slide slide)
+        {
+            LastSavedSlide = slide;
+        }
+
+        public void SaveContentItem(ContentItem contentItem) =>
+            throw new NotSupportedException("Fake write repository does not provide content-item saves for this test.");
     }
 }
