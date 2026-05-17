@@ -37,12 +37,14 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                         .Id(markdownId)
                         .ContentType("text/markdown")
                         .Title("Markdown")
+                        .Tags(["character", "emotion", "overworked"])
                         .Content("Line 1" + Environment.NewLine + "Line 2"))
                     .Add(new ContentItemBuilder()
                         .Id(imageId)
                         .ContentType("image/png")
                         .FileName("diagram.png")
                         .Title("Diagram")
+                        .Tags(["diagram"])
                         .Content([1, 2, 3, 4])));
 
             var slideDeck = new SlideDeckBuilder()
@@ -94,12 +96,14 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.True(contentItems.TryGetValue(markdownId, out var markdown));
             Assert.Equal("text/markdown", markdown.ContentType);
             Assert.Equal("Markdown", markdown.Title);
+            Assert.Equal(["character", "emotion", "overworked"], markdown.Tags);
             Assert.Equal("Line 1" + Environment.NewLine + "Line 2", Encoding.UTF8.GetString(markdown.Content));
 
             Assert.True(contentItems.TryGetValue(imageId, out var image));
             Assert.Equal("image/png", image.ContentType);
             Assert.Equal("diagram.png", image.FileName);
             Assert.Equal("Diagram", image.Title);
+            Assert.Equal(["diagram"], image.Tags);
             Assert.Equal([1, 2, 3, 4], image.Content);
         }
         finally

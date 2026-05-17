@@ -95,7 +95,8 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             ContentType = contentItem.ContentType,
             EncodedContent = contentItem.Content.EncodeContent(contentItem.ContentType),
             FileName = contentItem.FileName,
-            Title = contentItem.Title
+            Title = contentItem.Title,
+            Tags = [.. contentItem.Tags]
         };
 
         string contentItemsPath = System.IO.Path.Combine(_sourceFolderPath, "ContentItems");
