@@ -16,7 +16,7 @@ public class SlideDeckBuilder_Build_Should
         _writeRepo = new SlideDeckWriteRepository(_lvTempPath); // Write to a temp location
     }
 
-    private static SlideDeckReadRepository? TryGetReadRepository()
+    private static SlideDeckReadRepository GetReadRepository()
     {
         var config = new ConfigurationBuilder()
             .AddUserSecrets<SlideDeckBuilder_Build_Should>()
@@ -25,7 +25,7 @@ public class SlideDeckBuilder_Build_Should
         var lvDataPath = config["LVDataPath"];
         if (string.IsNullOrWhiteSpace(lvDataPath))
         {
-            return null;
+            throw new InvalidOperationException("Integration test requires user secret 'LVDataPath'.");
         }
 
         return new SlideDeckReadRepository(lvDataPath); // Read from the actual data store
@@ -90,11 +90,7 @@ public class SlideDeckBuilder_Build_Should
     [Trait("Category", "Integration")]
     public void ReturnAValidSlideDeckTheIncludesExistingSlides()
     {
-        var readRepo = TryGetReadRepository();
-        if (readRepo is null)
-        {
-            return;
-        }
+        var readRepo = GetReadRepository();
 
         var titleContentTemplate = "## {PresentationTitle}\r\n\r\n#### {PresentationSubtitle}\r\n\r\n***\r\n\r\n### Barry S. Stahl\r\n\r\n### Solution Architect & Developer\r\n\r\n### [@bsstahl@cognitiveinheritance.com](https://fosstodon.org/@Bsstahl)\r\n\r\n### [https://CognitiveInheritance.com](https://cognitiveinheritance.com)\r\n";
 
