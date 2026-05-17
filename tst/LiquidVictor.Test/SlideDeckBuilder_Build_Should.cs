@@ -229,13 +229,19 @@ public class SlideDeckBuilder_Build_Should
             };
         }
 
-        public ContentItem GetContentItem(Guid id) => _contentItems[id];
-        public Slide GetSlide(Guid id) => _slides[id];
-        public SlideDeck GetSlideDeck(Guid id) => throw new NotImplementedException();
-        public IEnumerable<Guid> GetSlideDeckIds() => throw new NotImplementedException();
+        public ContentItem GetContentItem(Guid id) =>
+            _contentItems.TryGetValue(id, out var item)
+                ? item
+                : throw new ArgumentException($"Content item '{id}' was not found.", nameof(id));
+        public Slide GetSlide(Guid id) =>
+            _slides.TryGetValue(id, out var slide)
+                ? slide
+                : throw new ArgumentException($"Slide '{id}' was not found.", nameof(id));
+        public SlideDeck GetSlideDeck(Guid id) => throw new NotSupportedException("Fake read repository does not provide slide decks for this test.");
+        public IEnumerable<Guid> GetSlideDeckIds() => throw new NotSupportedException("Fake read repository does not provide slide deck ids for this test.");
         public IEnumerable<Guid> GetSlideIds() => _slides.Keys;
         public IEnumerable<Guid> GetContentItemIds() => _contentItems.Keys;
-        public IEnumerable<SlideDeck> GetSlideDecks() => throw new NotImplementedException();
+        public IEnumerable<SlideDeck> GetSlideDecks() => throw new NotSupportedException("Fake read repository does not provide slide decks for this test.");
         public IEnumerable<Slide> GetSlides() => _slides.Values;
         public IEnumerable<ContentItem> GetContentItems() => _contentItems.Values;
     }
