@@ -238,6 +238,9 @@ public class SlideDeckBuilder_Build_Should
         public IEnumerable<SlideDeck> GetSlideDecks() => throw new NotSupportedException("Fake read repository does not provide slide decks for this test.");
         public IEnumerable<Slide> GetSlides() => _slides.Values;
         public IEnumerable<ContentItem> GetContentItems() => _contentItems.Values;
+        public IncludeBlock GetIncludeBlock(Guid id) => throw new NotSupportedException("Fake read repository does not provide include blocks for this test.");
+        public IEnumerable<Guid> GetIncludeBlockIds() => throw new NotSupportedException("Fake read repository does not provide include block ids for this test.");
+        public IEnumerable<IncludeBlock> GetIncludeBlocks() => throw new NotSupportedException("Fake read repository does not provide include blocks for this test.");
     }
 
     private sealed class FakeSlideDeckWriteRepository : ISlideDeckWriteRepository

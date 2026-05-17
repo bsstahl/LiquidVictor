@@ -10,6 +10,27 @@ namespace LiquidVictor.Exceptions;
 /// </summary>
 public class DuplicateEntityIdException : Exception
 {
+    public DuplicateEntityIdException()
+        : base("Duplicate entity IDs detected.")
+    {
+        EntityType = string.Empty;
+        DuplicateIds = [];
+    }
+
+    public DuplicateEntityIdException(string message)
+        : base(message)
+    {
+        EntityType = string.Empty;
+        DuplicateIds = [];
+    }
+
+    public DuplicateEntityIdException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+        EntityType = string.Empty;
+        DuplicateIds = [];
+    }
+
     public DuplicateEntityIdException(string entityType, IEnumerable<Guid> duplicateIds)
         : this(entityType, duplicateIds?.ToList() ?? [])
     { }

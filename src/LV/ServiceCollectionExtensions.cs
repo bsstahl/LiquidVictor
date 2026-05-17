@@ -1,17 +1,16 @@
 ﻿using LiquidVictor.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace LV;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddPresentationBuilder(this IServiceCollection services, Configuration config)
     {
-        switch (config.OutputEngineType.ToLower())
+        switch (config.OutputEngineType.ToUpperInvariant())
         {
-            case "reveal":
-            case "revealjs":
+            case "REVEAL":
+            case "REVEALJS":
                 services
                     .AddTransient<IPresentationBuilder>(c =>
                     {
@@ -32,36 +31,34 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddReadRepository(this IServiceCollection services, Configuration config)
     {
-        switch (config.SourceRepoType.ToLower())
+        switch (config.SourceRepoType.ToUpperInvariant())
         {
-            case "postgres":
-            case "postgresql":
+            case "POSTGRES":
+            case "POSTGRESQL":
                 services.AddTransient<ISlideDeckReadRepository, LiquidVictor.Data.Postgres.SlideDeckReadRepository>();
                 break;
-            case "yamlfile":
+            case "YAMLFILE":
                 services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckReadRepository(config.SourceRepoPath));
                 break;
             default:
-                services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckReadRepository(config.SourceRepoPath));
-                break;
+                throw new NotSupportedException($"Invalid Source Repository Type '{config.SourceRepoType};");
         }
         return services;
     }
 
     public static IServiceCollection AddWriteRepository(this IServiceCollection services, Configuration config)
     {
-        switch (config.SourceRepoType.ToLower())
+        switch (config.SourceRepoType.ToUpperInvariant())
         {
-            case "postgres":
-            case "postgresql":
+            case "POSTGRES":
+            case "POSTGRESQL":
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.Postgres.SlideDeckWriteRepository(config.SourceRepoPath));
                 break;
-            case "yamlfile":
+            case "YAMLFILE":
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(config.SourceRepoPath));
                 break;
             default:
-                services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.JsonFileSystem.SlideDeckWriteRepository(config.SourceRepoPath));
-                break;
+                throw new NotSupportedException($"Invalid Target Repository Type '{config.SourceRepoType};");
         }
         return services;
     }

@@ -26,7 +26,7 @@ public class SlideDeckBuilder
         _slideDeck.Id = _slideDeck.Id.Equals(Guid.Empty) 
             ? Guid.NewGuid() 
             : _slideDeck.Id;
-        _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Slides.Add(s));
+        _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Includes.Add(s.Value));
         return _slideDeck;
     }
 
@@ -69,7 +69,7 @@ public class SlideDeckBuilder
 
     public SlideDeckBuilder AspectRatio(string value)
     {
-        AspectRatio aspectRatio = (AspectRatio)Enum.Parse(typeof(AspectRatio), value);
+        AspectRatio aspectRatio = (AspectRatio)Enum.Parse<AspectRatio>(value);
         return this.AspectRatio(aspectRatio);
     }
 
@@ -81,7 +81,7 @@ public class SlideDeckBuilder
 
     public SlideDeckBuilder Transition(string value)
     {
-        var transition = (Transition)Enum.Parse(typeof(Transition), value);
+        var transition = Enum.Parse<Transition>(value);
         return this.Transition(transition);
     }
 

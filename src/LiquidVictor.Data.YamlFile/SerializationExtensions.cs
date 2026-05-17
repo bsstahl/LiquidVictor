@@ -11,7 +11,7 @@ internal static class SerializationExtensions
         var yamlObject = deserializer.Deserialize<dynamic>(yaml);
         object id = string.Empty;
         _ = yamlObject.TryGetValue("Id", out id) || yamlObject.TryGetValue("id", out id);
-        return id.ToString();
+        return id.ToString() ?? string.Empty;
     }
 
 }

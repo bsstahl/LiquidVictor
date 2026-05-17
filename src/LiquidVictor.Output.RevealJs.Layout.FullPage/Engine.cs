@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -26,6 +27,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             Slide slideToRender = slide.Clone();
@@ -55,7 +58,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
                 }
                 else if (contentItem.IsImage())
                 {
-                    sb.AppendLine($"<img alt=\"{contentItem.FileName}\" src=\"{contentItem.RelativePathToImage()}\" />");
+                    sb.AppendLine(CultureInfo.CurrentCulture, $"<img alt=\"{contentItem.FileName}\" src=\"{contentItem.RelativePathToImage()}\" />");
                 }
                 else
                     throw new Exceptions.SlideLayoutException(Enumerations.Layout.FullPage, "Only Image and Text items are supported in this layout");

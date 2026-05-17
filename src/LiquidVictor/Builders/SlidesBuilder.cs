@@ -25,8 +25,7 @@ public class SlidesBuilder : Dictionary<int, SlideBuilder>
 
     public SlidesBuilder Add(IEnumerable<Entities.Slide> value)
     {
-        if (value is null)
-            throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
         value.ToList().ForEach(v => this.Add(new SlideBuilder(v)));
         return this;
     }

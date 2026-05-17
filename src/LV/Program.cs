@@ -1,14 +1,10 @@
 ﻿using LiquidVictor.Business;
-using LiquidVictor.Data.Postgres;
-using LiquidVictor.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
 
 namespace LV;
 
-class Program
+sealed class Program
 {
     static void Main(string[] args)
     {

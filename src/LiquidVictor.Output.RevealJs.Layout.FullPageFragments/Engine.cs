@@ -26,6 +26,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
@@ -36,7 +38,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
             sb.AppendLine("<table border=\"0\" width=\"100%\">");
             sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));
 
-            var textContentItems = slide.ContentItems.OrderBy(ci => ci.Key).Where(ci => ci.Value.ContentType.ToLower().StartsWith("text"));
+            var textContentItems = slide.ContentItems.OrderBy(ci => ci.Key).Where(ci => ci.Value.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase));
             foreach (var contentItem in textContentItems)
             {
                 sb.AppendLine("<tr><td>");

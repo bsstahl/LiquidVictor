@@ -25,7 +25,13 @@ public class Slide
     public Slide()
     { }
 
-    public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, string notes, ContentItem? backgroundContent, bool neverFullScreen, ICollection<KeyValuePair<int, ContentItem>> contentItems)
+    public Slide(Guid id, string title, Layout layout, ICollection<KeyValuePair<int, ContentItem>> contentItems)
+        : this(id, title, layout, Transition.None, Transition.None, string.Empty, null, false, contentItems)
+    { }
+
+    public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, 
+        string notes, ContentItem? backgroundContent, bool neverFullScreen, 
+        ICollection<KeyValuePair<int, ContentItem>> contentItems)
     {
         Id = id;
         Title = title;

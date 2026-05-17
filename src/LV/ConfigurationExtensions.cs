@@ -1,14 +1,13 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Interfaces;
 using LiquidVictor.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LV;
 
 internal static class ConfigurationExtensions
 {
+    private static readonly string ValidSlideDecksMessage = Messages.ValidSlideDecks;
+
     internal static void ExecuteValidateSourceRepo(this Configuration _, ISlideDeckReadRepository readRepo)
     {
         // Verifies that all SlideDecks have unique IDs
@@ -28,7 +27,7 @@ internal static class ConfigurationExtensions
             validSlideDecks.Add(slideDeck.Key, slideDeck.Value);
         }
 
-        Console.WriteLine("Valid Slide Decks:");
+        Console.WriteLine(ConfigurationExtensions.ValidSlideDecksMessage);
         foreach (var slideDeck in validSlideDecks)
         {
             Console.WriteLine($"{slideDeck.Key} - {slideDeck.Value}");
@@ -91,8 +90,9 @@ internal static class ConfigurationExtensions
     {
         // TODO: Validate inputs
         // TODO: Respect --SkipOutput switch
+        var includes = (new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>()).AsIncludeBlocks();
         var slideDeck = new LiquidVictor.Entities
-            .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, new List<KeyValuePair<int, LiquidVictor.Entities.Slide>>());
+            .SlideDeck(Guid.NewGuid(), config.Title, string.Empty, string.Empty, string.Empty, includes);
         writeRepo.SaveSlideDeck(slideDeck);
         Console.WriteLine($"Slide Deck {slideDeck.Id} ('{slideDeck.Title}') written to {config.SourceRepoPath}");
     }

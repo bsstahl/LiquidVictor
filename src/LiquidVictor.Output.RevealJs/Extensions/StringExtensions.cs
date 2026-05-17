@@ -25,7 +25,7 @@ namespace LiquidVictor.Output.RevealJs.Extensions
             return string.IsNullOrWhiteSpace(notes) ? string.Empty : $"<aside class=\"notes\">{Markdig.Markdown.ToHtml(notes, pipeline)}</aside>";
         }
 
-        public static string AsComment(this string comment, string prefix = null)
+        public static string AsComment(this string comment, string? prefix = null)
         {
             return string.IsNullOrWhiteSpace(comment) 
                 ? string.Empty 

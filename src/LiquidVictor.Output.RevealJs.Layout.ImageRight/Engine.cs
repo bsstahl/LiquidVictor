@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -27,6 +28,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
@@ -52,8 +55,8 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
             {
                 sb.AppendLine($"<td style=\"text-align: left;\">");
                 sb.Append("<img");
-                sb.Append($" src=\"{image.Value.RelativePathToImage()}\"");
-                sb.Append($" alt=\"{image.Value.FileName}\"");
+                sb.Append(CultureInfo.CurrentCulture, $" src=\"{image.Value.RelativePathToImage()}\"");
+                sb.Append(CultureInfo.CurrentCulture, $" alt=\"{image.Value.FileName}\"");
                 sb.AppendLine(" />");
                 sb.AppendLine("</td>");
             }
