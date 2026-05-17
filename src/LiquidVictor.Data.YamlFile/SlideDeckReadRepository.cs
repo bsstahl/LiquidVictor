@@ -156,6 +156,11 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             Title = localContentItem.Title,
             Content = localContentItem.EncodedContent.DecodeContent(localContentItem.ContentType)
         };
+        if (localContentItem.Tags is not null)
+        {
+            foreach (var tag in localContentItem.Tags)
+                contentItemEntity.Tags.Add(tag);
+        }
 
         return contentItemEntity;
     }

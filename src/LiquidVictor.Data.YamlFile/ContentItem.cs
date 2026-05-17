@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Serialization;
+﻿using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace LiquidVictor.Data.YamlFile;
 
@@ -7,6 +8,7 @@ internal class ContentItem
     public string ContentType { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
+    public List<string> Tags { get; set; } = [];
     public string EncodedContent { get; set; } = string.Empty;
     public string Alignment { get; set; } = string.Empty;
 

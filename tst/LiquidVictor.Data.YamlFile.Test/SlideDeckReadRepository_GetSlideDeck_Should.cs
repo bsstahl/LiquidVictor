@@ -41,6 +41,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("text/markdown", markdown.ContentType);
         Assert.True(string.IsNullOrEmpty(markdown.FileName));
         Assert.True(string.IsNullOrEmpty(markdown.Title));
+        Assert.Equal(["character", "emotion", "overworked"], markdown.Tags);
         var markdownContent = Encoding.UTF8.GetString(markdown.Content).Replace("\r\n", Environment.NewLine);
         Assert.Equal(
             $"* This is some test content{Environment.NewLine}* It should be shown as bullet-points{Environment.NewLine}* Remember to Manifest Asynchrony{Environment.NewLine}",
