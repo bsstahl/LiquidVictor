@@ -17,6 +17,7 @@ and maintaining these presentations much easer.
 
 * Some key features of the system may be:
   * Generate presentations in multiple formats and with different themes and aspect ratios
+  * Export presentations to Jupyter Notebook (`.ipynb`) format with RISE slideshow metadata
   * Allow the regeneration of all presentations containing a slide or image when that asset changes
   * Support the labeling of states so that a presentation can be regenerated as it was at a particular point in time
   * Render LaTeX mathematical expressions in slide content using MathJax

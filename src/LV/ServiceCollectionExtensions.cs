@@ -22,6 +22,17 @@ internal static class ServiceCollectionExtensions
                         return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
                     });
                 break;
+            case "JUPYTER":
+                services
+                    .AddTransient<IPresentationBuilder>(c =>
+                    {
+                        var builderOptions = new LiquidVictor.Output.Jupyter.Entities.BuilderOptions()
+                        {
+                            BuildTitleSlide = config.BuildTitleSlide
+                        };
+                        return new LiquidVictor.Output.Jupyter.Generator.Engine(builderOptions);
+                    });
+                break;
             default:
                 throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
         }
