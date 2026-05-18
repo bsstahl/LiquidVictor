@@ -61,7 +61,7 @@ public class Engine_CreatePresentation_Should
 
     [Fact]
     [Trait("Category", "Unit")]
-    public void WriteANotebookToTheSpecifiedIpybFile()
+    public void WriteANotebookToTheSpecifiedIpynbFile()
     {
         var outputPath = Path.Combine(Path.GetTempPath(), "LiquidVictor", Guid.NewGuid().ToString());
         var notebookPath = Path.Combine(outputPath, "deck.ipynb");

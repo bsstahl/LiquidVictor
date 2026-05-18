@@ -11,6 +11,7 @@ namespace LiquidVictor.Output.Jupyter.Generator;
 public class Engine(BuilderOptions builderOptions) : IPresentationBuilder
 {
     private const string DefaultNotebookFilename = "presentation.ipynb";
+    private const string DefaultThemeName = "black";
     private readonly BuilderOptions _builderOptions = builderOptions ?? throw new ArgumentNullException(nameof(builderOptions));
 
     public void CompilePresentation(SlideDeck slideDeck)
@@ -52,7 +53,7 @@ public class Engine(BuilderOptions builderOptions) : IPresentationBuilder
             {
                 LiveReveal = new LiveRevealMetadata
                 {
-                    Theme = string.IsNullOrWhiteSpace(slideDeck.ThemeName) ? "black" : slideDeck.ThemeName,
+                    Theme = string.IsNullOrWhiteSpace(slideDeck.ThemeName) ? DefaultThemeName : slideDeck.ThemeName,
                     Transition = slideDeck.Transition.ToString()
                 }
             }
@@ -208,7 +209,7 @@ public class Engine(BuilderOptions builderOptions) : IPresentationBuilder
         [JsonPropertyName("autolaunch")]
         public bool AutoLaunch { get; set; }
         [JsonPropertyName("theme")]
-        public string Theme { get; set; } = "black";
+        public string Theme { get; set; } = DefaultThemeName;
         [JsonPropertyName("transition")]
         public string Transition { get; set; } = "slide";
     }
