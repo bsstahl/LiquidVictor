@@ -13,6 +13,7 @@ namespace LiquidVictor.Entities
         const string _defaultThemeName = "Black";
         const AspectRatio _defaultAspectRatio = AspectRatio.Widescreen;
         const Transition _defaultTransition = Transition.Slide;
+        const Transition _defaultBackgroundTransition = Transition.Fade;
 
         public SlideDeck()
             : this(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty, Array.Empty<IncludeBlock>().OrderBy(i => 0))
@@ -53,7 +54,7 @@ namespace LiquidVictor.Entities
         
         public string PrintLinkText { get; set; } = printLinkText;
         public Transition Transition { get; set; } = transition;
-        public Transition BackgroundTransition { get; set; } = transition;
+        public Transition BackgroundTransition { get; set; } = _defaultBackgroundTransition;
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
         public Format Format { get; set; } = format;
 

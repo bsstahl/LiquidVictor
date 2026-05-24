@@ -6,6 +6,7 @@ namespace LiquidVictor.Data.YamlFile;
 internal class SlideDeck
 {
     const Transition _defaultTransition = Enumerations.Transition.Slide;
+    const Transition _defaultBackgroundTransition = Enumerations.Transition.Fade;
     const Format _defaultFormat = Enumerations.Format.Session;
 
     public string Id { get; set; } = string.Empty;
@@ -28,8 +29,10 @@ internal class SlideDeck
     internal Transition GetTransition() => Enum.TryParse<Enumerations.Transition>(this.Transition, out var result) 
         ? result  : _defaultTransition;
 
+    // Backward compatibility: older slide decks don't specify BackgroundTransition,
+    // so we keep the historical template default (Fade).
     internal Transition GetBackgroundTransition() => Enum.TryParse<Enumerations.Transition>(this.BackgroundTransition, out var result)
-        ? result : this.GetTransition();
+        ? result : _defaultBackgroundTransition;
 
     internal Format GetFormat() => Enum.TryParse<Enumerations.Format>(this.Format, out var result) 
         ? result : _defaultFormat;

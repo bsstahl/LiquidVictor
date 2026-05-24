@@ -23,7 +23,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal(new Uri("https://example.com/TestDeck1"), result.SlideDeckUrl);
         Assert.Equal(AspectRatio.Widescreen, result.AspectRatio);
         Assert.Equal(Transition.Slide, result.Transition);
-        Assert.Equal(Transition.Slide, result.BackgroundTransition);
+        Assert.Equal(Transition.Fade, result.BackgroundTransition);
 
         var slide = Assert.Single(result.Slides).Value;
         Assert.Equal(Guid.Parse("833f8eae-471f-4f6d-9493-eb18dd6d4f5e"), slide.Id);

@@ -18,7 +18,7 @@ public class SlideExtensions_AsStartSlideSection_Should
             BackgroundTransitionOut = Transition.Slide
         };
 
-        var result = slide.AsStartSlideSection(Transition.Slide, Transition.Fancy);
+        var result = slide.AsStartSlideSection(Transition.Slide, Transition.Fade);
 
         Assert.Contains("data-transition=\"slide-in fade-out\"", result);
         Assert.Contains("data-background-transition=\"fade-in slide-out\"", result);
