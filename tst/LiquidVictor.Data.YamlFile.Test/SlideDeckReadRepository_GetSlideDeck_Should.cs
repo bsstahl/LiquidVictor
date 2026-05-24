@@ -23,6 +23,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal(new Uri("https://example.com/TestDeck1"), result.SlideDeckUrl);
         Assert.Equal(AspectRatio.Widescreen, result.AspectRatio);
         Assert.Equal(Transition.Slide, result.Transition);
+        Assert.Equal(Transition.Slide, result.BackgroundTransition);
 
         var slide = Assert.Single(result.Slides).Value;
         Assert.Equal(Guid.Parse("833f8eae-471f-4f6d-9493-eb18dd6d4f5e"), slide.Id);
@@ -30,6 +31,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal(Layout.ImageLeft, slide.Layout);
         Assert.Equal(Transition.PresentationDefault, slide.TransitionIn);
         Assert.Equal(Transition.PresentationDefault, slide.TransitionOut);
+        Assert.Equal(Transition.PresentationDefault, slide.BackgroundTransitionIn);
+        Assert.Equal(Transition.PresentationDefault, slide.BackgroundTransitionOut);
         Assert.Equal("My 1st Test Slide", slide.Notes);
         Assert.Null(slide.BackgroundContent);
         Assert.False(slide.NeverFullScreen);
@@ -71,6 +74,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("black", result.ThemeName);
         Assert.Equal("Widescreen", result.AspectRatio.ToString());
         Assert.Equal("Slide", result.Transition.ToString());
+        Assert.Equal("Fade", result.BackgroundTransition.ToString());
         Assert.Equal("https://example.com/TestDeck2", result.SlideDeckUrl?.ToString());
 
         // Include Block 21d8ebda-d9cc-4c21-9ab3-42e5578ffbb8
@@ -81,6 +85,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("ImageRight", firstSlide.Layout.ToString());
         Assert.Equal("Slide", firstSlide.TransitionIn.ToString());
         Assert.Equal("Fade", firstSlide.TransitionOut.ToString());
+        Assert.Equal("Fade", firstSlide.BackgroundTransitionIn.ToString());
+        Assert.Equal("Slide", firstSlide.BackgroundTransitionOut.ToString());
         Assert.Null(firstSlide.BackgroundContent);
         Assert.Equal("c47e8653", firstSlide.Notes);
         Assert.False(firstSlide.NeverFullScreen);
@@ -99,6 +105,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("FullPageFragments", secondSlide.Layout.ToString());
         Assert.Equal("PresentationDefault", secondSlide.TransitionIn.ToString());
         Assert.Equal("PresentationDefault", secondSlide.TransitionOut.ToString());
+        Assert.Equal("PresentationDefault", secondSlide.BackgroundTransitionIn.ToString());
+        Assert.Equal("PresentationDefault", secondSlide.BackgroundTransitionOut.ToString());
         Assert.Null(secondSlide.BackgroundContent);
         Assert.Equal("My 2nd Test Slide", secondSlide.Notes);
         Assert.False(secondSlide.NeverFullScreen);
@@ -125,6 +133,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("ImageRight", thirdSlide.Layout.ToString());
         Assert.Equal("Fade", thirdSlide.TransitionIn.ToString());
         Assert.Equal("Slide", thirdSlide.TransitionOut.ToString());
+        Assert.Equal("PresentationDefault", thirdSlide.BackgroundTransitionIn.ToString());
+        Assert.Equal("PresentationDefault", thirdSlide.BackgroundTransitionOut.ToString());
         Assert.Null(thirdSlide.BackgroundContent);
         Assert.Equal("Tommy Tutone!", thirdSlide.Notes);
         Assert.True(thirdSlide.NeverFullScreen);
@@ -144,6 +154,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("ImageRight", fourthSlide.Layout.ToString());
         Assert.Equal("Slide", fourthSlide.TransitionIn.ToString());
         Assert.Equal("Fade", fourthSlide.TransitionOut.ToString());
+        Assert.Equal("PresentationDefault", fourthSlide.BackgroundTransitionIn.ToString());
+        Assert.Equal("PresentationDefault", fourthSlide.BackgroundTransitionOut.ToString());
         Assert.Null(fourthSlide.BackgroundContent);
         Assert.Equal("This is the note", fourthSlide.Notes);
         Assert.False(fourthSlide.NeverFullScreen);
@@ -163,6 +175,8 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("ImageLeft", fifthSlide.Layout.ToString());
         Assert.Equal("PresentationDefault", fifthSlide.TransitionIn.ToString());
         Assert.Equal("PresentationDefault", fifthSlide.TransitionOut.ToString());
+        Assert.Equal("PresentationDefault", fifthSlide.BackgroundTransitionIn.ToString());
+        Assert.Equal("PresentationDefault", fifthSlide.BackgroundTransitionOut.ToString());
         Assert.Null(fifthSlide.BackgroundContent);
         Assert.Equal("My 1st Test Slide", fifthSlide.Notes);
         Assert.False(fifthSlide.NeverFullScreen);

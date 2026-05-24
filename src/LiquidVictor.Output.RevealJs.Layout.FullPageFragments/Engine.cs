@@ -15,12 +15,14 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
+        readonly Transition _presentationDefaultBackgroundTransition;
         readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _builderOptions = builderOptions;
         }
 
@@ -30,7 +32,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
+            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition));
 
             sb.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             sb.AppendLine(slide.Layout.AsComment());

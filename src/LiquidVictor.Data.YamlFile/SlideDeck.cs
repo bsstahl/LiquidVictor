@@ -16,6 +16,7 @@ internal class SlideDeck
     public string AspectRatio { get; set; } = string.Empty;
     public string PrintLinkText { get; set; } = string.Empty;
     public string Transition { get; set; } = string.Empty;
+    public string BackgroundTransition { get; set; } = string.Empty;
     public string SlideDeckUrl { get; set; } = string.Empty;
     public string Format { get; set; } = string.Empty;
 
@@ -26,6 +27,9 @@ internal class SlideDeck
 
     internal Transition GetTransition() => Enum.TryParse<Enumerations.Transition>(this.Transition, out var result) 
         ? result  : _defaultTransition;
+
+    internal Transition GetBackgroundTransition() => Enum.TryParse<Enumerations.Transition>(this.BackgroundTransition, out var result)
+        ? result : this.GetTransition();
 
     internal Format GetFormat() => Enum.TryParse<Enumerations.Format>(this.Format, out var result) 
         ? result : _defaultFormat;

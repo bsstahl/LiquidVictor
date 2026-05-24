@@ -53,6 +53,7 @@ namespace LiquidVictor.Entities
         
         public string PrintLinkText { get; set; } = printLinkText;
         public Transition Transition { get; set; } = transition;
+        public Transition BackgroundTransition { get; set; } = transition;
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
         public Format Format { get; set; } = format;
 
@@ -84,7 +85,10 @@ namespace LiquidVictor.Entities
                 .Select(i => i.Clone(createNewChildIds))
                 .OrderBy(i => 0); // stable OrderBy with constant key preserves original order
 
-            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone);
+            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone)
+            {
+                BackgroundTransition = this.BackgroundTransition
+            };
         }
     }
 }
