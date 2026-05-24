@@ -91,6 +91,18 @@ public class SlideDeckBuilder
         return this;
     }
 
+    public SlideDeckBuilder BackgroundTransition(string value)
+    {
+        var transition = Enum.Parse<Transition>(value);
+        return this.BackgroundTransition(transition);
+    }
+
+    public SlideDeckBuilder BackgroundTransition(Transition value)
+    {
+        _slideDeck.BackgroundTransition = value;
+        return this;
+    }
+
     public SlideDeckBuilder SlideDeckUrl(string value)
     {
         _slideDeck.SlideDeckUrl = new Uri(value);

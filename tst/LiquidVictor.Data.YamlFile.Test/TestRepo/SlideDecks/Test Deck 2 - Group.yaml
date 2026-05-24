@@ -5,6 +5,7 @@ Presenter: "Doc Grouper"
 ThemeName: "black"
 AspectRatio: "Widescreen"
 Transition: "Slide"
+BackgroundTransition: "Fade"
 SlideDeckUrl: "https://example.com/TestDeck2"
 Includes:
   - Id: 21d8ebda-d9cc-4c21-9ab3-42e5578ffbb8

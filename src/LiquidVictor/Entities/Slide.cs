@@ -14,6 +14,8 @@ public class Slide
 
     public Transition TransitionIn { get; set; }
     public Transition TransitionOut { get; set; }
+    public Transition BackgroundTransitionIn { get; set; }
+    public Transition BackgroundTransitionOut { get; set; }
 
     public string Notes { get; set; } = string.Empty;
 
@@ -53,6 +55,8 @@ public class Slide
             Layout = this.Layout,
             TransitionIn = this.TransitionIn,
             TransitionOut = this.TransitionOut,
+            BackgroundTransitionIn = this.BackgroundTransitionIn,
+            BackgroundTransitionOut = this.BackgroundTransitionOut,
             Notes = this.Notes,
             BackgroundContent = this.BackgroundContent?.Clone(createNewId),
             NeverFullScreen = this.NeverFullScreen,
