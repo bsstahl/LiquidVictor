@@ -80,6 +80,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Hardcod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.RevealJs.Test", "tst\LiquidVictor.Output.RevealJs.Test\LiquidVictor.Output.RevealJs.Test.csproj", "{889EF7D6-8205-48F7-9B5A-BDC1FB410B59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jupyter", "Jupyter", "{73C10BE8-6303-FD38-E8F8-91ACFB49323C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Jupyter", "src\LiquidVictor.Output.Jupyter\LiquidVictor.Output.Jupyter.csproj", "{11C86541-A6E1-45C2-B615-D876569A2B8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Jupyter.Generator", "src\LiquidVictor.Output.Jupyter.Generator\LiquidVictor.Output.Jupyter.Generator.csproj", "{2FBC0ED7-2563-46AF-BD14-D976904C41FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidVictor.Output.Jupyter.Test", "tst\LiquidVictor.Output.Jupyter.Test\LiquidVictor.Output.Jupyter.Test.csproj", "{784184C6-F7C3-4E60-A10F-20568D9B0A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -190,6 +198,18 @@ Global
 		{889EF7D6-8205-48F7-9B5A-BDC1FB410B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{889EF7D6-8205-48F7-9B5A-BDC1FB410B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{889EF7D6-8205-48F7-9B5A-BDC1FB410B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C86541-A6E1-45C2-B615-D876569A2B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C86541-A6E1-45C2-B615-D876569A2B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C86541-A6E1-45C2-B615-D876569A2B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C86541-A6E1-45C2-B615-D876569A2B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBC0ED7-2563-46AF-BD14-D976904C41FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBC0ED7-2563-46AF-BD14-D976904C41FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBC0ED7-2563-46AF-BD14-D976904C41FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBC0ED7-2563-46AF-BD14-D976904C41FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784184C6-F7C3-4E60-A10F-20568D9B0A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784184C6-F7C3-4E60-A10F-20568D9B0A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784184C6-F7C3-4E60-A10F-20568D9B0A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784184C6-F7C3-4E60-A10F-20568D9B0A87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -227,6 +247,10 @@ Global
 		{1558F3EB-DDDB-A645-987A-3BA34C93C3A6} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
 		{C1E3CE8D-F372-4B35-35C5-9EC379528689} = {D085731D-AB53-42F1-BF58-E298196EED03}
 		{889EF7D6-8205-48F7-9B5A-BDC1FB410B59} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
+		{73C10BE8-6303-FD38-E8F8-91ACFB49323C} = {C12150DC-60ED-498B-891F-EBAC3238AB24}
+		{11C86541-A6E1-45C2-B615-D876569A2B8B} = {73C10BE8-6303-FD38-E8F8-91ACFB49323C}
+		{2FBC0ED7-2563-46AF-BD14-D976904C41FC} = {73C10BE8-6303-FD38-E8F8-91ACFB49323C}
+		{784184C6-F7C3-4E60-A10F-20568D9B0A87} = {4B938667-F28A-4D2A-BE8E-BFDD90C914DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9064E7-C5DA-4719-A022-41A7DAC987C8}
