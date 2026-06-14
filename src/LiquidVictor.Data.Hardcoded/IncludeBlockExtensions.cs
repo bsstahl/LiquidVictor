@@ -12,6 +12,8 @@ namespace LiquidVictor.Data.Hardcoded
             int sortOrder, string slideTitle, Layout layout,
             string primaryContent, string primaryContentType)
         {
+            ArgumentNullException.ThrowIfNull(list);
+
             var contentItems = new List<KeyValuePair<int, Entities.ContentItem>>()
             {
                 new KeyValuePair<int, Entities.ContentItem>(
@@ -33,6 +35,8 @@ namespace LiquidVictor.Data.Hardcoded
             string primaryImageTitle, string primaryImageSource,
             string primaryImageContentType)
         {
+            ArgumentNullException.ThrowIfNull(list);
+
             var slide = new Entities.Slide()
             {
                 Title = slideTitle,

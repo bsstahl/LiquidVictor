@@ -1,0 +1,26 @@
+<Project>
+  <PropertyGroup>
+	<!-- Centralized Version Management -->
+	<Version>1.9.1</Version>
+	<AssemblyVersion>1.9.1.0</AssemblyVersion>
+	<FileVersion>1.9.1.0</FileVersion>
+
+	<!-- Common Build Properties -->
+	<LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	<AnalysisLevel>latest-all</AnalysisLevel>
+	<AnalysisMode>all</AnalysisMode>
+	<EnableNETAnalyzers>True</EnableNETAnalyzers>
+
+	<!-- Common Package Metadata -->
+	<Authors>Barry Stahl</Authors>
+	<Company>Barry Stahl</Company>
+	<Copyright>GNU General Public License v3.0</Copyright>
+	<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/bsstahl/liquidvictor</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+  </PropertyGroup>
+</Project>
