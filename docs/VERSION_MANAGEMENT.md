@@ -115,3 +115,44 @@ To address build failures, either:
 1. Fix the code analysis warnings in the affected files
 2. Temporarily disable warnings as errors for specific projects
 3. Suppress specific analyzer rules in a `.editorconfig` or project file
+
+## Package Generation
+
+### Packable Projects
+
+The following projects are configured with `GeneratePackageOnBuild=true`:
+- **LiquidVictor** - Domain layer
+- **LiquidVictor.Data.YamlFile** - YAML file data store
+
+All other projects can still be packaged on-demand using `dotnet pack`.
+
+### Generating All Packages
+
+To generate NuGet packages for all projects at once:
+
+```powershell
+# From the solution root directory
+dotnet pack src\LiquidVictor.sln --configuration Release --output .\packages
+```
+
+This creates all `.nupkg` files in the `packages` directory with the centralized version number (e.g., `LiquidVictor.1.9.1.nupkg`).
+
+### Generating Individual Packages
+
+```powershell
+# Single project
+dotnet pack src\LiquidVictor\LiquidVictor.csproj --configuration Release --output .\packages
+
+# YamlFile data store
+dotnet pack src\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj --configuration Release --output .\packages
+```
+
+### Package Version
+
+All generated packages automatically use the version defined in `src/Directory.Build.props`. When you update the central version, all packages will use the new version on the next build.
+
+### Publishing to NuGet
+
+```powershell
+dotnet nuget push .\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key YOUR_API_KEY
+```

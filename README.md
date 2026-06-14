@@ -75,6 +75,8 @@ dotnet msbuild path\to\project.csproj -getProperty:Version -nologo
 
 For more details, see [docs/VERSION_MANAGEMENT.md](docs/VERSION_MANAGEMENT.md).
 
+For a quick reference of common commands, see [docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md).
+
 ## Package Generation
 
 The following projects are configured to generate NuGet packages:
@@ -88,7 +90,7 @@ The following projects are configured to generate NuGet packages:
 To generate NuGet packages for all packable projects in a single command:
 
 ```powershell
-dotnet pack LiquidVictor.sln --configuration Release --output .\packages
+dotnet pack src\LiquidVictor.sln --configuration Release --output .\packages
 ```
 
 This will create `.nupkg` files in the `packages` directory at the solution root.
