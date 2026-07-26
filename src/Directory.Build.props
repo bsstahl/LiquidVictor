@@ -19,9 +19,17 @@
 	<Company>Barry Stahl</Company>
 	<Copyright>GNU General Public License v3.0</Copyright>
 	<PackageOutputPath>C:\LocalRepo\</PackageOutputPath>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/bsstahl/liquidvictor</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+	<None Include="$(MSBuildThisFileDirectory)..\README.md">
+	  <Pack>True</Pack>
+	  <PackagePath>README.md</PackagePath>
+	</None>
+  </ItemGroup>
 </Project>
