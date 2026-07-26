@@ -18,6 +18,7 @@
 	<Authors>Barry Stahl</Authors>
 	<Company>Barry Stahl</Company>
 	<Copyright>GNU General Public License v3.0</Copyright>
+	<PackageOutputPath>C:\LocalRepo\</PackageOutputPath>
 	<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/bsstahl/liquidvictor</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
