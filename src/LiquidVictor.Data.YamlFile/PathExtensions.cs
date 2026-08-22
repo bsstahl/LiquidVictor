@@ -13,7 +13,7 @@ internal static class PathExtensions
         foreach (var yamlFile in yamlFiles)
         {
             string currentFileId = System.IO.File.ReadAllText(yamlFile).ParseId();
-            if (currentFileId.Equals(id.ToString()))
+            if (currentFileId.Equals(id.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 result = !string.IsNullOrEmpty(result) 
                     ? throw new InvalidOperationException($"Multiple Slide Decks have Id={id}") 

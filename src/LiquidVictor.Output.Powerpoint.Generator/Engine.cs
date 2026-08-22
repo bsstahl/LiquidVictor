@@ -18,6 +18,9 @@ namespace LiquidVictor.Output.Powerpoint.Generator
     {
         public void CreatePresentation(string filepath, LiquidVictor.Entities.SlideDeck slideDeck)
         {
+            ArgumentNullException.ThrowIfNull(filepath, nameof(filepath));
+            ArgumentNullException.ThrowIfNull(slideDeck, nameof(slideDeck));
+
             // Create a presentation at a specified file path. The presentation document type is pptx, by default.
             PresentationDocument presentationDoc = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation);
             PresentationPart presentationPart = presentationDoc.AddPresentationPart();
@@ -37,7 +40,7 @@ namespace LiquidVictor.Output.Powerpoint.Generator
             }
 
             // Close the presentation handle.
-            presentationDoc.Close();
+            presentationDoc.Dispose();
         }
 
         public void CompilePresentation(SlideDeck slideDeck)

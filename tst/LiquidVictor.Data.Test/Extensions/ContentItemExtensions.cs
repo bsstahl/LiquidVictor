@@ -1,5 +1,6 @@
 ﻿namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ContentItemExtensions
 {
     public static IEnumerable<KeyValuePair<int, Entities.ContentItem>> AsOrderdPairs(this IEnumerable<Entities.ContentItem> items)

@@ -1,19 +1,14 @@
-﻿using LiquidVictor.Entities;
-using LiquidVictor.Enumerations;
-using System;
-using System.Collections.Generic;
+﻿using LiquidVictor.Enumerations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 namespace LiquidVictor.Data.Postgres
 {
     [Table("slides")]
-    internal class Slide : EntityBase
+    sealed internal class Slide : EntityBase
     {
         [Column("title"), Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [Column("layout"), Required]
         public Layout Layout { get; set; }
@@ -25,9 +20,9 @@ namespace LiquidVictor.Data.Postgres
         public Transition TransitionOut { get; set; }
 
         [Column("notes")]
-        public string Notes { get; set; }
+        public string Notes { get; set; } = string.Empty;
 
-        public ICollection<SlideContentItem> SlideContentItems { get; set; }
+        public ICollection<SlideContentItem> SlideContentItems { get; set; } = [];
 
 
         internal Entities.Slide AsEntity()
@@ -58,8 +53,7 @@ namespace LiquidVictor.Data.Postgres
             this.TransitionOut = slide.TransitionOut;
             this.Notes = slide.Notes;
 
-            if (this.SlideContentItems == null)
-                this.SlideContentItems = new List<SlideContentItem>();
+            this.SlideContentItems ??= new List<SlideContentItem>();
 
             // Update any Content Items that are still being used
             // and make a list of those that need to be deleted

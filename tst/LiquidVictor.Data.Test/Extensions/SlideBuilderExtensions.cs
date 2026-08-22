@@ -5,6 +5,7 @@ using TestHelperExtensions;
 
 namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class SlideBuilderExtensions
 {
     public static SlideBuilder UseRandomValues(this SlideBuilder builder)

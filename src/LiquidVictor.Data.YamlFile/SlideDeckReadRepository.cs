@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LiquidVictor.Exceptions;
+﻿using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.YamlFile;
@@ -10,6 +7,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
 {
     readonly string _repositoryPath;
     readonly string _slideDeckPath;
+    readonly string _includeBlocksPath;
     readonly string _slidesPath;
     readonly string _contentItemsPath;
 
@@ -17,6 +15,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
     {
         _repositoryPath = repositoryPath;
         _slideDeckPath = System.IO.Path.Combine(_repositoryPath, "SlideDecks");
+        _includeBlocksPath = System.IO.Path.Combine(_repositoryPath, "IncludeBlocks");
         _contentItemsPath = System.IO.Path.Combine(_repositoryPath, "ContentItems");
         _slidesPath = System.IO.Path.Combine(_repositoryPath, "Slides");
     }
@@ -45,20 +44,47 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var slideDeckContent = System.IO.File.ReadAllText(existingFileName);
         var slideDeck = SlideDeck.Parse(slideDeckContent);
 
-        var slides = new List<KeyValuePair<int, Entities.Slide>>();
-        int slideIndex = 0;
-        foreach (var slideId in slideDeck.SlideIds)
+        var includes = new List<Entities.IncludeBlock>();
+        foreach (var includeBlock in slideDeck.Includes)
         {
-            var slidePair = this.GetSlidePair(slideIndex, slideId.Id);
-            slides.Add(slidePair);
-            slideIndex++;
+            if (includeBlock.IncludeType.Equals(Enumerations.IncludeType.Slide.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                // A single slide
+                var blockSlide = this.GetSlide(Guid.Parse(includeBlock.Id));
+                includes.Add(new Entities.IncludeBlock(blockSlide));
+            }
+            else
+            {
+                // TODO: A multi-slide block
+                var blockSlides = this.GetIncludeBlock(Guid.Parse(includeBlock.Id)).Slides;
+                includes.Add(new Entities.IncludeBlock(blockSlides));
+            }
         }
 
-        Enumerations.AspectRatio aspectRatio = (Enumerations.AspectRatio)Enum.Parse(typeof(Enumerations.AspectRatio), slideDeck.AspectRatio);
+        // TODO: Remove this once all Slide Decks have been converted to includes
+        if (includes.Count == 0)
+        {
+            var slides = new List<KeyValuePair<int, Entities.Slide>>();
+            int slideIndex = 0;
+#pragma warning disable CS0612 // Type or member is obsolete
+            foreach (var slideId in slideDeck.SlideIds)
+            {
+                var slidePair = this.GetSlidePair(slideIndex, slideId.Id);
+                slides.Add(slidePair);
+                slideIndex++;
+            }
+#pragma warning restore CS0612 // Type or member is obsolete
+            includes = slides.Select(s => new Entities.IncludeBlock(s.Value)).ToList();
+        }
+
+        var aspectRatio = Enum.Parse<Enumerations.AspectRatio>(slideDeck.AspectRatio);
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
-        Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? null : new Uri(slideDeck.SlideDeckUrl);
-        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, slides);
+        var slideDeckBackgroundTransition = slideDeck.GetBackgroundTransition();
+        Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? new Uri("about:blank") : new Uri(slideDeck.SlideDeckUrl);
+
+        var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes.OrderBy(i => 0));
+        result.BackgroundTransition = slideDeckBackgroundTransition;
 
         return result;
     }
@@ -103,16 +129,18 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var slideResult = new Entities.Slide()
         {
             Id = id,
-            Layout = (Enumerations.Layout)Enum.Parse(typeof(Enumerations.Layout), slide.Layout),
+            Layout = Enum.Parse<Enumerations.Layout>(slide.Layout),
             Notes = slide.Notes,
             Title = slide.Title,
-            TransitionIn = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionIn),
-            TransitionOut = (Enumerations.Transition)Enum.Parse(typeof(Enumerations.Transition), slide.TransitionOut),
+            TransitionIn = Enum.Parse<Enumerations.Transition>(slide.TransitionIn),
+            TransitionOut = Enum.Parse<Enumerations.Transition>(slide.TransitionOut),
+            BackgroundTransitionIn = slide.GetBackgroundTransitionIn(),
+            BackgroundTransitionOut = slide.GetBackgroundTransitionOut(),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
             NeverFullScreen = slide.NeverFullScreen
         };
 
-        contentItems.ForEach(ci =>  slideResult.ContentItems.Add(ci));
+        contentItems.ForEach(ci => slideResult.ContentItems.Add(ci));
 
         return slideResult;
     }
@@ -132,20 +160,26 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             Title = localContentItem.Title,
             Content = localContentItem.EncodedContent.DecodeContent(localContentItem.ContentType)
         };
+        if (localContentItem.Tags is not null)
+        {
+            foreach (var tag in localContentItem.Tags)
+                contentItemEntity.Tags.Add(tag);
+        }
 
         return contentItemEntity;
     }
 
     public IEnumerable<Entities.SlideDeck> GetSlideDecks()
     {
-        var result = new List<Entities.SlideDeck>();
-        var slideDeckIds = this.GetSlideDeckIds();
-        foreach (var slideDeckId in slideDeckIds)
-        {
-            result.Add(this.GetSlideDeck(slideDeckId));
-        }
+        throw new NotImplementedException();
+        //var result = new List<Entities.SlideDeck>();
+        //var slideDeckIds = this.GetSlideDeckIds();
+        //foreach (var slideDeckId in slideDeckIds)
+        //{
+        //    result.Add(this.GetSlideDeck(slideDeckId));
+        //}
 
-        return result;
+        //return result;
     }
 
     public IEnumerable<Entities.Slide> GetSlides()
@@ -172,27 +206,41 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
 
     internal static (IEnumerable<Guid> SlideDeckIds, IEnumerable<Guid> SlideIds, IEnumerable<Guid> ContentItemIds) FindDuplicateIds(IEnumerable<Entities.SlideDeck> slideDecks)
     {
-        var slides = slideDecks.SelectMany(d => d.Slides).Select(s => s.Value);
-        var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value);
+        // Materialize the collections up front to avoid re-evaluating lazy enumerables,
+        // which could cause multiple builder calls and spurious duplicate detections.
+        var deckList = slideDecks.ToList();
+        var slides = deckList.SelectMany(d => d.Slides).Select(s => s.Value).ToList();
+        var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value).ToList();
 
-        var deckIds = slideDecks
+        var duplicateDeckIds = deckList
             .GroupBy(d => d.Id)
-            .Select(g => new { Id = g.Key, Count = g.Count() })
-            .Where(c => c.Count > 1)
-            .ToList();
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key);
 
-        var slideIds = slides
+        var duplicateSlideIds = slides
             .GroupBy(s => s.Id)
-            .Select(g => new { Id = g.Key, Count = g.Count() })
-            .Where(c => c.Count > 1)
-            .ToList();
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key);
 
-        var contentItemIds = contentItems
+        var duplicateContentItemIds = contentItems
             .GroupBy(c => c.Id)
-            .Select(g => new { Id = g.Key, Count = g.Count() })
-            .Where(c => c.Count > 1)
-            .ToList();
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key);
 
-        return (Array.Empty<Guid>(), Array.Empty<Guid>(), Array.Empty<Guid>());
+        return (duplicateDeckIds.ToList(), duplicateSlideIds.ToList(), duplicateContentItemIds.ToList());
     }
+
+    public IEnumerable<Guid> GetIncludeBlockIds() => throw new NotImplementedException();
+    
+    public Entities.IncludeBlock GetIncludeBlock(Guid id)
+    {
+        var includeBlockPath = Path.Combine(_includeBlocksPath, $"{id}.yaml");
+        var includeBlockContent = File.ReadAllText(includeBlockPath);
+        var localIncludeBlock = IncludeBlock.Parse(id.ToString(), includeBlockContent);
+
+        var includedSlides = localIncludeBlock.SlideIds.Select(i => this.GetSlide(Guid.Parse(i))).OrderBy(i => 0);
+        return new Entities.IncludeBlock(includedSlides);
+    }
+
+    public IEnumerable<Entities.IncludeBlock> GetIncludeBlocks() => throw new NotImplementedException();
 }

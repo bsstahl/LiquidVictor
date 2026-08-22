@@ -1,9 +1,10 @@
 ﻿using LiquidVictor.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LiquidVictor.Extensions;
 
-internal static class SlideExtensions
+public static class SlideExtensions
 {
     internal static ICollection<KeyValuePair<int, Slide>> Clone(this IEnumerable<KeyValuePair<int, Slide>> slidePairs, bool createNewId = false)
     {
@@ -14,4 +15,13 @@ internal static class SlideExtensions
         }
         return result;
     }
+
+    public static IOrderedEnumerable<IncludeBlock> AsIncludeBlocks(this IEnumerable<KeyValuePair<int, Slide>> slides)
+    {
+        return slides
+            .Select(pair => new IncludeBlock(pair.Value))
+            .OrderBy(i => 0);
+    }
+
+    public static IncludeBlock AsIncludeBlock(this Slide slide) => new IncludeBlock(slide);
 }

@@ -1,5 +1,6 @@
 ﻿namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class SlideExtensions
 {
     public static IEnumerable<KeyValuePair<int, Entities.Slide>> AsOrderdPairs(this IEnumerable<Entities.Slide> items)

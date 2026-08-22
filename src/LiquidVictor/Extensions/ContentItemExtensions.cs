@@ -20,17 +20,14 @@ namespace LiquidVictor.Extensions
 
         public static byte[] DecodeContent(this string content, string contentType)
         {
-            if (string.IsNullOrWhiteSpace(contentType)) 
-                throw new ArgumentNullException(nameof(contentType));
-
-            if (content is null)
-                throw new ArgumentNullException(nameof(content));
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(contentType);
+            ArgumentNullException.ThrowIfNull(content);
 
             byte[] result;
             if (contentType.StartsWith("text", StringComparison.OrdinalIgnoreCase))
             {
                 // Unencoded, just convert to byte array
-                result = Encoding.UTF8.GetBytes(content.Replace("\\r\\n", Environment.NewLine));
+                result = Encoding.UTF8.GetBytes(content.Replace("\\r\\n", Environment.NewLine, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -46,7 +43,7 @@ namespace LiquidVictor.Extensions
             if (contentType?.StartsWith("text", StringComparison.OrdinalIgnoreCase) ?? false)
             {
                 // Unencoded, just convert from byte array and flatten
-                result = Encoding.UTF8.GetString(content).Replace(Environment.NewLine, "\\r\\n");
+                result = Encoding.UTF8.GetString(content).Replace(Environment.NewLine, "\\r\\n", StringComparison.OrdinalIgnoreCase);
             }
             else
             {

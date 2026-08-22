@@ -37,7 +37,9 @@ public class SlideBuilder
             Notes = _slide.Notes,
             Title = _slide.Title,
             TransitionIn = _slide.TransitionIn,
-            TransitionOut = _slide.TransitionOut
+            TransitionOut = _slide.TransitionOut,
+            BackgroundTransitionIn = _slide.BackgroundTransitionIn,
+            BackgroundTransitionOut = _slide.BackgroundTransitionOut
         };
     }
 
@@ -61,7 +63,7 @@ public class SlideBuilder
 
     public SlideBuilder Layout(string value)
     {
-        return this.Layout((Layout)Enum.Parse(typeof(Layout), value));
+        return this.Layout(Enum.Parse<Layout>(value));
     }
 
     public SlideBuilder TransitionIn(Transition value)
@@ -72,7 +74,7 @@ public class SlideBuilder
 
     public SlideBuilder TransitionIn(string value)
     {
-        return this.TransitionIn((Transition)Enum.Parse(typeof(Transition), value));
+        return this.TransitionIn(Enum.Parse<Transition>(value));
     }
 
     public SlideBuilder TransitionOut(Transition value)
@@ -83,7 +85,29 @@ public class SlideBuilder
 
     public SlideBuilder TransitionOut(string value)
     {
-        return this.TransitionOut((Transition)Enum.Parse(typeof(Transition), value));
+        return this.TransitionOut(Enum.Parse<Transition>(value));
+    }
+
+    public SlideBuilder BackgroundTransitionIn(Transition value)
+    {
+        _slide.BackgroundTransitionIn = value;
+        return this;
+    }
+
+    public SlideBuilder BackgroundTransitionIn(string value)
+    {
+        return this.BackgroundTransitionIn(Enum.Parse<Transition>(value));
+    }
+
+    public SlideBuilder BackgroundTransitionOut(Transition value)
+    {
+        _slide.BackgroundTransitionOut = value;
+        return this;
+    }
+
+    public SlideBuilder BackgroundTransitionOut(string value)
+    {
+        return this.BackgroundTransitionOut(Enum.Parse<Transition>(value));
     }
 
     public SlideBuilder BackgroundContent(ContentItemBuilder value)

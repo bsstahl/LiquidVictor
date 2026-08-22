@@ -31,21 +31,21 @@ namespace LiquidVictor.Extensions
         public static string AsFilename(this string name)
         {
             return name?
-                .Replace(" ", "_") ?? string.Empty;
+                .Replace(" ", "_", StringComparison.OrdinalIgnoreCase) ?? string.Empty;
         }
 
         public static string Clean(this string value)
         {
             return value?
-                .Replace(":", "_")
-                .Replace(",", "_")
-                .Replace(" & ", " and ")
-                .Replace("&", "and")
-                .Replace("_ ", "_")
-                .Replace(" _", "_")
-                .Replace(" - ", "-")
-                .Replace("- ", "-")
-                .Replace("'", "") ?? string.Empty;
+                .Replace(":", "_", StringComparison.OrdinalIgnoreCase)
+                .Replace(",", "_", StringComparison.OrdinalIgnoreCase)
+                .Replace(" & ", " and ", StringComparison.OrdinalIgnoreCase)
+                .Replace("&", "and", StringComparison.OrdinalIgnoreCase)
+                .Replace("_ ", "_", StringComparison.OrdinalIgnoreCase)
+                .Replace(" _", "_", StringComparison.OrdinalIgnoreCase)
+                .Replace(" - ", "-", StringComparison.OrdinalIgnoreCase)
+                .Replace("- ", "-", StringComparison.OrdinalIgnoreCase)
+                .Replace("'", "", StringComparison.OrdinalIgnoreCase) ?? string.Empty;
         }
 
         public static string AsFileExtension(this string imageFormat)

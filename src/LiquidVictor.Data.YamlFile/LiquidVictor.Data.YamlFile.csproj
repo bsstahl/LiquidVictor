@@ -1,20 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0</TargetFrameworks>
-		<LangVersion>latest</LangVersion>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>LiquidVictor YAML File Data Store</Title>
 		<Description>Knows how to read and write LiquidVictor presentation resources to/from the file system in YAML format</Description>
-		<PackageProjectUrl>https://github.com/bsstahl/liquidvictor</PackageProjectUrl>
-		<Copyright>https://github.com/bsstahl/LiquidVictor/blob/master/LICENSE</Copyright>
-		<Version>1.8.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="LiquidVictor" Version="1.8.0" />
-		<PackageReference Include="YamlDotNet" Version="15.1.2" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="YamlDotNet" Version="15.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

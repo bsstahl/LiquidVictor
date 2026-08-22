@@ -4,6 +4,7 @@ using LiquidVictor.Builders;
 
 namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ContentItemBuilderExtensions
 {
     public static ContentItemBuilder Content(this ContentItemBuilder builder, string value)

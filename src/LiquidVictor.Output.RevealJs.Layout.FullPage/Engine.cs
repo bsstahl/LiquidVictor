@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -15,17 +16,21 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
+        readonly Transition _presentationDefaultBackgroundTransition;
         readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
             Slide slideToRender = slide.Clone();
@@ -36,7 +41,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
                 slideToRender.ContentItems.Clear();
             }
 
-            sb.AppendLine(slideToRender.AsStartSlideSection(_presentationDefaultTransition));
+            sb.AppendLine(slideToRender.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition));
 
             sb.AppendLine(slideToRender.Notes.AsNotesSection(_pipeline));
             sb.AppendLine(slideToRender.Title.AsTitleBlock(slideToRender.Id));
@@ -55,7 +60,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPage
                 }
                 else if (contentItem.IsImage())
                 {
-                    sb.AppendLine($"<img alt=\"{contentItem.FileName}\" src=\"{contentItem.RelativePathToImage()}\" />");
+                    sb.AppendLine(CultureInfo.CurrentCulture, $"<img alt=\"{contentItem.FileName}\" src=\"{contentItem.RelativePathToImage()}\" />");
                 }
                 else
                     throw new Exceptions.SlideLayoutException(Enumerations.Layout.FullPage, "Only Image and Text items are supported in this layout");

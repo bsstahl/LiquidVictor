@@ -1,6 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
+using LiquidVictor.Exceptions;
 using LiquidVictor.Extensions;
 
 namespace LiquidVictor.Data.YamlFile;
@@ -11,6 +10,20 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
 
     public void SaveSlideDeck(Entities.SlideDeck slideDeck)
     {
+        ArgumentNullException.ThrowIfNull(slideDeck);
+        var duplicates = SlideDeckReadRepository.FindDuplicateIds(new[] { slideDeck });
+        if (duplicates.SlideIds.Any())
+            throw new DuplicateEntityIdException("Slide", duplicates.SlideIds);
+        if (duplicates.ContentItemIds.Any())
+            throw new DuplicateEntityIdException("ContentItem", duplicates.ContentItemIds);
+
+        if (!System.IO.Directory.Exists(_sourceFolderPath))
+            System.IO.Directory.CreateDirectory(_sourceFolderPath);
+
+        var slideDecksPath = System.IO.Path.Combine(_sourceFolderPath, "SlideDecks");
+        if (!System.IO.Directory.Exists(slideDecksPath))
+            System.IO.Directory.CreateDirectory(slideDecksPath);
+
         var sd = new SlideDeck()
         {
             Id = slideDeck.Id.ToString(),
@@ -21,17 +34,16 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             ThemeName = slideDeck.ThemeName,
             Title = slideDeck.Title,
             Transition = slideDeck.Transition.ToString(),
+            BackgroundTransition = slideDeck.BackgroundTransition.ToString(),
             Format = slideDeck.Format.ToString(),
-            SlideDeckUrl = slideDeck.SlideDeckUrl.ToString(),
-            SlideIds = slideDeck.Slides.OrderBy(s => s.Key).Select(s => new ChildId(s.Value.Id, s.Value.Title)).ToArray()
+            SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
+            Includes = slideDeck.Slides.OrderBy(s => s.Key)
+                .Select(s => new Include { Id = s.Value.Id.ToString(), IncludeType = Enumerations.IncludeType.Slide.ToString() })
+                .ToArray()
         };
 
         var slideDeckFileName = GetSlideDeckFileName(slideDeck);
-        string slideDeckPath = System.IO.Path.Combine(_sourceFolderPath, $"SlideDecks\\{slideDeckFileName}.yaml");
-
-        // Create folder structure if necessary
-        if (!System.IO.Directory.Exists(_sourceFolderPath))
-            System.IO.Directory.CreateDirectory(_sourceFolderPath);
+        string slideDeckPath = System.IO.Path.Combine(slideDecksPath, $"{slideDeckFileName}.yaml");
 
         // Write SlideDeck file
         File.WriteAllText(slideDeckPath, sd.ToString());
@@ -42,45 +54,52 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             this.SaveSlide(s.Value);
     }
 
-    public void SaveSlide(Entities.Slide s)
+    public void SaveSlide(Entities.Slide slide)
     {
+        ArgumentNullException.ThrowIfNull(slide, nameof(slide));
+
         string slidesPath = System.IO.Path.Combine(_sourceFolderPath, "Slides");
         if (!System.IO.Directory.Exists(slidesPath))
             System.IO.Directory.CreateDirectory(slidesPath);
 
-        var slide = new Slide()
+        var newSlide = new Slide()
         {
-            BackgroundContent = s.BackgroundContent?.Id.ToString(),
-            Layout = s.Layout.ToString(),
-            NeverFullScreen = s.NeverFullScreen,
-            Notes = s.Notes,
-            Title = s.Title,
-            TransitionIn = s.TransitionIn.ToString(),
-            TransitionOut = s.TransitionOut.ToString(),
-            ContentItemIds = s.ContentItems.OrderBy(ci => ci.Key).Select(ci => new ChildId(ci.Value.Id, ci.Value.Title)).ToArray()
+            BackgroundContent = slide.BackgroundContent?.Id.ToString() ?? string.Empty,
+            Layout = slide.Layout.ToString(),
+            NeverFullScreen = slide.NeverFullScreen,
+            Notes = slide.Notes,
+            Title = slide.Title,
+            TransitionIn = slide.TransitionIn.ToString(),
+            TransitionOut = slide.TransitionOut.ToString(),
+            BackgroundTransitionIn = slide.BackgroundTransitionIn.ToString(),
+            BackgroundTransitionOut = slide.BackgroundTransitionOut.ToString(),
+            ContentItemIds = slide.ContentItems.OrderBy(ci => ci.Key).Select(ci => new ChildId(ci.Value.Id, ci.Value.Title)).ToArray()
         };
 
         // Write slide file
-        string slidePath = System.IO.Path.Combine(slidesPath, $"{s.Id}.yaml");
-        File.WriteAllText(slidePath, slide.ToString());
+        string slidePath = System.IO.Path.Combine(slidesPath, $"{slide.Id}.yaml");
+        File.WriteAllText(slidePath, newSlide.ToString());
 
         // Write ContentItems
-        foreach (var ci in s.ContentItems)
-            SaveContentItem(ci.Value);
+        foreach (var ci in slide.ContentItems)
+            this.SaveContentItem(ci.Value);
 
         if (slide.BackgroundContent is not null)
-            SaveContentItem(s.BackgroundContent);
+            this.SaveContentItem(slide.BackgroundContent);
     }
 
     public void SaveContentItem(Entities.ContentItem contentItem)
     {
+        ArgumentNullException.ThrowIfNull(contentItem, nameof(contentItem));
+
         var ci = new ContentItem()
         {
             Alignment = contentItem.Alignment,
             ContentType = contentItem.ContentType,
             EncodedContent = contentItem.Content.EncodeContent(contentItem.ContentType),
             FileName = contentItem.FileName,
-            Title = contentItem.Title
+            Title = contentItem.Title,
+            Tags = [.. contentItem.Tags]
         };
 
         string contentItemsPath = System.IO.Path.Combine(_sourceFolderPath, "ContentItems");
@@ -96,15 +115,25 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
     {
         // If the slide deck already exists (per the id), use that filename
         // otherwise, use a filename generated from the title and format of the presentation
-        string result = _sourceFolderPath.FindFileWithId(slideDeck.Id);
-        if (string.IsNullOrWhiteSpace(result))
+        var slideDecksPath = System.IO.Path.Combine(_sourceFolderPath, "SlideDecks");
+        var existingFilePath = System.IO.Directory.Exists(slideDecksPath)
+            ? slideDecksPath.FindFileWithId(slideDeck.Id)
+            : string.Empty;
+
+        string result;
+        if (string.IsNullOrWhiteSpace(existingFilePath))
         {
             var fullTitle = $"{slideDeck.Title}-{slideDeck.SubTitle}".Trim();
             result = $"{fullTitle}-{slideDeck.Format}".Clean();
-            var filePath = System.IO.Path.Combine(_sourceFolderPath, $"{result}.yaml");
+            var filePath = System.IO.Path.Combine(slideDecksPath, $"{result}.yaml");
             if (File.Exists(filePath))
                 throw new InvalidOperationException($"SlideDeck already exists at '{filePath}'");
         }
+        else
+        {
+            result = System.IO.Path.GetFileNameWithoutExtension(existingFilePath);
+        }
+
         return result;
     }
 

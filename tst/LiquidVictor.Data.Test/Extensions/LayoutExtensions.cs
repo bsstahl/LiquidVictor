@@ -2,6 +2,7 @@
 
 namespace LiquidVictor.Data.Test.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class LayoutExtensions
 {
     public static Layout GetRandom(this Layout _)

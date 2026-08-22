@@ -14,6 +14,8 @@ public class Slide
 
     public Transition TransitionIn { get; set; }
     public Transition TransitionOut { get; set; }
+    public Transition BackgroundTransitionIn { get; set; }
+    public Transition BackgroundTransitionOut { get; set; }
 
     public string Notes { get; set; } = string.Empty;
 
@@ -25,7 +27,13 @@ public class Slide
     public Slide()
     { }
 
-    public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, string notes, ContentItem? backgroundContent, bool neverFullScreen, ICollection<KeyValuePair<int, ContentItem>> contentItems)
+    public Slide(Guid id, string title, Layout layout, ICollection<KeyValuePair<int, ContentItem>> contentItems)
+        : this(id, title, layout, Transition.None, Transition.None, string.Empty, null, false, contentItems)
+    { }
+
+    public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, 
+        string notes, ContentItem? backgroundContent, bool neverFullScreen, 
+        ICollection<KeyValuePair<int, ContentItem>> contentItems)
     {
         Id = id;
         Title = title;
@@ -47,6 +55,8 @@ public class Slide
             Layout = this.Layout,
             TransitionIn = this.TransitionIn,
             TransitionOut = this.TransitionOut,
+            BackgroundTransitionIn = this.BackgroundTransitionIn,
+            BackgroundTransitionOut = this.BackgroundTransitionOut,
             Notes = this.Notes,
             BackgroundContent = this.BackgroundContent?.Clone(createNewId),
             NeverFullScreen = this.NeverFullScreen,

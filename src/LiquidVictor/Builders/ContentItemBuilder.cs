@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace LiquidVictor.Builders;
 
@@ -14,7 +15,7 @@ public class ContentItemBuilder(ContentItem? value)
 
     public Entities.ContentItem Build()
     {
-        return new Entities.ContentItem()
+        var result = new Entities.ContentItem()
         {
             Alignment = _contentItem.Alignment,
             Content = _contentItem.Content,
@@ -25,6 +26,11 @@ public class ContentItemBuilder(ContentItem? value)
                 : _contentItem.Id,
             Title = _contentItem.Title
         };
+
+        foreach (var tag in _contentItem.Tags)
+            result.Tags.Add(tag);
+
+        return result;
     }
 
     public ContentItemBuilder Id(Guid value)
@@ -71,6 +77,16 @@ public class ContentItemBuilder(ContentItem? value)
     public ContentItemBuilder Alignment(string value) 
     {
         _contentItem.Alignment = value;
+        return this;
+    }
+
+    public ContentItemBuilder Tags(IEnumerable<string> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+        _contentItem.Tags.Clear();
+        foreach (var value in values)
+            _contentItem.Tags.Add(value);
+
         return this;
     }
 }

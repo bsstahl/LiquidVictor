@@ -6,9 +6,10 @@ using LiquidVictor.Interfaces;
 
 namespace LiquidVictor.Data.Postgres
 {
-    public class SlideDeckWriteRepository : ISlideDeckWriteRepository
+    public class SlideDeckWriteRepository : ISlideDeckWriteRepository, IDisposable
     {
-        Context _context;
+        private readonly Context _context;
+        private Boolean disposedValue;
 
         public SlideDeckWriteRepository(string connectionString)
         {
@@ -33,5 +34,28 @@ namespace LiquidVictor.Data.Postgres
             _context.SaveChanges(true);
         }
 
+        protected virtual void Dispose(Boolean disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // dispose managed state (managed objects)
+                    if (_context is not null)
+                        _context.Dispose();
+                }
+
+                // free unmanaged resources (unmanaged objects) and override finalizer
+                // set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

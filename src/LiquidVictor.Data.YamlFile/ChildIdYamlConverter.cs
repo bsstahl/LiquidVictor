@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -15,17 +16,26 @@ public class ChildIdYamlConverter : IYamlTypeConverter
 
     public object ReadYaml(IParser parser, Type type)
     {
-        var id = Guid.Parse(((Scalar)parser.Current).Value);
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(parser.Current);
+
+        var currentScalar = parser.Current as Scalar;
+        var idString = currentScalar?.Value ?? Guid.Empty.ToString();
+        var id = Guid.Parse(idString);
         parser.MoveNext();
         return new ChildId(id, string.Empty);
     }
 
 
-    public void WriteYaml(IEmitter emitter, object value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
-        var childId = (ChildId)value;
-        emitter.Emit(new Scalar(null, null, childId.Id.ToString(), ScalarStyle.Plain, true, false));
-        if (!string.IsNullOrWhiteSpace(childId.Title))
-            emitter.Emit(new Comment(childId.Title, true));
+        ArgumentNullException.ThrowIfNull(emitter);
+
+        var childId = value as ChildId;
+        var thisId = childId?.Id.ToString() ?? string.Empty;
+        var thisTitle = childId?.Title ?? string.Empty;
+        emitter.Emit(new Scalar(null, null, thisId, ScalarStyle.Plain, true, false));
+        if (!string.IsNullOrWhiteSpace(thisTitle))
+            emitter.Emit(new Comment(thisTitle, true));
     }
 }

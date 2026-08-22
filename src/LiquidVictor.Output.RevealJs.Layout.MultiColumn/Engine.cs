@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -15,20 +16,24 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
+        readonly Transition _presentationDefaultBackgroundTransition;
         readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide, int zeroBasedIndex)
         {
+            ArgumentNullException.ThrowIfNull(slide);
+
             var sb = new StringBuilder();
 
-            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
+            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition));
 
             sb.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             sb.AppendLine(slide.Layout.AsComment());
@@ -43,7 +48,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiColumn
                 if (contentItem.Value.IsText())
                     sb.AppendLine(Markdig.Markdown.ToHtml(contentItem.Value.Content.AsString(), _pipeline));
                 else if (contentItem.Value.IsImage())
-                    sb.AppendLine($"<img alt=\"{contentItem.Value.FileName}\" src=\"{contentItem.Value.RelativePathToImage()}\" />");
+                    sb.AppendLine(CultureInfo.CurrentCulture, $"<img alt=\"{contentItem.Value.FileName}\" src=\"{contentItem.Value.RelativePathToImage()}\" />");
                 else
                     throw new NotSupportedException("Only Text and Image content is currently supported");
                 sb.AppendLine("</td>");

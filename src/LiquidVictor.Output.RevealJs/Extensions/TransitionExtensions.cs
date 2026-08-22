@@ -1,6 +1,7 @@
 ﻿using LiquidVictor.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace LiquidVictor.Output.RevealJs.Extensions
@@ -22,7 +23,9 @@ namespace LiquidVictor.Output.RevealJs.Extensions
                 case Transition.None:
                 case Transition.Fade:
                 case Transition.Slide:
-                    result = transition.ToString().ToLower();
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                    result = transition.ToString().ToLower(CultureInfo.InvariantCulture);
+#pragma warning restore CA1308 // Normalize strings to uppercase
                     break;
                 case Transition.Fancy:
                     result = "convex";
