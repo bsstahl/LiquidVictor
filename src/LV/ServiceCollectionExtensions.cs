@@ -23,7 +23,7 @@ internal static class ServiceCollectionExtensions
                     });
                 break;
             default:
-                throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType};");
+                throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType}'");
         }
 
         return services;
@@ -41,7 +41,7 @@ internal static class ServiceCollectionExtensions
                 services.AddTransient<ISlideDeckReadRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckReadRepository(config.SourceRepoPath));
                 break;
             default:
-                throw new NotSupportedException($"Invalid Source Repository Type '{config.SourceRepoType};");
+                throw new NotSupportedException($"Invalid Source Repository Type '{config.SourceRepoType}'");
         }
         return services;
     }
@@ -58,7 +58,7 @@ internal static class ServiceCollectionExtensions
                 services.AddTransient<ISlideDeckWriteRepository>(c => new LiquidVictor.Data.YamlFile.SlideDeckWriteRepository(config.SourceRepoPath));
                 break;
             default:
-                throw new NotSupportedException($"Invalid Target Repository Type '{config.SourceRepoType};");
+                throw new NotSupportedException($"Invalid Target Repository Type '{config.SourceRepoType}'");
         }
         return services;
     }
