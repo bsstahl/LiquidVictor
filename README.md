@@ -2,6 +2,10 @@
 
 **A media tracking and aggregation system that can be used to build presentations.**
 
+## Code of Conduct
+
+All contributors and users are expected to follow the [Strict Accountability Policy](CODE_OF_CONDUCT.md).
+
 The goal of *LiquidVictor* is to make building presentations easier.  Many presentations need to 
 evolve over time but often use assets from previous versions or even other presentations. 
 If presentation assets can be organized and tracked so that the basic structure of presentations 
