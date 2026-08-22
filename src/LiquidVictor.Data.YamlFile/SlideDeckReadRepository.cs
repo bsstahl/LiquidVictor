@@ -80,9 +80,11 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var aspectRatio = Enum.Parse<Enumerations.AspectRatio>(slideDeck.AspectRatio);
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
+        var slideDeckBackgroundTransition = slideDeck.GetBackgroundTransition();
         Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? new Uri("about:blank") : new Uri(slideDeck.SlideDeckUrl);
 
         var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes.OrderBy(i => 0));
+        result.BackgroundTransition = slideDeckBackgroundTransition;
 
         return result;
     }
@@ -132,6 +134,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             Title = slide.Title,
             TransitionIn = Enum.Parse<Enumerations.Transition>(slide.TransitionIn),
             TransitionOut = Enum.Parse<Enumerations.Transition>(slide.TransitionOut),
+            BackgroundTransitionIn = slide.GetBackgroundTransitionIn(),
+            BackgroundTransitionOut = slide.GetBackgroundTransitionOut(),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
             NeverFullScreen = slide.NeverFullScreen
         };

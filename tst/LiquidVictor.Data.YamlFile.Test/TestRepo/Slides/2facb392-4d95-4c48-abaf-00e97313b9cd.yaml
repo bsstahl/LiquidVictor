@@ -2,6 +2,8 @@ Title: 8797e86c
 Layout: ImageRight
 TransitionIn: Slide
 TransitionOut: Fade
+BackgroundTransitionIn: Fade
+BackgroundTransitionOut: Slide
 Notes: c47e8653
 BackgroundContent: 
 NeverFullScreen: false

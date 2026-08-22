@@ -86,6 +86,7 @@ public class Engine : IPresentationBuilder
             .Replace("{PresentationTitle}", slideDeck.Title, StringComparison.Ordinal)
             .Replace("{ThemeName}", slideDeck.ThemeName.ToLower(CultureInfo.CurrentCulture), StringComparison.Ordinal)
             .Replace("{Transition}", slideDeck.Transition.GetTransitionBaseName(), StringComparison.Ordinal)
+            .Replace("{BackgroundTransition}", slideDeck.BackgroundTransition.GetTransitionBaseName(), StringComparison.Ordinal)
             .Replace("{Width}", presentationWidth.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
             .Replace("{Height}", presentationHeight.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
 
@@ -103,14 +104,14 @@ public class Engine : IPresentationBuilder
     private static ILayoutStrategy[] GetLayoutStrategies(MarkdownPipeline pipeline, BuilderOptions builderOptions, SlideDeck slideDeck)
     {
         var layoutStrategies = new ILayoutStrategy[Enum.GetValues<Enumerations.Layout>().Length];
-        layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
         return layoutStrategies;
     }
 }

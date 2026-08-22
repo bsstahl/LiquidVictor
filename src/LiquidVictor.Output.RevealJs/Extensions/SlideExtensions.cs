@@ -29,15 +29,18 @@ public static class SlideExtensions
              slide.ContentItems.First().Value.IsImage();
     }
 
-    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition)
+    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition)
     {
         ArgumentNullException.ThrowIfNull(slide);
 
         string transitionClass = $"{slide.TransitionIn.GetClass(true, presentationDefaultTransition)} {slide.TransitionOut.GetClass(false, presentationDefaultTransition)}".Trim();
+        string backgroundTransitionClass = $"{slide.BackgroundTransitionIn.GetClass(true, presentationDefaultBackgroundTransition)} {slide.BackgroundTransitionOut.GetClass(false, presentationDefaultBackgroundTransition)}".Trim();
 
         string result = "<section";
         if (!string.IsNullOrWhiteSpace(transitionClass))
             result += $" data-transition=\"{transitionClass}\"";
+        if (!string.IsNullOrWhiteSpace(backgroundTransitionClass))
+            result += $" data-background-transition=\"{backgroundTransitionClass}\"";
 
         if (slide.BackgroundContent != null)
         {

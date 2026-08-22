@@ -1,15 +1,14 @@
 ﻿using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
 using LiquidVictor.Extensions;
-using System;
-using System.Collections.Generic;
 
 namespace LiquidVictor.Data.Hardcoded
 {
-    public static class Extensions
+    public static class SlideExtensions
     {
         public static void Add(this List<KeyValuePair<int, Entities.Slide>> list, int sortOrder, Entities.Slide slide)
         {
+            ArgumentNullException.ThrowIfNull(list);
             list.Add(new KeyValuePair<int, Entities.Slide>(sortOrder, slide));
         }
 
@@ -17,6 +16,7 @@ namespace LiquidVictor.Data.Hardcoded
             int sortOrder, string slideTitle, Layout layout,
             string primaryContent, string primaryContentType)
         {
+            ArgumentNullException.ThrowIfNull(list);
             var contentItems = new List<KeyValuePair<int, Entities.ContentItem>>()
             {
                 new KeyValuePair<int, Entities.ContentItem>(
@@ -38,6 +38,7 @@ namespace LiquidVictor.Data.Hardcoded
             string primaryImageTitle, string primaryImageSource,
             string primaryImageContentType)
         {
+            ArgumentNullException.ThrowIfNull(list);
             var slide = new Entities.Slide()
             {
                 Title = slideTitle,

@@ -16,12 +16,14 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiSlide
     {
         readonly Markdig.MarkdownPipeline _pipeline;
         readonly Transition _presentationDefaultTransition;
+        readonly Transition _presentationDefaultBackgroundTransition;
         readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, BuilderOptions builderOptions)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
+            _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _builderOptions = builderOptions;
         }
 
@@ -31,7 +33,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.MultiSlide
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition));
+            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition));
             sb.AppendLine(slide.Layout.AsComment());
             sb.AppendLine($"In the '{slide.Layout}' layout, the slide title is ignored in favor of each of the content item titles".AsComment());
             sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));

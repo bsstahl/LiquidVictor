@@ -34,6 +34,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             ThemeName = slideDeck.ThemeName,
             Title = slideDeck.Title,
             Transition = slideDeck.Transition.ToString(),
+            BackgroundTransition = slideDeck.BackgroundTransition.ToString(),
             Format = slideDeck.Format.ToString(),
             SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
             Includes = slideDeck.Slides.OrderBy(s => s.Key)
@@ -70,6 +71,8 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             Title = slide.Title,
             TransitionIn = slide.TransitionIn.ToString(),
             TransitionOut = slide.TransitionOut.ToString(),
+            BackgroundTransitionIn = slide.BackgroundTransitionIn.ToString(),
+            BackgroundTransitionOut = slide.BackgroundTransitionOut.ToString(),
             ContentItemIds = slide.ContentItems.OrderBy(ci => ci.Key).Select(ci => new ChildId(ci.Value.Id, ci.Value.Title)).ToArray()
         };
 

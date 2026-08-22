@@ -15,6 +15,10 @@ public static class PresentationDocumentExtensions
 {
     public static void AppendSlide(this PresentationPart presentationPart, string titleText, IEnumerable<KeyValuePair<int, Entities.ContentItem>> contentItems)
     {
+        ArgumentNullException.ThrowIfNull(presentationPart);
+        ArgumentNullException.ThrowIfNull(titleText);
+        ArgumentNullException.ThrowIfNull(contentItems);
+
         SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
         slidePart.Slide = new Slide(
                 new CommonSlideData(

@@ -30,6 +30,8 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .Layout(Layout.ImageRight)
                 .TransitionIn(Transition.Slide)
                 .TransitionOut(Transition.Fancy)
+                .BackgroundTransitionIn(Transition.Fade)
+                .BackgroundTransitionOut(Transition.Slide)
                 .Notes("Round trip notes")
                 .NeverFullScreen(true)
                 .ContentItems(new ContentItemsBuilder()
@@ -56,6 +58,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .PrintLinkText("Print this deck")
                 .AspectRatio(AspectRatio.Standard)
                 .Transition(Transition.Fade)
+                .BackgroundTransition(Transition.Fancy)
                 .SlideDeckUrl("https://example.com/round-trip")
                 .Slides(new SlidesBuilder()
                     .Add(expectedSlide))
@@ -80,6 +83,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(new Uri("https://example.com/round-trip"), result.SlideDeckUrl);
             Assert.Equal(AspectRatio.Standard, result.AspectRatio);
             Assert.Equal(Transition.Fade, result.Transition);
+            Assert.Equal(Transition.Fancy, result.BackgroundTransition);
 
             var slide = Assert.Single(result.Slides).Value;
             Assert.Equal(slideId, slide.Id);
@@ -87,6 +91,8 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(Layout.ImageRight, slide.Layout);
             Assert.Equal(Transition.Slide, slide.TransitionIn);
             Assert.Equal(Transition.Fancy, slide.TransitionOut);
+            Assert.Equal(Transition.Fade, slide.BackgroundTransitionIn);
+            Assert.Equal(Transition.Slide, slide.BackgroundTransitionOut);
             Assert.Equal("Round trip notes", slide.Notes);
             Assert.True(slide.NeverFullScreen);
 
