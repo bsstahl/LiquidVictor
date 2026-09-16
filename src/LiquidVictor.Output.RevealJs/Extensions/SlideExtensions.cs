@@ -29,7 +29,7 @@ public static class SlideExtensions
              slide.ContentItems.First().Value.IsImage();
     }
 
-    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition)
+    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent = null)
     {
         ArgumentNullException.ThrowIfNull(slide);
 
@@ -42,11 +42,11 @@ public static class SlideExtensions
         if (!string.IsNullOrWhiteSpace(backgroundTransitionClass))
             result += $" data-background-transition=\"{backgroundTransitionClass}\"";
 
-        if (slide.BackgroundContent != null)
+        var backgroundContent = slide.BackgroundContent ?? presentationDefaultBackgroundContent;
+        if (backgroundContent != null)
         {
-            var bgContent = slide.BackgroundContent;
-            string backgroundId = bgContent.Id.ToString();
-            string backgroundExtension = System.IO.Path.GetExtension(bgContent.FileName);
+            string backgroundId = backgroundContent.Id.ToString();
+            string backgroundExtension = System.IO.Path.GetExtension(backgroundContent.FileName);
             result += $" data-background=\'img/{backgroundId}{backgroundExtension}\'";
         }
 

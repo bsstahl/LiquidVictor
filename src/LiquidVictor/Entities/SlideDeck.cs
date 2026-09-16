@@ -55,6 +55,7 @@ namespace LiquidVictor.Entities
         public string PrintLinkText { get; set; } = printLinkText;
         public Transition Transition { get; set; } = transition;
         public Transition BackgroundTransition { get; set; } = _defaultBackgroundTransition;
+        public ContentItem? BackgroundContent { get; set; }
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
         public Format Format { get; set; } = format;
 
@@ -88,7 +89,8 @@ namespace LiquidVictor.Entities
 
             return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone)
             {
-                BackgroundTransition = this.BackgroundTransition
+                BackgroundTransition = this.BackgroundTransition,
+                BackgroundContent = this.BackgroundContent?.Clone(createNewChildIds)
             };
         }
     }

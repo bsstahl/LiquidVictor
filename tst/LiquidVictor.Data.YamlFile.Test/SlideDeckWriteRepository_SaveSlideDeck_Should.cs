@@ -24,6 +24,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             var slideId = Guid.NewGuid();
             var markdownId = Guid.NewGuid();
             var imageId = Guid.NewGuid();
+            var deckBackgroundId = Guid.NewGuid();
             var expectedSlide = new SlideBuilder()
                 .Id(slideId)
                 .Title("Round Trip Slide")
@@ -59,6 +60,13 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .AspectRatio(AspectRatio.Standard)
                 .Transition(Transition.Fade)
                 .BackgroundTransition(Transition.Fancy)
+                .BackgroundContent(new ContentItemBuilder()
+                    .Id(deckBackgroundId)
+                    .ContentType("image/png")
+                    .FileName("deck-background.png")
+                    .Title("Deck Background")
+                    .Tags(["deck", "background"])
+                    .Content([9, 8, 7, 6]))
                 .SlideDeckUrl("https://example.com/round-trip")
                 .Slides(new SlidesBuilder()
                     .Add(expectedSlide))
@@ -69,7 +77,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
 
             Assert.Single(Directory.EnumerateFiles(Path.Combine(repoPath, "SlideDecks"), "*.yaml"));
             Assert.Single(Directory.EnumerateFiles(Path.Combine(repoPath, "Slides"), "*.yaml"));
-            Assert.Equal(2, Directory.EnumerateFiles(Path.Combine(repoPath, "ContentItems"), "*.yaml").Count());
+            Assert.Equal(3, Directory.EnumerateFiles(Path.Combine(repoPath, "ContentItems"), "*.yaml").Count());
 
             var readRepo = new SlideDeckReadRepository(repoPath);
             var result = readRepo.GetSlideDeck(slideDeckId);
@@ -84,6 +92,13 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(AspectRatio.Standard, result.AspectRatio);
             Assert.Equal(Transition.Fade, result.Transition);
             Assert.Equal(Transition.Fancy, result.BackgroundTransition);
+            Assert.NotNull(result.BackgroundContent);
+            Assert.Equal(deckBackgroundId, result.BackgroundContent!.Id);
+            Assert.Equal("image/png", result.BackgroundContent.ContentType);
+            Assert.Equal("deck-background.png", result.BackgroundContent.FileName);
+            Assert.Equal("Deck Background", result.BackgroundContent.Title);
+            Assert.Equal(["deck", "background"], result.BackgroundContent.Tags);
+            Assert.Equal([9, 8, 7, 6], result.BackgroundContent.Content);
 
             var slide = Assert.Single(result.Slides).Value;
             Assert.Equal(slideId, slide.Id);

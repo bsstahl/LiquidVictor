@@ -81,10 +81,14 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var slideDeckId = Guid.Parse(slideDeck.Id);
         var slideDeckTransition = slideDeck.GetTransition();
         var slideDeckBackgroundTransition = slideDeck.GetBackgroundTransition();
+        Guid? slideDeckBackgroundContentId = null;
+        if (Guid.TryParse(slideDeck.BackgroundContent, out var parsedBackgroundContentId))
+            slideDeckBackgroundContentId = parsedBackgroundContentId;
         Uri slideDeckUri = string.IsNullOrWhiteSpace(slideDeck.SlideDeckUrl) ? new Uri("about:blank") : new Uri(slideDeck.SlideDeckUrl);
 
         var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes.OrderBy(i => 0));
         result.BackgroundTransition = slideDeckBackgroundTransition;
+        result.BackgroundContent = slideDeckBackgroundContentId.HasValue ? this.GetContentItem(slideDeckBackgroundContentId.Value) : null;
 
         return result;
     }

@@ -33,6 +33,14 @@ public class SlideDeckBuilder_Build_Should
             .Content($"# {string.Empty.GetRandom()}")
             .Build();
 
+        var backgroundContentItem = new ContentItemBuilder()
+            .Id(Guid.NewGuid())
+            .Title("Deck Background")
+            .FileName("background.png")
+            .ContentType("image/png")
+            .Content([1, 2, 3])
+            .Build();
+
         var slideDeck = new SlideDeckBuilder()
             .Id(Guid.NewGuid())
             .Title(string.Empty.GetRandom())
@@ -41,6 +49,7 @@ public class SlideDeckBuilder_Build_Should
             .ThemeName("moon")
             .AspectRatio("Widescreen")
             .Transition("Slide")
+            .BackgroundContent(backgroundContentItem)
             .SlideDeckUrl($"https://example.com/{string.Empty.GetRandom()}")
             .Slides(new SlidesBuilder()
                 .Add(new SlideBuilder(slide))
@@ -59,6 +68,8 @@ public class SlideDeckBuilder_Build_Should
             .Build();
 
         Assert.NotNull(slideDeck);
+        Assert.NotNull(slideDeck.BackgroundContent);
+        Assert.Equal(backgroundContentItem.Id, slideDeck.BackgroundContent!.Id);
     }
 
     [Fact]

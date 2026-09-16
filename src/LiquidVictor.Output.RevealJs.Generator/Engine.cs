@@ -62,6 +62,7 @@ public class Engine : IPresentationBuilder
         if (builderOptions.BuildTitleSlide)
         {
             var titleSlide = slideDeck.CreateTitleSlide();
+            images.AddFromSlide(titleSlide, slideDeck.BackgroundContent);
             var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
             slideSections.AppendLine(titleStrategy.Layout(titleSlide, slideIndex));
             slideIndex++;
@@ -70,7 +71,7 @@ public class Engine : IPresentationBuilder
         // Content slides
         foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
         {
-            images.AddFromSlide(slide.Value);
+            images.AddFromSlide(slide.Value, slideDeck.BackgroundContent);
             slideSections.AppendLine(slide.Value.GetLayout(slideIndex, layoutStrategies));
             slideIndex++;
         }
@@ -104,14 +105,14 @@ public class Engine : IPresentationBuilder
     private static ILayoutStrategy[] GetLayoutStrategies(MarkdownPipeline pipeline, BuilderOptions builderOptions, SlideDeck slideDeck)
     {
         var layoutStrategies = new ILayoutStrategy[Enum.GetValues<Enumerations.Layout>().Length];
-        layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
-        layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.Title] = new Layout.Title.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.FullPage] = new Layout.FullPage.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.FullPageFragments] = new Layout.FullPageFragments.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageLeft] = new Layout.ImageLeft.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageRight] = new Layout.ImageRight.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
         return layoutStrategies;
     }
 }
