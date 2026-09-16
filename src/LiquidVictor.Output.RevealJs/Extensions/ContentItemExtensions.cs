@@ -17,13 +17,14 @@ public static class ContentItemExtensions
         return result;
     }
 
-    public static void AddFromSlide(this List<ContentItem> images, Slide slideValue)
+    public static void AddFromSlide(this List<ContentItem> images, Slide slideValue, ContentItem? presentationDefaultBackgroundContent = null)
     {
         ArgumentNullException.ThrowIfNull(images);
         ArgumentNullException.ThrowIfNull(slideValue);
 
-        if (slideValue.BackgroundContent != null)
-            images.AddIfNotPresent(slideValue.BackgroundContent);
+        var backgroundContent = slideValue.BackgroundContent ?? presentationDefaultBackgroundContent;
+        if (backgroundContent != null)
+            images.AddIfNotPresent(backgroundContent);
 
         // Add additional content item images to images collection
         foreach (var contentItem in slideValue.ContentItems)
