@@ -104,7 +104,7 @@ public class Engine : IPresentationBuilder
             return slide;
 
         var slideClone = slide.Clone();
-        slideClone.BackgroundContent = backgroundContent;
+        slideClone.BackgroundContent = backgroundContent.Clone();
         return slideClone;
     }
 
