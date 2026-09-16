@@ -18,6 +18,7 @@ internal class SlideDeck
     public string PrintLinkText { get; set; } = string.Empty;
     public string Transition { get; set; } = string.Empty;
     public string BackgroundTransition { get; set; } = string.Empty;
+    public string BackgroundContent { get; set; } = string.Empty;
     public string SlideDeckUrl { get; set; } = string.Empty;
     public string Format { get; set; } = string.Empty;
 

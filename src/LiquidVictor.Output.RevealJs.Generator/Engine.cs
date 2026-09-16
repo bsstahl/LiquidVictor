@@ -62,16 +62,19 @@ public class Engine : IPresentationBuilder
         if (builderOptions.BuildTitleSlide)
         {
             var titleSlide = slideDeck.CreateTitleSlide();
+            var slideToRender = ApplyDefaultBackgroundContent(titleSlide, slideDeck.BackgroundContent);
+            images.AddFromSlide(slideToRender);
             var titleStrategy = layoutStrategies[(int)Enumerations.Layout.Title];
-            slideSections.AppendLine(titleStrategy.Layout(titleSlide, slideIndex));
+            slideSections.AppendLine(titleStrategy.Layout(slideToRender, slideIndex));
             slideIndex++;
         }
 
         // Content slides
         foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key))
         {
-            images.AddFromSlide(slide.Value);
-            slideSections.AppendLine(slide.Value.GetLayout(slideIndex, layoutStrategies));
+            var slideToRender = ApplyDefaultBackgroundContent(slide.Value, slideDeck.BackgroundContent);
+            images.AddFromSlide(slideToRender);
+            slideSections.AppendLine(slideToRender.GetLayout(slideIndex, layoutStrategies));
             slideIndex++;
         }
 
@@ -91,6 +94,18 @@ public class Engine : IPresentationBuilder
             .Replace("{Height}", presentationHeight.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
 
         return (images, content);
+    }
+
+    private static Slide ApplyDefaultBackgroundContent(Slide slide, ContentItem? backgroundContent)
+    {
+        ArgumentNullException.ThrowIfNull(slide);
+
+        if (slide.BackgroundContent is not null || backgroundContent is null)
+            return slide;
+
+        var slideClone = slide.Clone();
+        slideClone.BackgroundContent = backgroundContent;
+        return slideClone;
     }
 
     private void WriteContent(string filepath, IEnumerable<ContentItem> images, string content)

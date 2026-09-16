@@ -173,7 +173,7 @@ internal static class ConfigurationExtensions
             Console.WriteLine($"Orphaned Slide '{slide.Title}' ({slide.Id})");
         }
 
-        var orphanedContentItemIds = GetOrphanedContentItemIds(slides, contentItems);
+        var orphanedContentItemIds = GetOrphanedContentItemIds(slideDecks, slides, contentItems);
         foreach (var contentItemId in orphanedContentItemIds)
         {
             var contentItem = contentItems.Single(ci => ci.Id == contentItemId);
@@ -189,15 +189,19 @@ internal static class ConfigurationExtensions
         return orphanedSlideIds;
     }
 
-    private static IEnumerable<Guid> GetOrphanedContentItemIds(IEnumerable<Slide> slides, IEnumerable<ContentItem> contentItems)
+    private static IEnumerable<Guid> GetOrphanedContentItemIds(IEnumerable<SlideDeck> slideDecks, IEnumerable<Slide> slides, IEnumerable<ContentItem> contentItems)
     {
         var slideContentItemIds = slides.SelectMany(s => s.ContentItems.Select(c => c.Value.Id));
         var slideBackgroundContentIds = slides
                 .Where(s => s.BackgroundContent is not null)
                 .Select(s => s.BackgroundContent!.Id);
+        var slideDeckBackgroundContentIds = slideDecks
+            .Where(sd => sd.BackgroundContent is not null)
+            .Select(sd => sd.BackgroundContent!.Id);
 
         var usedContentItemIds = slideContentItemIds.ToList();
         usedContentItemIds.AddRange(slideBackgroundContentIds);
+        usedContentItemIds.AddRange(slideDeckBackgroundContentIds);
 
         var allContentItemIds = contentItems.Select(c => c.Id);
         var orphanedContentItemIds = allContentItemIds.Where(c => !usedContentItemIds.Contains(c));

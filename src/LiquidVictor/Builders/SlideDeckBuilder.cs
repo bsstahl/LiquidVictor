@@ -8,6 +8,7 @@ namespace LiquidVictor.Builders;
 public class SlideDeckBuilder
 {
     private readonly Entities.SlideDeck _slideDeck;
+    private ContentItemBuilder? _backgroundContentItemBuilder;
 
     private readonly SlidesBuilder _slidesBuilder = [];
 
@@ -19,6 +20,8 @@ public class SlideDeckBuilder
     {
         _slideDeck = value;
         value?.Slides.ToList().ForEach(s => _slidesBuilder.Add(s.Value));
+        if (value?.BackgroundContent is not null)
+            _backgroundContentItemBuilder = new ContentItemBuilder(value.BackgroundContent);
     }
 
     public Entities.SlideDeck Build()
@@ -26,6 +29,7 @@ public class SlideDeckBuilder
         _slideDeck.Id = _slideDeck.Id.Equals(Guid.Empty) 
             ? Guid.NewGuid() 
             : _slideDeck.Id;
+        _slideDeck.BackgroundContent = _backgroundContentItemBuilder?.Build();
         _slidesBuilder.Build().ToList().ForEach(s => _slideDeck.Includes.Add(s.Value));
         return _slideDeck;
     }
@@ -101,6 +105,17 @@ public class SlideDeckBuilder
     {
         _slideDeck.BackgroundTransition = value;
         return this;
+    }
+
+    public SlideDeckBuilder BackgroundContent(ContentItemBuilder value)
+    {
+        _backgroundContentItemBuilder = value;
+        return this;
+    }
+
+    public SlideDeckBuilder BackgroundContent(Entities.ContentItem value)
+    {
+        return this.BackgroundContent(new ContentItemBuilder(value));
     }
 
     public SlideDeckBuilder SlideDeckUrl(string value)

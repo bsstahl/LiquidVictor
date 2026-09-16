@@ -35,6 +35,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             Title = slideDeck.Title,
             Transition = slideDeck.Transition.ToString(),
             BackgroundTransition = slideDeck.BackgroundTransition.ToString(),
+            BackgroundContent = slideDeck.BackgroundContent?.Id.ToString() ?? string.Empty,
             Format = slideDeck.Format.ToString(),
             SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
             Includes = slideDeck.Slides.OrderBy(s => s.Key)
@@ -47,6 +48,9 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
 
         // Write SlideDeck file
         File.WriteAllText(slideDeckPath, sd.ToString());
+
+        if (slideDeck.BackgroundContent is not null)
+            this.SaveContentItem(slideDeck.BackgroundContent);
 
         // Write Slides
         // TODO: Deduplicate (in case a slide is used more than once in a presentation)
