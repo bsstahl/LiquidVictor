@@ -7,6 +7,8 @@ namespace LiquidVictor.Output.RevealJs.Extensions;
 
 public static class SlideExtensions
 {
+    public const string HideFooterState = "hide-footer";
+
     public static string GetLayout(this Slide slide, int zeroBasedSlideIndex, ILayoutStrategy[] layoutStrategies)
     {
         ArgumentNullException.ThrowIfNull(slide);
@@ -29,7 +31,25 @@ public static class SlideExtensions
              slide.ContentItems.First().Value.IsImage();
     }
 
-    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent = null)
+    /// <summary>
+    /// Determines whether the footer should be displayed for the slide.
+    /// If the presentation specifies Always or Never, that value wins regardless of the slide.
+    /// Otherwise the slide's ShowFooter override is used if set, falling back to the
+    /// slide-type default: footers are hidden on slides with BackgroundContent and shown on all others.
+    /// </summary>
+    public static bool ShowFooter(this Slide slide, FooterDisplay presentationFooterDisplay)
+    {
+        ArgumentNullException.ThrowIfNull(slide);
+
+        return presentationFooterDisplay switch
+        {
+            FooterDisplay.Always => true,
+            FooterDisplay.Never => false,
+            _ => slide.ShowFooter ?? slide.BackgroundContent is null
+        };
+    }
+
+    public static string AsStartSlideSection(this Slide slide, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent = null, FooterDisplay presentationFooterDisplay = FooterDisplay.Default)
     {
         ArgumentNullException.ThrowIfNull(slide);
 
@@ -49,6 +69,9 @@ public static class SlideExtensions
             string backgroundExtension = System.IO.Path.GetExtension(backgroundContent.FileName);
             result += $" data-background=\'img/{backgroundId}{backgroundExtension}\'";
         }
+
+        if (!slide.ShowFooter(presentationFooterDisplay))
+            result += $" data-state=\"{HideFooterState}\"";
 
         result += ">";
         return result;

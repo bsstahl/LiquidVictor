@@ -22,6 +22,13 @@ public class Slide
     public ContentItem? BackgroundContent { get; set; }
     public bool NeverFullScreen { get; set; }
 
+    /// <summary>
+    /// Per-slide override for footer visibility. When null, the default for the slide type
+    /// is used (hidden if the slide has BackgroundContent, shown otherwise).
+    /// Only honored when the SlideDeck's FooterDisplay is Default.
+    /// </summary>
+    public bool? ShowFooter { get; set; }
+
     public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; internal set; } = [];
 
     public Slide()
@@ -60,6 +67,7 @@ public class Slide
             Notes = this.Notes,
             BackgroundContent = this.BackgroundContent?.Clone(createNewId),
             NeverFullScreen = this.NeverFullScreen,
+            ShowFooter = this.ShowFooter,
             ContentItems = this.ContentItems?.Clone(createNewId) ?? []
         };
     }

@@ -58,6 +58,7 @@ namespace LiquidVictor.Entities
         public ContentItem? BackgroundContent { get; set; }
         public AspectRatio AspectRatio { get; set; } = aspectRatio;
         public Format Format { get; set; } = format;
+        public FooterDisplay FooterDisplay { get; set; } = FooterDisplay.Default;
 
         internal IncludeBlockCollection Includes { get; } = new IncludeBlockCollection(includes);
         public ICollection<Resource> Resources { get; } = [];
@@ -91,7 +92,8 @@ namespace LiquidVictor.Entities
             var clone = new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone)
             {
                 BackgroundTransition = this.BackgroundTransition,
-                BackgroundContent = this.BackgroundContent?.Clone(createNewChildIds)
+                BackgroundContent = this.BackgroundContent?.Clone(createNewChildIds),
+                FooterDisplay = this.FooterDisplay
             };
 
             foreach (var resource in this.Resources)
