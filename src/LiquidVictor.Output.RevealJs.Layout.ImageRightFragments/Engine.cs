@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using LiquidVictor.Entities;
@@ -9,7 +10,7 @@ using LiquidVictor.Output.RevealJs.Entities;
 using LiquidVictor.Output.RevealJs.Extensions;
 using LiquidVictor.Output.RevealJs.Interfaces;
 
-namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
+namespace LiquidVictor.Output.RevealJs.Layout.ImageRightFragments
 {
     public class Engine : ILayoutStrategy
     {
@@ -17,15 +18,15 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
         readonly Transition _presentationDefaultTransition;
         readonly Transition _presentationDefaultBackgroundTransition;
         readonly ContentItem? _presentationDefaultBackgroundContent;
-        readonly BuilderOptions _builderOptions;
+        // readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions _)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
             _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _presentationDefaultBackgroundContent = presentationDefaultBackgroundContent;
-            _builderOptions = builderOptions;
+            // _builderOptions = builderOptions;
         }
 
         public string Layout(Slide slide, int zeroBasedIndex)
@@ -39,20 +40,37 @@ namespace LiquidVictor.Output.RevealJs.Layout.FullPageFragments
             sb.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             sb.AppendLine(slide.Layout.AsComment());
             sb.AppendLine(slide.ContentItems.AsComments());
-            sb.AppendLine("<table border=\"0\" width=\"100%\">");
             sb.AppendLine(slide.Notes.AsNotesSection(_pipeline));
 
-            var textContentItems = slide.ContentItems.OrderBy(ci => ci.Key).Where(ci => ci.Value.ContentType.StartsWith("text", StringComparison.OrdinalIgnoreCase));
+            sb.Append("<table><tr>");
+
+            sb.AppendLine("<td style=\"vertical-align:top;\">");
+            var textContentItems = slide.ContentItems
+                .TextContentItems().OrderBy(c => c.Key);
             var isFirstItem = true;
             foreach (var contentItem in textContentItems)
             {
                 // The first item is displayed when the slide loads; subsequent items are revealed one at a time
-                sb.AppendLine("<tr><td>");
                 sb.AppendLine(contentItem.Value.AsFragmentHtml(_pipeline, !isFirstItem));
-                sb.AppendLine("</td></tr>");
                 isFirstItem = false;
             }
-            sb.AppendLine("</table></section>\r\n");
+            sb.AppendLine("</td>");
+
+            var imageContentItems = slide.ContentItems
+                .ImageContentItems().OrderBy(c => c.Key);
+
+            foreach (var image in imageContentItems)
+            {
+                sb.AppendLine($"<td style=\"text-align: left;\">");
+                sb.Append("<img");
+                sb.Append(CultureInfo.CurrentCulture, $" src=\"{image.Value.RelativePathToImage()}\"");
+                sb.Append(CultureInfo.CurrentCulture, $" alt=\"{image.Value.FileName}\"");
+                sb.AppendLine(" />");
+                sb.AppendLine("</td>");
+            }
+
+            sb.Append("</tr></table>");
+            sb.AppendLine("</section>");
 
             return sb.ToString();
         }
