@@ -52,9 +52,8 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
         if (slideDeck.BackgroundContent is not null)
             this.SaveContentItem(slideDeck.BackgroundContent);
 
-        // Write Slides
-        // TODO: Deduplicate (in case a slide is used more than once in a presentation)
-        foreach (var s in slideDeck.Slides)
+        // Write each slide once, even when it appears more than once in the deck.
+        foreach (var s in slideDeck.Slides.DistinctBy(s => s.Value.Id))
             this.SaveSlide(s.Value);
     }
 
