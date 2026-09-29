@@ -113,6 +113,8 @@ public class Engine : IPresentationBuilder
         layoutStrategies[(int)Enumerations.Layout.ImageWithCaption] = new Layout.ImageWithCaption.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
         layoutStrategies[(int)Enumerations.Layout.MultiColumn] = new Layout.MultiColumn.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
         layoutStrategies[(int)Enumerations.Layout.MultiSlide] = new Layout.MultiSlide.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageLeftFragments] = new Layout.ImageLeftFragments.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
+        layoutStrategies[(int)Enumerations.Layout.ImageRightFragments] = new Layout.ImageRightFragments.Engine(pipeline, slideDeck.Transition, slideDeck.BackgroundTransition, slideDeck.BackgroundContent, builderOptions);
         return layoutStrategies;
     }
 }

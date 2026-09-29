@@ -11,6 +11,8 @@
         ImageRight,
         ImageWithCaption,
         MultiColumn,
-        MultiSlide
+        MultiSlide,
+        ImageLeftFragments,
+        ImageRightFragments
     }
 }

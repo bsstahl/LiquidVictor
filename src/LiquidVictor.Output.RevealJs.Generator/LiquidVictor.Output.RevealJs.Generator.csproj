@@ -25,6 +25,8 @@
     <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.Title\LiquidVictor.Output.RevealJs.Layout.Title.csproj" />
     <ProjectReference Include="..\LiquidVictor.Output.RevealJs\LiquidVictor.Output.RevealJs.csproj" />
     <ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.ImageLeftFragments\LiquidVictor.Output.RevealJs.Layout.ImageLeftFragments.csproj" />
+    <ProjectReference Include="..\LiquidVictor.Output.RevealJs.Layout.ImageRightFragments\LiquidVictor.Output.RevealJs.Layout.ImageRightFragments.csproj" />
   </ItemGroup>
 
 </Project>
