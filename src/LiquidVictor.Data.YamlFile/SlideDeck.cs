@@ -8,6 +8,7 @@ internal class SlideDeck
     const Transition _defaultTransition = Enumerations.Transition.Slide;
     const Transition _defaultBackgroundTransition = Enumerations.Transition.Fade;
     const Format _defaultFormat = Enumerations.Format.Session;
+    const FooterDisplay _defaultFooterDisplay = Enumerations.FooterDisplay.Default;
 
     public string Id { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
@@ -21,6 +22,7 @@ internal class SlideDeck
     public string BackgroundContent { get; set; } = string.Empty;
     public string SlideDeckUrl { get; set; } = string.Empty;
     public string Format { get; set; } = string.Empty;
+    public string FooterDisplay { get; set; } = string.Empty;
 
     [Obsolete]
     public ChildId[] SlideIds { get; set; } = [];
@@ -37,6 +39,10 @@ internal class SlideDeck
 
     internal Format GetFormat() => Enum.TryParse<Enumerations.Format>(this.Format, out var result) 
         ? result : _defaultFormat;
+
+    // If FooterDisplay is not specified (or not recognized), use the Default behavior
+    internal FooterDisplay GetFooterDisplay() => Enum.TryParse<Enumerations.FooterDisplay>(this.FooterDisplay, true, out var result)
+        && Enum.IsDefined(result) ? result : _defaultFooterDisplay;
 
     public static SlideDeck Parse(string yaml)
     {

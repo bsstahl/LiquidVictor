@@ -89,6 +89,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes.OrderBy(i => 0));
         result.BackgroundTransition = slideDeckBackgroundTransition;
         result.BackgroundContent = slideDeckBackgroundContentId.HasValue ? this.GetContentItem(slideDeckBackgroundContentId.Value) : null;
+        result.FooterDisplay = slideDeck.GetFooterDisplay();
 
         return result;
     }
@@ -141,7 +142,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             BackgroundTransitionIn = slide.GetBackgroundTransitionIn(),
             BackgroundTransitionOut = slide.GetBackgroundTransitionOut(),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
-            NeverFullScreen = slide.NeverFullScreen
+            NeverFullScreen = slide.NeverFullScreen,
+            ShowFooter = slide.ShowFooter
         };
 
         contentItems.ForEach(ci => slideResult.ContentItems.Add(ci));

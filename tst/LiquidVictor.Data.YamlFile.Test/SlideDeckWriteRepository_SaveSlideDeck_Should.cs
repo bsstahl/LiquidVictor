@@ -35,6 +35,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .BackgroundTransitionOut(Transition.Slide)
                 .Notes("Round trip notes")
                 .NeverFullScreen(true)
+                .ShowFooter(false)
                 .ContentItems(new ContentItemsBuilder()
                     .Add(new ContentItemBuilder()
                         .Id(markdownId)
@@ -60,6 +61,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .AspectRatio(AspectRatio.Standard)
                 .Transition(Transition.Fade)
                 .BackgroundTransition(Transition.Fancy)
+                .FooterDisplay(FooterDisplay.Never)
                 .BackgroundContent(new ContentItemBuilder()
                     .Id(deckBackgroundId)
                     .ContentType("image/png")
@@ -92,6 +94,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(AspectRatio.Standard, result.AspectRatio);
             Assert.Equal(Transition.Fade, result.Transition);
             Assert.Equal(Transition.Fancy, result.BackgroundTransition);
+            Assert.Equal(FooterDisplay.Never, result.FooterDisplay);
             Assert.NotNull(result.BackgroundContent);
             Assert.Equal(deckBackgroundId, result.BackgroundContent!.Id);
             Assert.Equal("image/png", result.BackgroundContent.ContentType);
@@ -110,6 +113,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(Transition.Slide, slide.BackgroundTransitionOut);
             Assert.Equal("Round trip notes", slide.Notes);
             Assert.True(slide.NeverFullScreen);
+            Assert.False(slide.ShowFooter);
 
             var contentItems = slide.ContentItems.Select(ci => ci.Value).ToDictionary(ci => ci.Id);
             Assert.Equal(2, contentItems.Count);
