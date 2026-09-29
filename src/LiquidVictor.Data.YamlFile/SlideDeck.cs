@@ -25,6 +25,7 @@ internal class SlideDeck
     [Obsolete]
     public ChildId[] SlideIds { get; set; } = [];
     public Include[] Includes { get; set; } = [];
+    public Resource[] Resources { get; set; } = [];
 
 
     internal Transition GetTransition() => Enum.TryParse<Enumerations.Transition>(this.Transition, out var result) 
