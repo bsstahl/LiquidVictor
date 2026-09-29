@@ -116,6 +116,13 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                     Assert.Equal("Other", resource.Type);
                     Assert.Equal("https://example.com/community", resource.Url);
                 });
+
+            writeRepo.SaveSlideDeck(result);
+            var reloadedResult = readRepo.GetSlideDeck(slideDeckId);
+            Assert.Equal(
+                result.Resources.Select(resource => (resource.Name, resource.Type, resource.Url)),
+                reloadedResult.Resources.Select(resource => (resource.Name, resource.Type, resource.Url)));
+
             Assert.NotNull(result.BackgroundContent);
             Assert.Equal(deckBackgroundId, result.BackgroundContent!.Id);
             Assert.Equal("image/png", result.BackgroundContent.ContentType);
