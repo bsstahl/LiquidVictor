@@ -62,6 +62,21 @@ Slide content written in Markdown can include LaTeX mathematical expressions usi
 
 LaTeX is rendered in the browser by [MathJax](https://www.mathjax.org/) through the RevealJS math support. In the default configuration, MathJax is loaded from a CDN rather than bundled locally, so viewing rendered math requires network access unless you reconfigure it. See [docs/latex-support.md](docs/latex-support.md) for a comprehensive guide including more examples and links to LaTeX documentation.
 
+### PowerPoint Import
+
+Existing PowerPoint (`.pptx`) decks can be imported into a LiquidVictor repository as a new Slide Deck using the `LVImport` CLI:
+
+```
+LVImport <path-to-pptx> -SourceRepoPath:<path|connection-string> [-SourceRepoType:<YamlFile|Postgres>] [-Slides:1,3,5-7] [-Title:<title>] [--SkipOutput] [--Verbose]
+```
+
+* Each PowerPoint slide becomes a Slide. The title placeholder becomes the slide title (or `Slide n` if there is none) and the speaker notes become the slide notes.
+* Each text shape becomes a markdown Content Item (content placeholders become bulleted lists) and each embedded picture becomes an image Content Item. Slides with both text and images use the `ImageRight` layout, all others use `FullPage`.
+* The deck title, subject and author document properties become the Slide Deck title, subtitle and presenter. The title falls back to the file name.
+* Use `-Slides` to import only some of the slides (1-based numbers and ranges). All slides are imported by default.
+* Every imported Content Item is tagged with `pptx:<file-name>` (e.g. `pptx:MyTalk.pptx`) so that imported content can be easily found or removed later.
+* Tables, charts, SmartArt and linked (non-embedded) pictures are not imported yet; a warning is logged for each one skipped.
+
 ## Building the Project
 
 Prototypes and contribution guidelines are forthcoming.
