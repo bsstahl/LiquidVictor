@@ -213,16 +213,17 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         // Materialize the collections up front to avoid re-evaluating lazy enumerables,
         // which could cause multiple builder calls and spurious duplicate detections.
         var deckList = slideDecks.ToList();
-        var slides = deckList.SelectMany(d => d.Slides).Select(s => s.Value).ToList();
+        var slideOccurrences = deckList.SelectMany(d => d.Slides).Select(s => s.Value).ToList();
+        var duplicateSlideIds = slideOccurrences
+            .GroupBy(s => s.Id)
+            .Where(g => g.Skip(1).Any(s => !AreEquivalent(s, g.First())))
+            .Select(g => g.Key)
+            .ToList();
+        var slides = slideOccurrences.DistinctBy(s => s.Id).ToList();
         var contentItems = slides.SelectMany(s => s.ContentItems).Select(c => c.Value).ToList();
 
         var duplicateDeckIds = deckList
             .GroupBy(d => d.Id)
-            .Where(g => g.Count() > 1)
-            .Select(g => g.Key);
-
-        var duplicateSlideIds = slides
-            .GroupBy(s => s.Id)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key);
 
@@ -231,7 +232,43 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             .Where(g => g.Count() > 1)
             .Select(g => g.Key);
 
-        return (duplicateDeckIds.ToList(), duplicateSlideIds.ToList(), duplicateContentItemIds.ToList());
+        return (duplicateDeckIds.ToList(), duplicateSlideIds, duplicateContentItemIds.ToList());
+    }
+
+    private static bool AreEquivalent(Entities.Slide left, Entities.Slide right)
+    {
+        var leftContentItems = left.ContentItems.OrderBy(ci => ci.Key).ToArray();
+        var rightContentItems = right.ContentItems.OrderBy(ci => ci.Key).ToArray();
+
+        return left.Title == right.Title
+            && left.Layout == right.Layout
+            && left.TransitionIn == right.TransitionIn
+            && left.TransitionOut == right.TransitionOut
+            && left.BackgroundTransitionIn == right.BackgroundTransitionIn
+            && left.BackgroundTransitionOut == right.BackgroundTransitionOut
+            && left.Notes == right.Notes
+            && left.NeverFullScreen == right.NeverFullScreen
+            && AreEquivalent(left.BackgroundContent, right.BackgroundContent)
+            && leftContentItems.Length == rightContentItems.Length
+            && leftContentItems.Zip(rightContentItems).All(items =>
+                items.First.Key == items.Second.Key
+                && AreEquivalent(items.First.Value, items.Second.Value));
+    }
+
+    private static bool AreEquivalent(Entities.ContentItem? left, Entities.ContentItem? right)
+    {
+        if (ReferenceEquals(left, right))
+            return true;
+        if (left is null || right is null)
+            return false;
+
+        return left.Id == right.Id
+            && left.Content.AsSpan().SequenceEqual(right.Content)
+            && left.ContentType == right.ContentType
+            && left.FileName == right.FileName
+            && left.Title == right.Title
+            && left.Alignment == right.Alignment
+            && left.Tags.SequenceEqual(right.Tags);
     }
 
     public IEnumerable<Guid> GetIncludeBlockIds() => throw new NotImplementedException();

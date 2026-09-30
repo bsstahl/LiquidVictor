@@ -135,8 +135,76 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
+    public void SaveAndRemoveAnOccurrence_WhenTheSameSlideIsUsedMoreThanOnce()
+    {
+        var deckId = Guid.NewGuid();
+        var slideId = Guid.NewGuid();
+        var contentItemId = Guid.NewGuid();
+        var repoPath = Path.Combine(Path.GetTempPath(), "LiquidVictor", Guid.NewGuid().ToString());
+
+        var slide = new SlideBuilder()
+            .Id(slideId)
+            .Title("Repeated Slide")
+            .Layout(Layout.FullPage)
+            .ContentItems(new ContentItemBuilder()
+                .Id(contentItemId)
+                .ContentType("text/markdown")
+                .Title("Slide Content")
+                .Content("Content used by both slide occurrences"));
+        var repo = new SlideDeckWriteRepository(repoPath);
+
+        try
+        {
+            var slideDeck = new SlideDeckBuilder()
+                .Id(deckId)
+                .Title("Repeated Slide Test")
+                .Slides(new SlidesBuilder()
+                    .Add(slide)
+                    .Add(slide))
+                .Build();
+
+            repo.SaveSlideDeck(slideDeck);
+
+            Assert.Single(Directory.EnumerateFiles(Path.Combine(repoPath, "Slides"), "*.yaml"));
+            Assert.Single(Directory.EnumerateFiles(Path.Combine(repoPath, "ContentItems"), "*.yaml"));
+
+            var readRepo = new SlideDeckReadRepository(repoPath);
+            var loadedDeck = readRepo.GetSlideDeck(deckId);
+            var occurrences = loadedDeck.Slides.OrderBy(s => s.Key).Select(s => s.Value).ToArray();
+            Assert.Equal(2, occurrences.Length);
+            Assert.All(occurrences, occurrence =>
+            {
+                Assert.Equal(slideId, occurrence.Id);
+                Assert.Equal("Repeated Slide", occurrence.Title);
+                Assert.Equal(contentItemId, Assert.Single(occurrence.ContentItems).Value.Id);
+            });
+
+            var updatedDeck = new SlideDeckBuilder()
+                .Id(deckId)
+                .Title("Repeated Slide Test")
+                .Slides(new[] { occurrences[0] })
+                .Build();
+
+            repo.SaveSlideDeck(updatedDeck);
+
+            var updatedOccurrences = readRepo.GetSlideDeck(deckId).Slides;
+            var remainingOccurrence = Assert.Single(updatedOccurrences).Value;
+            Assert.Equal(slideId, remainingOccurrence.Id);
+            Assert.Equal("Repeated Slide", remainingOccurrence.Title);
+            Assert.Equal(contentItemId, Assert.Single(remainingOccurrence.ContentItems).Value.Id);
+            Assert.Single(Directory.EnumerateFiles(Path.Combine(repoPath, "Slides"), "*.yaml"));
+        }
+        finally
+        {
+            if (Directory.Exists(repoPath))
+                Directory.Delete(repoPath, recursive: true);
+        }
+    }
+
+    [Fact]
     [Trait("Category", "Unit")]
-    public void ThrowDuplicateEntityIdException_WhenTwoSlidesInTheDeckShareAnId()
+    public void ThrowDuplicateEntityIdException_WhenDifferentSlidesShareAnId()
     {
         var slideId = Guid.NewGuid();
         var repoPath = Path.Combine(Path.GetTempPath(), "LiquidVictor", Guid.NewGuid().ToString());
