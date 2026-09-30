@@ -71,6 +71,17 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .Slides(new SlidesBuilder()
                     .Add(expectedSlide))
                 .Build();
+            slideDeck.Resources.Add(new LiquidVictor.Entities.Resource
+            {
+                Name = "API Guide",
+                Type = "Documentation",
+                Url = "https://example.com/api"
+            });
+            slideDeck.Resources.Add(new LiquidVictor.Entities.Resource
+            {
+                Name = "Community",
+                Url = "https://example.com/community"
+            });
 
             var writeRepo = new SlideDeckWriteRepository(repoPath);
             writeRepo.SaveSlideDeck(slideDeck);
@@ -92,6 +103,26 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(AspectRatio.Standard, result.AspectRatio);
             Assert.Equal(Transition.Fade, result.Transition);
             Assert.Equal(Transition.Fancy, result.BackgroundTransition);
+            Assert.Collection(result.Resources,
+                resource =>
+                {
+                    Assert.Equal("API Guide", resource.Name);
+                    Assert.Equal("Documentation", resource.Type);
+                    Assert.Equal("https://example.com/api", resource.Url);
+                },
+                resource =>
+                {
+                    Assert.Equal("Community", resource.Name);
+                    Assert.Equal("Other", resource.Type);
+                    Assert.Equal("https://example.com/community", resource.Url);
+                });
+
+            writeRepo.SaveSlideDeck(result);
+            var reloadedResult = readRepo.GetSlideDeck(slideDeckId);
+            Assert.Equal(
+                result.Resources.Select(resource => (resource.Name, resource.Type, resource.Url)),
+                reloadedResult.Resources.Select(resource => (resource.Name, resource.Type, resource.Url)));
+
             Assert.NotNull(result.BackgroundContent);
             Assert.Equal(deckBackgroundId, result.BackgroundContent!.Id);
             Assert.Equal("image/png", result.BackgroundContent.ContentType);

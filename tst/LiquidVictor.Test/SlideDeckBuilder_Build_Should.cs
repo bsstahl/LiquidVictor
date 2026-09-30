@@ -8,6 +8,31 @@ public class SlideDeckBuilder_Build_Should
 {
     [Fact]
     [Trait("Category", "Unit")]
+    public void PreserveResourcesWhenCloningSlideDeck()
+    {
+        var slideDeck = new SlideDeck();
+        slideDeck.Resources.Add(new Resource { Name = "Guide", Type = "Documentation", Url = "https://example.com/guide" });
+        slideDeck.Resources.Add(new Resource { Name = "Community", Url = "https://example.com/community" });
+
+        var clone = slideDeck.Clone(createNewId: false);
+
+        Assert.Collection(clone.Resources,
+            resource =>
+            {
+                Assert.Equal("Guide", resource.Name);
+                Assert.Equal("Documentation", resource.Type);
+                Assert.Equal("https://example.com/guide", resource.Url);
+            },
+            resource =>
+            {
+                Assert.Equal("Community", resource.Name);
+                Assert.Equal("Other", resource.Type);
+                Assert.Equal("https://example.com/community", resource.Url);
+            });
+    }
+
+    [Fact]
+    [Trait("Category", "Unit")]
     public void ReturnAValidSlideDeck()
     {
         string titleContent = $"# {string.Empty.GetRandom()}";

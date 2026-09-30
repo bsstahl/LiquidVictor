@@ -9,3 +9,9 @@ SlideDeckUrl: "https://example.com/TestDeck1"
 SlideIds:
   # General Tests
   - 833f8eae-471f-4f6d-9493-eb18dd6d4f5e # Test Slide 1
+Resources:
+  - Name: Documentation
+    Url: https://example.com/docs
+  - Name: Video
+    Type: Videos
+    Url: https://example.com/video

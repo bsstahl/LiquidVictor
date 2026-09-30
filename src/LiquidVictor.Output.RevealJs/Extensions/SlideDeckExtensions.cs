@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LiquidVictor.Extensions;
+using QRCoder;
 
 namespace LiquidVictor.Output.RevealJs.Extensions;
 
@@ -58,6 +59,62 @@ public static class SlideDeckExtensions
             }));
 
         return titleSlide;
+    }
+
+    public static Slide CreateResourcesSlide(this SlideDeck slideDeck)
+    {
+        ArgumentNullException.ThrowIfNull(slideDeck);
+
+        var resourcesSlide = new Slide()
+        {
+            Id = Guid.NewGuid(),
+            Title = "Resources",
+            Layout = Enumerations.Layout.ImageRight
+        };
+
+        bool hasTypedResources = slideDeck.Resources.Any(resource => resource.Type != "Other");
+        var content = new StringBuilder();
+        foreach (var group in slideDeck.Resources.GroupBy(resource => resource.Type))
+        {
+            if (hasTypedResources)
+            {
+                if (content.Length > 0)
+                    content.AppendLine();
+                content.Append("**").Append(System.Net.WebUtility.HtmlEncode(group.Key)).AppendLine("**");
+            }
+
+            foreach (var resource in group)
+            {
+                content.Append("- <a href=\"")
+                    .Append(System.Net.WebUtility.HtmlEncode(resource.Url))
+                    .Append("\">")
+                    .Append(System.Net.WebUtility.HtmlEncode(resource.Name))
+                    .AppendLine("</a>");
+            }
+        }
+
+        resourcesSlide.ContentItems.Add(new KeyValuePair<int, ContentItem>(0, new ContentItem
+        {
+            Id = Guid.NewGuid(),
+            Content = content.ToString().AsByteArray(),
+            ContentType = "text/markdown"
+        }));
+
+        if (slideDeck.SlideDeckUrl is not null)
+        {
+            using var qrGenerator = new QRCodeGenerator();
+            using var qrCodeData = qrGenerator.CreateQrCode(slideDeck.SlideDeckUrl.ToString(), QRCodeGenerator.ECCLevel.Q);
+            using var qrCode = new PngByteQRCode(qrCodeData);
+            resourcesSlide.ContentItems.Add(new KeyValuePair<int, ContentItem>(1, new ContentItem
+            {
+                Id = Guid.NewGuid(),
+                Content = qrCode.GetGraphic(20),
+                ContentType = "image/png",
+                FileName = "resources-qr-code.png"
+            }));
+        }
+
+        return resourcesSlide;
     }
 
     public static (int, int) GetPresentationSize(this SlideDeck deck)
