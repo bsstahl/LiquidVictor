@@ -1,6 +1,7 @@
 ﻿using LiquidVictor.Business;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LV;
 
@@ -26,6 +27,7 @@ sealed class Program
             (command, config) = args.Parse();
 
         var services = new ServiceCollection()
+            .AddLogging(logging => logging.AddConsole())
             .AddReadRepository(config)
             .AddWriteRepository(config)
             .AddPresentationBuilder(config)
