@@ -141,7 +141,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
             BackgroundTransitionIn = slide.GetBackgroundTransitionIn(),
             BackgroundTransitionOut = slide.GetBackgroundTransitionOut(),
             BackgroundContent = backgroundContentItemId.HasValue ? this.GetContentItem(backgroundContentItemId.Value) : null,
-            NeverFullScreen = slide.NeverFullScreen
+            NeverFullScreen = slide.NeverFullScreen,
+            IsSectionHeading = slide.IsSectionHeading
         };
 
         contentItems.ForEach(ci => slideResult.ContentItems.Add(ci));

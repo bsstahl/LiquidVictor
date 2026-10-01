@@ -70,6 +70,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             BackgroundContent = slide.BackgroundContent?.Id.ToString() ?? string.Empty,
             Layout = slide.Layout.ToString(),
             NeverFullScreen = slide.NeverFullScreen,
+            IsSectionHeading = slide.IsSectionHeading,
             Notes = slide.Notes,
             Title = slide.Title,
             TransitionIn = slide.TransitionIn.ToString(),

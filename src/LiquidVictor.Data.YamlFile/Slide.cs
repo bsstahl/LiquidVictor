@@ -15,6 +15,7 @@ internal class Slide
     public string Notes { get; set; } = string.Empty;
     public string BackgroundContent { get; set; } = string.Empty;
     public bool NeverFullScreen { get; set; }
+    public bool IsSectionHeading { get; set; }
     public ChildId[] ContentItemIds { get; set; } = [];
 
 

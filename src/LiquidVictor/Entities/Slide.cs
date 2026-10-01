@@ -21,6 +21,7 @@ public class Slide
 
     public ContentItem? BackgroundContent { get; set; }
     public bool NeverFullScreen { get; set; }
+    public bool IsSectionHeading { get; set; }
 
     public ICollection<KeyValuePair<int, ContentItem>> ContentItems { get; internal set; } = [];
 
@@ -28,11 +29,17 @@ public class Slide
     { }
 
     public Slide(Guid id, string title, Layout layout, ICollection<KeyValuePair<int, ContentItem>> contentItems)
-        : this(id, title, layout, Transition.None, Transition.None, string.Empty, null, false, contentItems)
+        : this(id, title, layout, Transition.None, Transition.None, string.Empty, null, false, false, contentItems)
     { }
 
     public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, 
         string notes, ContentItem? backgroundContent, bool neverFullScreen, 
+        ICollection<KeyValuePair<int, ContentItem>> contentItems)
+        : this(id, title, layout, transitionIn, transitionOut, notes, backgroundContent, neverFullScreen, false, contentItems)
+    { }
+
+    public Slide(Guid id, string title, Layout layout, Transition transitionIn, Transition transitionOut, 
+        string notes, ContentItem? backgroundContent, bool neverFullScreen, bool isSectionHeading,
         ICollection<KeyValuePair<int, ContentItem>> contentItems)
     {
         Id = id;
@@ -43,6 +50,7 @@ public class Slide
         Notes = notes;
         BackgroundContent = backgroundContent;
         NeverFullScreen = neverFullScreen;
+        IsSectionHeading = isSectionHeading;
         ContentItems = contentItems;
     }
 
@@ -60,6 +68,7 @@ public class Slide
             Notes = this.Notes,
             BackgroundContent = this.BackgroundContent?.Clone(createNewId),
             NeverFullScreen = this.NeverFullScreen,
+            IsSectionHeading = this.IsSectionHeading,
             ContentItems = this.ContentItems?.Clone(createNewId) ?? []
         };
     }

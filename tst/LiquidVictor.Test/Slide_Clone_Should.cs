@@ -15,4 +15,15 @@ public class Slide_Clone_Should
         var target = source.Clone(createNewId);
         Assert.NotNull(target);
     }
+
+    [Theory]
+    [Trait("Category", "Unit")]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void PreserveIsSectionHeadingWhenCloning(bool isSectionHeading)
+    {
+        var source = new Entities.Slide() { IsSectionHeading = isSectionHeading };
+        var target = source.Clone();
+        Assert.Equal(isSectionHeading, target.IsSectionHeading);
+    }
 }

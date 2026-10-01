@@ -4,5 +4,7 @@ public class BuilderOptions
 {
     public bool BuildTitleSlide { get; set; } = true;
 
+    public bool BuildIndexSlide { get; set; } = true;
+
     public bool MakeSoloImagesFullScreen { get; set; }
 }

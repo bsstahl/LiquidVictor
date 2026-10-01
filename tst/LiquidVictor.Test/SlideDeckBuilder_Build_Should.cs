@@ -158,6 +158,21 @@ public class SlideDeckBuilder_Build_Should
         Assert.Equal(slide.Id, writeRepo.LastSavedSlide!.Id);
     }
 
+    [Theory]
+    [Trait("Category", "Unit")]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void SuccessfullyBuildSlideWithIsSectionHeading(bool isSectionHeading)
+    {
+        var slide = new SlideBuilder()
+            .Title("Section")
+            .Layout(Enumerations.Layout.FullPage)
+            .IsSectionHeading(isSectionHeading)
+            .Build();
+
+        Assert.Equal(isSectionHeading, slide.IsSectionHeading);
+    }
+
     private sealed class FakeSlideDeckReadRepository : ISlideDeckReadRepository
     {
         private readonly Dictionary<Guid, Slide> _slides;
