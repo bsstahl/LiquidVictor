@@ -2,6 +2,7 @@ using LiquidVictor.Builders;
 using LiquidVictor.Enumerations;
 using LiquidVictor.Output.RemarkJs.Generator;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Text.RegularExpressions;
 
 namespace LiquidVictor.Output.RemarkJs.Test;
 
@@ -47,6 +48,7 @@ public class Engine_Should
 
             var html = File.ReadAllText(Path.Combine(outputPath, "index.html"));
             Assert.Contains("remark.create()", html);
+            Assert.Contains("Content-Security-Policy", html);
             Assert.Contains("# A deck", html);
             Assert.Contains("# A slide", html);
             Assert.Contains("A **markdown** body", html);
@@ -85,6 +87,9 @@ public class Engine_Should
             var html = File.ReadAllText(Path.Combine(outputPath, "index.html"));
             Assert.Contains("&lt;/textarea&gt;&lt;script&gt;alert(1)&lt;/script&gt;", html);
             Assert.Equal(1, html.Split("</textarea>", StringSplitOptions.None).Length - 1);
+            var nonce = Regex.Match(html, """<script nonce="([^"]+)">remark\.create\(\);</script>""").Groups[1].Value;
+            Assert.NotEmpty(nonce);
+            Assert.Contains($"script-src 'nonce-{nonce}' https://remarkjs.com", html);
         }
         finally
         {

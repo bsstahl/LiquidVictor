@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Interfaces;
@@ -154,20 +155,25 @@ public class Engine(ILogger<Engine> logger, bool buildTitleSlide) : IPresentatio
         fileName.Replace("\\", "\\\\", StringComparison.Ordinal)
             .Replace("]", "\\]", StringComparison.Ordinal);
 
-    private static string CreateHtml(string markdown) =>
-        $$"""
+    private static string CreateHtml(string markdown)
+    {
+        var scriptNonce = Convert.ToBase64String(RandomNumberGenerator.GetBytes(16));
+
+        return $$"""
         <!doctype html>
         <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-{{scriptNonce}}' https://remarkjs.com; style-src 'unsafe-inline'; img-src 'self' file: http: https: data:; font-src http: https: data:; base-uri 'none'">
           <title>Remark.js presentation</title>
         </head>
         <body>
           <textarea id="source" style="display:none;">{{WebUtility.HtmlEncode(markdown)}}</textarea>
           <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-          <script>remark.create();</script>
+          <script nonce="{{scriptNonce}}">remark.create();</script>
         </body>
         </html>
         """;
+    }
 }
