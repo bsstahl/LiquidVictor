@@ -1,6 +1,7 @@
 ﻿using LiquidVictor.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LiquidVictor.Builders;
 
@@ -80,13 +81,75 @@ public class ContentItemBuilder(ContentItem? value)
         return this;
     }
 
+    /// <summary>
+    /// Replaces any existing tags with the supplied collection of tags
+    /// </summary>
     public ContentItemBuilder Tags(IEnumerable<string> values)
     {
         ArgumentNullException.ThrowIfNull(values);
+        var tags = values.ToList();
+        tags.ForEach(ValidateTag);
+
         _contentItem.Tags.Clear();
-        foreach (var value in values)
+        return this.AddTags(tags);
+    }
+
+    /// <summary>
+    /// Adds a single tag to the item. Tags that are already present are not duplicated.
+    /// </summary>
+    public ContentItemBuilder AddTag(string value)
+    {
+        ValidateTag(value);
+        if (!_contentItem.Tags.Contains(value))
             _contentItem.Tags.Add(value);
 
         return this;
+    }
+
+    /// <summary>
+    /// Adds each of the supplied tags to the item. Tags that are already present are not duplicated.
+    /// </summary>
+    public ContentItemBuilder AddTags(IEnumerable<string> values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+        var tags = values.ToList();
+        tags.ForEach(ValidateTag);
+
+        foreach (var tag in tags)
+            this.AddTag(tag);
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds each of the supplied tags to the item. Tags that are already present are not duplicated.
+    /// </summary>
+    public ContentItemBuilder AddTags(params string[] values)
+        => this.AddTags((IEnumerable<string>)values);
+
+    /// <summary>
+    /// Removes the specified tag from the item if it is present
+    /// </summary>
+    public ContentItemBuilder RemoveTag(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        _contentItem.Tags.Remove(value);
+        return this;
+    }
+
+    /// <summary>
+    /// Removes all tags from the item
+    /// </summary>
+    public ContentItemBuilder ClearTags()
+    {
+        _contentItem.Tags.Clear();
+        return this;
+    }
+
+    private static void ValidateTag(string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        if (value.Contains(',', StringComparison.Ordinal))
+            throw new ArgumentException("Tags cannot contain commas.", nameof(value));
     }
 }
