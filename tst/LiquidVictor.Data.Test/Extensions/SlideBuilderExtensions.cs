@@ -16,6 +16,7 @@ public static class SlideBuilderExtensions
             .Id(Guid.NewGuid())
             .Layout(Layout.FullPage.GetRandom())
             .NeverFullScreen(true.GetRandom())
+            .IsSectionHeading(true.GetRandom())
             .Notes(string.Empty.GetRandom())
             .Title(string.Empty.GetRandom())
             .TransitionIn(Transition.Fancy.GetRandom())

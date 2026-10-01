@@ -25,6 +25,7 @@ internal static class ArgumentExtensions
         var config = new Configuration()
         {
             BuildTitleSlide = defaults.GetValueOrDefault("BuildTitleSlide", true),
+            BuildIndexSlide = defaults.GetValueOrDefault("BuildIndexSlide", true),
             MakeSoloImagesFullScreen = defaults.GetValueOrDefault("MakeSoloImagesFullScreen", false),
             OutputEngineType = defaults.GetValueOrDefault("OutputEngineType", defaultOutputEngineType) ?? throw new ArgumentNullException("No argument or default found for OutputEngineType", new InvalidOperationException()),
             PresentationPath = defaults.GetValueOrDefault("PresentationPath", string.Empty) ?? throw new ArgumentNullException("No argument or default found for PresentationPath", new InvalidOperationException()),
@@ -40,6 +41,8 @@ internal static class ArgumentExtensions
             string arg = args[i].ToUpperInvariant();
             if (arg == "--NOTITLE")
                 config.BuildTitleSlide = false;
+            else if (arg == "--NOINDEX")
+                config.BuildIndexSlide = false;
             else if (arg == "--MAKESOLOIMAGESFULLSCREEN")
                 config.MakeSoloImagesFullScreen = true;
             else if (arg == "--SKIPOUTPUT")

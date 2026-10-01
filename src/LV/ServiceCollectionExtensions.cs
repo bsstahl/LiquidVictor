@@ -17,6 +17,7 @@ internal static class ServiceCollectionExtensions
                         var builderOptions = new LiquidVictor.Output.RevealJs.Entities.BuilderOptions()
                         {
                             BuildTitleSlide = config.BuildTitleSlide,
+                            BuildIndexSlide = config.BuildIndexSlide,
                             MakeSoloImagesFullScreen = config.MakeSoloImagesFullScreen
                         };
                         return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);

@@ -76,6 +76,14 @@ public class Engine : IPresentationBuilder
             slideIndex++;
         }
 
+        if (builderOptions.BuildIndexSlide && slideDeck.Slides.Any(s => s.Value.IsSectionHeading))
+        {
+            var indexSlide = slideDeck.CreateIndexSlide();
+            images.AddFromSlide(indexSlide, slideDeck.BackgroundContent);
+            slideSections.AppendLine(indexSlide.GetLayout(slideIndex, layoutStrategies));
+            slideIndex++;
+        }
+
         (int presentationWidth, int presentationHeight) = slideDeck.GetPresentationSize();
 
         var templateFilePath = Path.Combine(_templatePath, _templateFilename);
