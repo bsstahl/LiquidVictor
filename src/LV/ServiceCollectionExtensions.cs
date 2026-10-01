@@ -1,5 +1,6 @@
 ﻿using LiquidVictor.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LV;
 
@@ -21,6 +22,13 @@ internal static class ServiceCollectionExtensions
                         };
                         return new LiquidVictor.Output.RevealJs.Generator.Engine(config.TemplatePath, builderOptions);
                     });
+                break;
+            case "REMARK":
+            case "REMARKJS":
+                services.AddTransient<IPresentationBuilder>(c =>
+                    new LiquidVictor.Output.RemarkJs.Generator.Engine(
+                        c.GetRequiredService<ILogger<LiquidVictor.Output.RemarkJs.Generator.Engine>>(),
+                        config.BuildTitleSlide));
                 break;
             default:
                 throw new NotSupportedException($"Invalid Presentation Builder '{config.OutputEngineType}'");

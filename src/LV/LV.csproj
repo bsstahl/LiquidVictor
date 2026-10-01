@@ -8,6 +8,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -16,6 +18,7 @@
 		<ProjectReference Include="..\LiquidVictor.Data.Postgres\LiquidVictor.Data.Postgres.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />
+		<ProjectReference Include="..\LiquidVictor.Output.RemarkJs.Generator\LiquidVictor.Output.RemarkJs.Generator.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Output.RevealJs.Generator\LiquidVictor.Output.RevealJs.Generator.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Strategy.TableOfContents\LiquidVictor.Strategy.TableOfContents.csproj" />
 		<ProjectReference Include="..\LiquidVictor\LiquidVictor.csproj" />

@@ -48,6 +48,16 @@ In short: local product autonomy is preserved, but product autonomy does not per
 
 ## Features
 
+### Remark.js Output
+
+Build a presentation using Remark.js by selecting `RemarkJs` as the output engine:
+
+```text
+LV Build -OutputEngineType:RemarkJs -PresentationPath:<output-directory>
+```
+
+The generated `index.html` uses Remark.js and includes the deck's Markdown slides, speaker notes, and image assets.
+
 ### LaTeX Math Support
 
 Slide content written in Markdown can include LaTeX mathematical expressions using standard dollar-sign delimiters:
@@ -161,4 +171,3 @@ dotnet nuget push .\packages\LiquidVictor.1.9.1.nupkg --source https://api.nuget
 ```
 
 Replace `YOUR_API_KEY` with your actual NuGet API key.
-
