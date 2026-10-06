@@ -18,14 +18,16 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
         readonly Transition _presentationDefaultTransition;
         readonly Transition _presentationDefaultBackgroundTransition;
         readonly ContentItem? _presentationDefaultBackgroundContent;
+        readonly FooterDisplay _presentationFooterDisplay;
         readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions builderOptions)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions builderOptions, FooterDisplay presentationFooterDisplay = FooterDisplay.Default)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
             _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _presentationDefaultBackgroundContent = presentationDefaultBackgroundContent;
+            _presentationFooterDisplay = presentationFooterDisplay;
             _builderOptions = builderOptions;
         }
 
@@ -54,7 +56,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.Title
             if (!string.IsNullOrWhiteSpace(printLinkText))
                 markdown.AppendLine(CultureInfo.CurrentCulture, $"##### [{printLinkText}](index.html?print-pdf#/)");
 
-            return $"{slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition, _presentationDefaultBackgroundContent)}{Markdig.Markdown.ToHtml(markdown.ToString(), _pipeline)}</section>\r\n";
+            return $"{slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition, _presentationDefaultBackgroundContent, _presentationFooterDisplay)}{Markdig.Markdown.ToHtml(markdown.ToString(), _pipeline)}</section>\r\n";
         }
     }
 }

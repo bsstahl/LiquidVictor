@@ -37,6 +37,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             BackgroundTransition = slideDeck.BackgroundTransition.ToString(),
             BackgroundContent = slideDeck.BackgroundContent?.Id.ToString() ?? string.Empty,
             Format = slideDeck.Format.ToString(),
+            FooterDisplay = slideDeck.FooterDisplay.ToString(),
             SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
             Includes = slideDeck.Slides.OrderBy(s => s.Key)
                 .Select(s => new Include { Id = s.Value.Id.ToString(), IncludeType = Enumerations.IncludeType.Slide.ToString() })
@@ -70,6 +71,7 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             BackgroundContent = slide.BackgroundContent?.Id.ToString() ?? string.Empty,
             Layout = slide.Layout.ToString(),
             NeverFullScreen = slide.NeverFullScreen,
+            ShowFooter = slide.ShowFooter,
             Notes = slide.Notes,
             Title = slide.Title,
             TransitionIn = slide.TransitionIn.ToString(),

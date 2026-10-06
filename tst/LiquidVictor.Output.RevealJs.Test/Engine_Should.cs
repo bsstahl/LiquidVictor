@@ -82,6 +82,73 @@ public class Engine_Should
         }
     }
 
+    [Theory]
+    [Trait("Category", "Integration")]
+    [InlineData(FooterDisplay.Default, 2)]
+    [InlineData(FooterDisplay.Always, 0)]
+    [InlineData(FooterDisplay.Never, 4)]
+    public void HideFootersBasedOnDeckAndSlideSettings(FooterDisplay footerDisplay, int expectedHiddenFooterCount)
+    {
+        var tempRoot = Path.Combine(Path.GetTempPath(), "LiquidVictor", Guid.NewGuid().ToString());
+        var templatePath = Path.Combine(tempRoot, "template");
+        var outputPath = Path.Combine(tempRoot, "output");
+
+        Directory.CreateDirectory(templatePath);
+        File.WriteAllText(
+            Path.Combine(templatePath, "index.html"),
+            "<html><body><div class=\"slides\">{SlideSections}</div></body></html>");
+
+        try
+        {
+            var slideDeck = new SlideDeckBuilder()
+                .Title("Deck")
+                .SubTitle("Subtitle")
+                .Presenter("Presenter")
+                .PrintLinkText("Print")
+                .FooterDisplay(footerDisplay)
+                .Slides(new SlidesBuilder()
+                    .Add(new SlideBuilder()
+                        .Title("Text Slide")
+                        .Layout(Enumerations.Layout.FullPage)
+                        .ContentItems(new ContentItemBuilder()
+                            .Title("Content")
+                            .ContentType("text/markdown")
+                            .Content("# Slide 1")))
+                    .Add(new SlideBuilder()
+                        .Layout(Enumerations.Layout.FullPage)
+                        .ContentItems(new ContentItemBuilder()
+                            .Title("Full Screen Image")
+                            .FileName("fullscreen.png")
+                            .ContentType("image/png")
+                            .Content([1, 2, 3])))
+                    .Add(new SlideBuilder()
+                        .Title("Text Slide Without Footer")
+                        .Layout(Enumerations.Layout.FullPage)
+                        .ShowFooter(false)
+                        .ContentItems(new ContentItemBuilder()
+                            .Title("Content")
+                            .ContentType("text/markdown")
+                            .Content("# Slide 3"))))
+                .Build();
+
+            var engine = new Engine(templatePath, new BuilderOptions
+            {
+                BuildTitleSlide = true,
+                MakeSoloImagesFullScreen = true
+            });
+
+            engine.CreatePresentation(outputPath, slideDeck);
+
+            var html = File.ReadAllText(Path.Combine(outputPath, "index.html"));
+            Assert.Equal(expectedHiddenFooterCount, CountOccurrences(html, "data-state=\"hide-footer\""));
+        }
+        finally
+        {
+            if (Directory.Exists(tempRoot))
+                Directory.Delete(tempRoot, recursive: true);
+        }
+    }
+
     private static int CountOccurrences(string value, string expected)
     {
         var count = 0;

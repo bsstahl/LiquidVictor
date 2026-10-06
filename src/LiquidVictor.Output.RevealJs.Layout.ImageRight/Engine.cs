@@ -19,14 +19,16 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
         readonly Transition _presentationDefaultTransition;
         readonly Transition _presentationDefaultBackgroundTransition;
         readonly ContentItem? _presentationDefaultBackgroundContent;
+        readonly FooterDisplay _presentationFooterDisplay;
         // readonly BuilderOptions _builderOptions;
 
-        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions _)
+        public Engine(Markdig.MarkdownPipeline pipeline, Transition presentationDefaultTransition, Transition presentationDefaultBackgroundTransition, ContentItem? presentationDefaultBackgroundContent, BuilderOptions _, FooterDisplay presentationFooterDisplay = FooterDisplay.Default)
         {
             _pipeline = pipeline;
             _presentationDefaultTransition = presentationDefaultTransition;
             _presentationDefaultBackgroundTransition = presentationDefaultBackgroundTransition;
             _presentationDefaultBackgroundContent = presentationDefaultBackgroundContent;
+            _presentationFooterDisplay = presentationFooterDisplay;
             // _builderOptions = builderOptions;
         }
 
@@ -36,7 +38,7 @@ namespace LiquidVictor.Output.RevealJs.Layout.ImageRight
 
             var sb = new StringBuilder();
 
-            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition, _presentationDefaultBackgroundContent));
+            sb.AppendLine(slide.AsStartSlideSection(_presentationDefaultTransition, _presentationDefaultBackgroundTransition, _presentationDefaultBackgroundContent, _presentationFooterDisplay));
 
             sb.AppendLine(slide.Title.AsTitleBlock(slide.Id));
             sb.AppendLine(slide.Layout.AsComment());

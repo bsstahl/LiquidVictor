@@ -24,6 +24,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal(AspectRatio.Widescreen, result.AspectRatio);
         Assert.Equal(Transition.Slide, result.Transition);
         Assert.Equal(Transition.Fade, result.BackgroundTransition);
+        Assert.Equal(FooterDisplay.Default, result.FooterDisplay);
 
         var slide = Assert.Single(result.Slides).Value;
         Assert.Equal(Guid.Parse("833f8eae-471f-4f6d-9493-eb18dd6d4f5e"), slide.Id);
@@ -36,6 +37,7 @@ public class SlideDeckReadRepository_GetSlideDeck_Should
         Assert.Equal("My 1st Test Slide", slide.Notes);
         Assert.Null(slide.BackgroundContent);
         Assert.False(slide.NeverFullScreen);
+        Assert.Null(slide.ShowFooter);
 
         var contentItems = slide.ContentItems.Select(ci => ci.Value).ToDictionary(ci => ci.Id);
         Assert.Equal(2, contentItems.Count);
