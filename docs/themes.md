@@ -151,7 +151,7 @@ The stylesheets currently supplied in `dist\theme` are:
 * `beige`, `black`, `black-contrast`, `blood`, `dracula`
 * `league`, `moon`, `night`, `serif`, `simple`, `sky`, `solarized`
 * `white`, `white-contrast`, `white_contrast_compact_verbatim_headers`
-* `bsstahl`, `carvana`, `confoo`
+* `bsstahl`, `carvana`, `confoo`, `maroon`
 
 Discover the actual choices in your selected bundle rather than assuming every upstream theme is installed:
 
@@ -163,6 +163,20 @@ Get-ChildItem .\Templates\RevealJS\dist\theme\*.css |
 `bsstahl` and `confoo` are customized derivatives of `moon`; `carvana` also contains custom layout/alignment styling. These three and `white_contrast_compact_verbatim_headers` have no corresponding source file in the bundled `css\theme\source` directory. They are maintained as CSS here. Several compiled stylesheets also contain footer additions not represented in the shared Sass template, so recompiling Sass is not guaranteed to reproduce the checked-in CSS exactly.
 
 There is no `-ThemeName` CLI argument. Change the deck metadata, or assign `ThemeName` in code; `-TemplatePath` alone does not change the selected name.
+
+#### Maroon and gold
+
+The [maroon theme](../Templates/RevealJS/dist/theme/maroon.css) imports the existing `black.css` theme and overrides its palette without changing the base theme or shared HTML shell. It retains Black's typography and layout, with warm gold (`#f4d675`) body text, headings, and footers, lighter gold links, and a deep maroon (`#500020`) fallback background. Subtle text shadows help separate lettering from background artwork.
+
+Select it in your deck metadata:
+
+```yaml
+ThemeName: "maroon"
+```
+
+Use the normal `Templates\RevealJS` bundle as `TemplatePath`. Keep both `maroon.css` and `black.css` in the bundle; the new stylesheet depends on the base stylesheet and its bundled fonts. The maroon theme is maintained directly as CSS, with no separate Sass source.
+
+For maroon image backgrounds, set the deck's `BackgroundContent` to the image Content Item ID, or override it per slide. The theme does not insert, tint, or replace your image; gold lettering is used over it by default. The palette has approximately 10.8:1 text contrast against the solid fallback color, but check your actual image for bright areas behind text. Black's contrasting text rules for explicitly light slide backgrounds remain in effect, and code syntax colors still come from the shell's independent highlight stylesheet.
 
 ### Creating a theme from existing CSS
 

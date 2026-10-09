@@ -1,0 +1,32 @@
+/**
+ * Maroon and gold theme for LiquidVictor, based on the black RevealJS theme.
+ * The black theme is by Hakim El Hattab, https://hakim.se (MIT licensed).
+ */
+@import url("./black.css");
+
+:root {
+  --r-background-color: #500020;
+  --r-main-color: #f4d675;
+  --r-heading-color: #f4d675;
+  --r-heading-text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+  --r-heading1-text-shadow: var(--r-heading-text-shadow);
+  --r-link-color: #ffe49a;
+  --r-link-color-dark: #b88a28;
+  --r-link-color-hover: #fff2c7;
+  --r-selection-background-color: #f4d675;
+  --r-selection-color: #500020;
+}
+
+.reveal .slides section {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.reveal .footer-left,
+.reveal .footer-right {
+  color: var(--r-main-color);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.reveal .roll span:after {
+  color: #500020;
+}
