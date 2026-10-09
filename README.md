@@ -48,6 +48,10 @@ In short: local product autonomy is preserved, but product autonomy does not per
 
 ## Features
 
+### Presentation Themes
+
+RevealJS presentations select a stylesheet through the deck's `ThemeName` and use a template bundle chosen by `TemplatePath`. See [docs/themes.md](docs/themes.md) for the end-to-end theme workflow, examples of creating a custom theme from CSS or Sass, and separate guidance on other output targets and their current limitations.
+
 ### LaTeX Math Support
 
 Slide content written in Markdown can include LaTeX mathematical expressions using standard dollar-sign delimiters:

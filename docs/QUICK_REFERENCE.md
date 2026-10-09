@@ -149,5 +149,6 @@ dotnet restore src\LiquidVictor.sln
 
 ## See Also
 - [README.md](../README.md) - Main project documentation
+- [themes.md](./themes.md) - Theme selection, RevealJS template customization, and output-target support
 - [VERSION_MANAGEMENT.md](./VERSION_MANAGEMENT.md) - Detailed version management guide
 - [latex-support.md](./latex-support.md) - LaTeX math rendering guide
