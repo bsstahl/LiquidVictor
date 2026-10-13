@@ -60,6 +60,37 @@ public static class SlideDeckExtensions
         return titleSlide;
     }
 
+    public static Slide CreateIndexSlide(this SlideDeck slideDeck)
+    {
+        ArgumentNullException.ThrowIfNull(slideDeck);
+
+        var indexSlide = new Slide()
+        {
+            Id = Guid.NewGuid(),
+            Title = "Index",
+            Layout = Enumerations.Layout.FullPage
+        };
+
+        var sb = new StringBuilder();
+        foreach (var slide in slideDeck.Slides.OrderBy(s => s.Key).Where(s => s.Value.IsSectionHeading))
+        {
+            var title = slide.Value.Title.NullIfEmpty() ?? slide.Value.Id.ToString();
+            sb.AppendLine(FormattableString.Invariant($"* [{title}](#{slide.Value.Id})"));
+        }
+
+        indexSlide.ContentItems.Add(
+            new KeyValuePair<int, ContentItem>(1,
+            new ContentItem()
+            {
+                Content = sb.ToString().AsByteArray(),
+                ContentType = "text/markdown",
+                Id = Guid.NewGuid(),
+                Title = "Index"
+            }));
+
+        return indexSlide;
+    }
+
     public static (int, int) GetPresentationSize(this SlideDeck deck)
     {
         ArgumentNullException.ThrowIfNull(deck);

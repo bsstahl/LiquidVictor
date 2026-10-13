@@ -34,6 +34,7 @@ public class SlideBuilder
             Id = _slide.Id.Equals(Guid.Empty) ? Guid.NewGuid() : _slide.Id,
             Layout = _slide.Layout,
             NeverFullScreen = _slide.NeverFullScreen,
+            IsSectionHeading = _slide.IsSectionHeading,
             Notes = _slide.Notes,
             Title = _slide.Title,
             TransitionIn = _slide.TransitionIn,
@@ -157,6 +158,12 @@ public class SlideBuilder
     public SlideBuilder NeverFullScreen(bool value)
     {
         _slide.NeverFullScreen = value;
+        return this;
+    }
+
+    public SlideBuilder IsSectionHeading(bool value)
+    {
+        _slide.IsSectionHeading = value;
         return this;
     }
 

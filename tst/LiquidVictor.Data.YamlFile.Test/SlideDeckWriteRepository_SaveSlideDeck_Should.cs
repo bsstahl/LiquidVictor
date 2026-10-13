@@ -35,6 +35,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
                 .BackgroundTransitionOut(Transition.Slide)
                 .Notes("Round trip notes")
                 .NeverFullScreen(true)
+                .IsSectionHeading(true)
                 .ContentItems(new ContentItemsBuilder()
                     .Add(new ContentItemBuilder()
                         .Id(markdownId)
@@ -110,6 +111,7 @@ public class SlideDeckWriteRepository_SaveSlideDeck_Should
             Assert.Equal(Transition.Slide, slide.BackgroundTransitionOut);
             Assert.Equal("Round trip notes", slide.Notes);
             Assert.True(slide.NeverFullScreen);
+            Assert.True(slide.IsSectionHeading);
 
             var contentItems = slide.ContentItems.Select(ci => ci.Value).ToDictionary(ci => ci.Id);
             Assert.Equal(2, contentItems.Count);
