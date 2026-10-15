@@ -31,7 +31,15 @@ public class Engine_Should
             Assert.Contains("Guide", html);
             var qrImage = Assert.Single(Directory.EnumerateFiles(Path.Combine(outputPath, "img")));
             Assert.EndsWith(".png", qrImage, StringComparison.OrdinalIgnoreCase);
-            Assert.Equal(new byte[] { 0x89, 0x50, 0x4e, 0x47 }, File.ReadAllBytes(qrImage).Take(4));
+            var firstQrContent = File.ReadAllBytes(qrImage);
+            Assert.Equal(new byte[] { 0x89, 0x50, 0x4e, 0x47 }, firstQrContent.Take(4));
+
+            slideDeck.SlideDeckUrl = new Uri("https://example.com/updated-deck");
+            engine.CreatePresentation(outputPath, slideDeck);
+
+            var overwrittenQrImage = Assert.Single(Directory.EnumerateFiles(Path.Combine(outputPath, "img")));
+            Assert.Equal(qrImage, overwrittenQrImage);
+            Assert.False(firstQrContent.SequenceEqual(File.ReadAllBytes(overwrittenQrImage)));
         }
         finally
         {

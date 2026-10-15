@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Buffers.Binary;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Text;
 using LiquidVictor.Extensions;
 using QRCoder;
@@ -111,7 +112,7 @@ public static class SlideDeckExtensions
             using var qrCodeData = qrGenerator.CreateQrCode(slideDeck.SlideDeckUrl.ToString(), QRCodeGenerator.ECCLevel.Q);
             resourcesSlide.ContentItems.Add(new KeyValuePair<int, ContentItem>(1, new ContentItem
             {
-                Id = Guid.NewGuid(),
+                Id = GetResourcesQrCodeId(slideDeck.Id),
                 Content = CreateQrCodePng(qrCodeData),
                 ContentType = "image/png",
                 FileName = "resources-qr-code.png"
@@ -119,6 +120,12 @@ public static class SlideDeckExtensions
         }
 
         return resourcesSlide;
+    }
+
+    private static Guid GetResourcesQrCodeId(Guid slideDeckId)
+    {
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes($"{slideDeckId:D}:resources-qr-code"));
+        return new Guid(hash.AsSpan(0, 16));
     }
 
     private static byte[] CreateQrCodePng(QRCodeData qrCodeData)

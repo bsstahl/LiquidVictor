@@ -80,6 +80,9 @@ public class SlideDeckExtensions_CreateResourcesSlide_Should
             Assert.Equal(new byte[] { 0x89, 0x50, 0x4e, 0x47 }, image.Content.Take(4));
             Assert.Equal(800u, BinaryPrimitives.ReadUInt32BigEndian(image.Content.AsSpan(16, 4)));
             Assert.Equal(800u, BinaryPrimitives.ReadUInt32BigEndian(image.Content.AsSpan(20, 4)));
+
+            var secondImage = Assert.Single(slideDeck.CreateResourcesSlide().ContentItems, item => item.Value.ContentType == "image/png").Value;
+            Assert.Equal(image.Id, secondImage.Id);
         }
     }
 }
