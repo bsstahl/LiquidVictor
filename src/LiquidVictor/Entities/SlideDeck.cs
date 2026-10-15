@@ -60,6 +60,7 @@ namespace LiquidVictor.Entities
         public Format Format { get; set; } = format;
 
         internal IncludeBlockCollection Includes { get; } = new IncludeBlockCollection(includes);
+        public ICollection<Resource> Resources { get; } = [];
 
         public ICollection<KeyValuePair<int, Slide>> Slides 
         { 
@@ -87,11 +88,16 @@ namespace LiquidVictor.Entities
                 .Select(i => i.Clone(createNewChildIds))
                 .OrderBy(i => 0); // stable OrderBy with constant key preserves original order
 
-            return new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone)
+            var clone = new SlideDeck(id, title, this.SubTitle, this.Presenter, this.ThemeName, this.PrintLinkText, this.Transition, this.AspectRatio, includesClone)
             {
                 BackgroundTransition = this.BackgroundTransition,
                 BackgroundContent = this.BackgroundContent?.Clone(createNewChildIds)
             };
+
+            foreach (var resource in this.Resources)
+                clone.Resources.Add(new Resource { Name = resource.Name, Type = resource.Type, Url = resource.Url });
+
+            return clone;
         }
     }
 }

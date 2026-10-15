@@ -40,6 +40,9 @@ public class SlideDeckWriteRepository(string sourceFolderPath) : Interfaces.ISli
             SlideDeckUrl = slideDeck.SlideDeckUrl?.ToString() ?? string.Empty,
             Includes = slideDeck.Slides.OrderBy(s => s.Key)
                 .Select(s => new Include { Id = s.Value.Id.ToString(), IncludeType = Enumerations.IncludeType.Slide.ToString() })
+                .ToArray(),
+            Resources = slideDeck.Resources
+                .Select(resource => new Resource { Name = resource.Name, Type = resource.Type, Url = resource.Url })
                 .ToArray()
         };
 

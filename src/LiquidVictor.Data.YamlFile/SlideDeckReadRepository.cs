@@ -89,6 +89,8 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         var result = new Entities.SlideDeck(slideDeckId, slideDeck.Title, slideDeck.SubTitle, slideDeck.Presenter, slideDeck.ThemeName, slideDeckUri, slideDeck.PrintLinkText, slideDeckTransition, aspectRatio, includes.OrderBy(i => 0));
         result.BackgroundTransition = slideDeckBackgroundTransition;
         result.BackgroundContent = slideDeckBackgroundContentId.HasValue ? this.GetContentItem(slideDeckBackgroundContentId.Value) : null;
+        foreach (var resource in slideDeck.Resources)
+            result.Resources.Add(new Entities.Resource { Name = resource.Name, Type = resource.Type, Url = resource.Url });
 
         return result;
     }
