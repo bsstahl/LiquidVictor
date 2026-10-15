@@ -1,3 +1,4 @@
+using System.Buffers.Binary;
 using System.Text;
 using LiquidVictor.Entities;
 using LiquidVictor.Enumerations;
@@ -63,13 +64,22 @@ public class SlideDeckExtensions_CreateResourcesSlide_Should
     [Trait("Category", "Unit")]
     public void CreatePngQrCodeWhenDeckUrlIsPresent()
     {
-        var slideDeck = new SlideDeck { SlideDeckUrl = new Uri("https://example.com/deck") };
-        slideDeck.Resources.Add(new Resource { Name = "First", Url = "https://example.com/1" });
+        foreach (var url in new[]
+        {
+            "https://example.com/deck",
+            $"https://example.com/{new string('a', 400)}"
+        })
+        {
+            var slideDeck = new SlideDeck { SlideDeckUrl = new Uri(url) };
+            slideDeck.Resources.Add(new Resource { Name = "First", Url = "https://example.com/1" });
 
-        var slide = slideDeck.CreateResourcesSlide();
-        var image = Assert.Single(slide.ContentItems, item => item.Value.ContentType == "image/png").Value;
+            var slide = slideDeck.CreateResourcesSlide();
+            var image = Assert.Single(slide.ContentItems, item => item.Value.ContentType == "image/png").Value;
 
-        Assert.Equal("resources-qr-code.png", image.FileName);
-        Assert.Equal(new byte[] { 0x89, 0x50, 0x4e, 0x47 }, image.Content.Take(4));
+            Assert.Equal("resources-qr-code.png", image.FileName);
+            Assert.Equal(new byte[] { 0x89, 0x50, 0x4e, 0x47 }, image.Content.Take(4));
+            Assert.Equal(800u, BinaryPrimitives.ReadUInt32BigEndian(image.Content.AsSpan(16, 4)));
+            Assert.Equal(800u, BinaryPrimitives.ReadUInt32BigEndian(image.Content.AsSpan(20, 4)));
+        }
     }
 }
