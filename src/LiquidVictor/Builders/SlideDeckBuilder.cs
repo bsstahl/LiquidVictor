@@ -118,6 +118,18 @@ public class SlideDeckBuilder
         return this.BackgroundContent(new ContentItemBuilder(value));
     }
 
+    public SlideDeckBuilder FooterDisplay(string value)
+    {
+        var footerDisplay = Enum.Parse<FooterDisplay>(value, true);
+        return this.FooterDisplay(footerDisplay);
+    }
+
+    public SlideDeckBuilder FooterDisplay(FooterDisplay value)
+    {
+        _slideDeck.FooterDisplay = value;
+        return this;
+    }
+
     public SlideDeckBuilder SlideDeckUrl(string value)
     {
         _slideDeck.SlideDeckUrl = new Uri(value);
