@@ -12,7 +12,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LiquidVictor.Business\LiquidVictor.Business.csproj" />
-		<ProjectReference Include="..\LiquidVictor.Data.Hardcoded\LiquidVictor.Data.Hardcoded.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.Postgres\LiquidVictor.Data.Postgres.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Data.YamlFile\LiquidVictor.Data.YamlFile.csproj" />
 		<ProjectReference Include="..\LiquidVictor.Output.Powerpoint\LiquidVictor.Output.Powerpoint.csproj" />

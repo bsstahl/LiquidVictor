@@ -64,7 +64,6 @@ All projects under the `src/` directory now inherit these settings:
 - LiquidVictor.Business
 - LiquidVictor.Data.YamlFile
 - LiquidVictor.Data.Postgres
-- LiquidVictor.Data.Hardcoded
 - LiquidVictor.Output.* (all output projects)
 - LiquidVictor.Strategy.*
 - LV (executable)

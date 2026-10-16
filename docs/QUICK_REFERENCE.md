@@ -141,7 +141,9 @@ dotnet restore src\LiquidVictor.sln
 ### Data Layer Projects
 - `LiquidVictor.Data.YamlFile` - File-based YAML storage
 - `LiquidVictor.Data.Postgres` - PostgreSQL storage
-- `LiquidVictor.Data.Hardcoded` - In-memory test data
+
+### Test Libraries
+- `LiquidVictor.Data.Test` - Shared data test helpers and an in-memory read repository
 
 ### Output Projects
 - `LiquidVictor.Output.RevealJs.*` - RevealJS presentation output
