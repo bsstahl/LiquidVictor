@@ -90,6 +90,7 @@ public class SlideDeckReadRepository : Interfaces.ISlideDeckReadRepository
         result.BackgroundTransition = slideDeckBackgroundTransition;
         result.BackgroundContent = slideDeckBackgroundContentId.HasValue ? this.GetContentItem(slideDeckBackgroundContentId.Value) : null;
         result.FooterDisplay = slideDeck.GetFooterDisplay();
+        result.FooterDisplay = slideDeck.GetFooterDisplay();
         foreach (var resource in slideDeck.Resources)
             result.Resources.Add(new Entities.Resource { Name = resource.Name, Type = resource.Type, Url = resource.Url });
 
